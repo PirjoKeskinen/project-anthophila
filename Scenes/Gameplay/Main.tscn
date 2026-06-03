@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dxounbcshv75g"]
+
+[ext_resource type="Texture2D" uid="uid://ciaqmuwsyv6i1" path="res://Assets/Backgrounds/scene-mountain-1920-bw-kvlt-light.png" id="1_ibm2l"]
+
+[node name="Main" type="Control" unique_id=442553493]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameView" type="ColorRect" parent="." unique_id=1642988010]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 480.0
+color = Color(0, 0.5372549, 0, 1)
+
+[node name="BackgroundImage" type="TextureRect" parent="." unique_id=1246986065]
+layout_mode = 0
+offset_left = 119.0
+offset_right = 841.0641
+offset_bottom = 480.0
+texture = ExtResource("1_ibm2l")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="SidePanel" type="ColorRect" parent="." unique_id=1311737279]
+layout_mode = 0
+offset_left = 960.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.68235296, 0, 0, 1)
+
+[node name="DialoguePanel" type="ColorRect" parent="." unique_id=223925726]
+layout_mode = 0
+offset_top = 480.0
+offset_right = 960.0
+offset_bottom = 720.0
+color = Color(0, 0, 0.7176471, 1)
