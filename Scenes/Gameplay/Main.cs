@@ -13,24 +13,68 @@ public partial class Main : Control
 
 	private RichTextLabel dialogueLabel;
 
+	private float typingSpeed = 30f;
+	private float typingTimer = 0f;
+
+	private bool isTyping = false;
+
 	public override void _Ready()
 	{
 		dialogueLabel = GetNode<RichTextLabel>(
             "DialoguePanel/RichTextLabel"
 		);
 
-		dialogueLabel.Text = dialogue[currentLine];
+		ShowDialogueLine();
+	}
+
+	public override void _Process(double delta)
+	{
+		if (!isTyping)
+			return;
+
+		typingTimer += (float)delta;
+
+		if (typingTimer >= 1f / typingSpeed)
+		{
+			typingTimer = 0f;
+
+			dialogueLabel.VisibleCharacters++;
+
+			if (dialogueLabel.VisibleCharacters >= dialogueLabel.Text.Length)
+			{
+				isTyping = false;
+			}
+		}
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("ui_accept"))
 		{
-			if (currentLine < dialogue.Length - 1)
+			if (isTyping)
 			{
-				currentLine++;
-				dialogueLabel.Text = dialogue[currentLine];
+				dialogueLabel.VisibleCharacters =
+					dialogueLabel.Text.Length;
+
+				isTyping = false;
+			}
+			else
+			{
+				if (currentLine < dialogue.Length - 1)
+				{
+					currentLine++;
+					ShowDialogueLine();
+				}
 			}
 		}
+	}
+
+	private void ShowDialogueLine()
+	{
+		dialogueLabel.Text = dialogue[currentLine];
+		dialogueLabel.VisibleCharacters = 0;
+
+		typingTimer = 0f;
+		isTyping = true;
 	}
 }
