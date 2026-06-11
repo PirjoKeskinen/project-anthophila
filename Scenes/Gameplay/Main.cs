@@ -2,12 +2,24 @@ using Godot;
 
 public partial class Main : Control
 {
-	private string[] dialogue =
+	
+private DialogueLine[] dialogue =
+{
+	new DialogueLine
 	{
-		"The greenhouse systems are failing.",
-		"We need replacement components.",
-        "You have been chosen for the mission."
-	};
+		Text = "The greenhouse systems are failing."
+	},
+
+	new DialogueLine
+	{
+		Text = "We need replacement components."
+	},
+
+	new DialogueLine
+	{
+		Text = "You have been chosen for the mission."
+	}
+};
 
 	private int currentLine = 0;
 
@@ -71,7 +83,7 @@ public partial class Main : Control
 
 	private void ShowDialogueLine()
 	{
-		dialogueLabel.Text = dialogue[currentLine];
+		dialogueLabel.Text = dialogue[currentLine].Text;
 		dialogueLabel.VisibleCharacters = 0;
 
 		typingTimer = 0f;
