@@ -19,10 +19,10 @@ public partial class Main : Control
 	private Button choiceButton1;
 	private Button choiceButton2;
 
-	private DialogueData LoadDialogue()
+	private DialogueData LoadDialogue(string filePath)
 	{
 		string json = FileAccess.GetFileAsString(
-			"res://Dialogue/Chapters/intro.json"
+			filePath
 		);
 
 		return JsonSerializer.Deserialize<DialogueData>(json);
@@ -48,7 +48,9 @@ public partial class Main : Control
 			"DialoguePanel/VBoxContainer/ChoiceButton2"
 		);
 
-		dialogueData = LoadDialogue();
+		dialogueData = LoadDialogue(
+			"res://Dialogue/Chapters/intro.json"
+		);
 
 		dialogue = dialogueData.lines;
 
@@ -130,11 +132,27 @@ public partial class Main : Control
 
 	private void OnChoice1Pressed()
 	{
-		GD.Print("Choice 1 selected");
+		dialogueData = LoadDialogue(
+			"res://Dialogue/Chapters/look_around.json"
+		);
+
+		dialogue = dialogueData.lines;
+
+		currentLine = 0;
+
+		ShowDialogueLine();
 	}
 
 	private void OnChoice2Pressed()
 	{
-		GD.Print("Choice 2 selected");
+		dialogueData = LoadDialogue(
+			"res://Dialogue/Chapters/terminal.json"
+		);
+
+		dialogue = dialogueData.lines;
+
+		currentLine = 0;
+
+		ShowDialogueLine();
 	}
 }
