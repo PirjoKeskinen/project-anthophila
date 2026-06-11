@@ -45,4 +45,21 @@ Solo-developed as part of a game development course. The project serves as a lea
 
 ## Project Status
 
-Early development — project setup and structure completed. Core systems and gameplay implementation not yet started.
+Prototype development in progress.
+
+**Completed:**
+
+- Main menu
+- Dialogue system
+- Typewriter text effect
+- JSON-based dialogue loading
+- Dialogue choices and branching dialogue paths
+- Basic scene navigation
+
+**Currently in progress:**
+
+- Gameplay scenes
+- Additional narrative content
+- Prototype playtesting and bug fixing
+
+The current prototype allows the player to start the game, progress through dialogue loaded from JSON files, and make choices that affect the flow of the narrative.
