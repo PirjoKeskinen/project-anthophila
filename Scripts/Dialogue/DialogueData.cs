@@ -2,5 +2,5 @@ using System;
 
 public class DialogueData
 {
-    public DialogueLine[] lines;
+    public DialogueLine[] lines { get; set; }
 }

@@ -1,25 +1,23 @@
 using Godot;
 
+using System.Text.Json;
+
 public partial class Main : Control
 {
 
-private DialogueLine[] dialogue =
+private DialogueLine[] dialogue;
+
+private DialogueLine[] LoadDialogue()
 {
-	new DialogueLine
-	{
-		text = "The greenhouse systems are failing."
-	},
+	string json = FileAccess.GetFileAsString(
+        "res://Dialogue/Chapters/intro.json"
+	);
 
-	new DialogueLine
-	{
-		text = "We need replacement components."
-	},
+	DialogueData data =
+		JsonSerializer.Deserialize<DialogueData>(json);
 
-	new DialogueLine
-	{
-		text = "You have been chosen for the mission."
-	}
-};
+	return data.lines;
+}
 
 	private int currentLine = 0;
 
@@ -35,6 +33,8 @@ private DialogueLine[] dialogue =
 		dialogueLabel = GetNode<RichTextLabel>(
             "DialoguePanel/RichTextLabel"
 		);
+
+		dialogue = LoadDialogue();
 
 		ShowDialogueLine();
 	}

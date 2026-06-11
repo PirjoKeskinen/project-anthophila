@@ -1,4 +1,4 @@
 public class DialogueLine
 {
-    public string text;
+    public string text { get; set; }
 }
