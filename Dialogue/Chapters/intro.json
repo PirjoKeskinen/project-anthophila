@@ -9,5 +9,13 @@
     {
       "text": "You have been chosen for the mission."
     }
+  ],
+  "choices": [
+    {
+      "text": "Open locker"
+    },
+    {
+      "text": "Check terminal"
+    }
   ]
 }

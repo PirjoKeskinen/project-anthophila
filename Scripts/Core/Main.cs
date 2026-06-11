@@ -1,24 +1,10 @@
 using Godot;
-
 using System.Text.Json;
 
 public partial class Main : Control
 {
 
-private DialogueLine[] dialogue;
-
-private DialogueLine[] LoadDialogue()
-{
-	string json = FileAccess.GetFileAsString(
-        "res://Dialogue/Chapters/intro.json"
-	);
-
-	DialogueData data =
-		JsonSerializer.Deserialize<DialogueData>(json);
-
-	return data.lines;
-}
-
+	private DialogueLine[] dialogue;
 	private int currentLine = 0;
 
 	private RichTextLabel dialogueLabel;
@@ -28,13 +14,52 @@ private DialogueLine[] LoadDialogue()
 
 	private bool isTyping = false;
 
+	private DialogueData dialogueData;
+
+	private Button choiceButton1;
+	private Button choiceButton2;
+
+	private DialogueData LoadDialogue()
+	{
+		string json = FileAccess.GetFileAsString(
+			"res://Dialogue/Chapters/intro.json"
+		);
+
+		return JsonSerializer.Deserialize<DialogueData>(json);
+	}
+
+	private void ShowChoices()
+	{
+		choiceButton1.Visible = true;
+		choiceButton2.Visible = true;
+	}
+
 	public override void _Ready()
 	{
 		dialogueLabel = GetNode<RichTextLabel>(
-            "DialoguePanel/RichTextLabel"
+			"DialoguePanel/RichTextLabel"
 		);
 
-		dialogue = LoadDialogue();
+		choiceButton1 = GetNode<Button>(
+			"DialoguePanel/VBoxContainer/ChoiceButton1"
+		);
+
+		choiceButton2 = GetNode<Button>(
+			"DialoguePanel/VBoxContainer/ChoiceButton2"
+		);
+
+		dialogueData = LoadDialogue();
+
+		dialogue = dialogueData.lines;
+
+		choiceButton1.Text = dialogueData.choices[0].text;
+		choiceButton2.Text = dialogueData.choices[1].text;
+
+		choiceButton1.Pressed += OnChoice1Pressed;
+		choiceButton2.Pressed += OnChoice2Pressed;
+
+		choiceButton1.Visible = false;
+		choiceButton2.Visible = false;
 
 		ShowDialogueLine();
 	}
@@ -55,6 +80,11 @@ private DialogueLine[] LoadDialogue()
 			if (dialogueLabel.VisibleCharacters >= dialogueLabel.Text.Length)
 			{
 				isTyping = false;
+
+				if (currentLine == dialogue.Length - 1)
+				{
+					ShowChoices();
+				}
 			}
 		}
 	}
@@ -69,6 +99,11 @@ private DialogueLine[] LoadDialogue()
 					dialogueLabel.Text.Length;
 
 				isTyping = false;
+
+				if (currentLine == dialogue.Length - 1)
+				{
+					ShowChoices();
+				}
 			}
 			else
 			{
@@ -83,10 +118,23 @@ private DialogueLine[] LoadDialogue()
 
 	private void ShowDialogueLine()
 	{
+		choiceButton1.Visible = false;
+		choiceButton2.Visible = false;
+
 		dialogueLabel.Text = dialogue[currentLine].text;
 		dialogueLabel.VisibleCharacters = 0;
 
 		typingTimer = 0f;
 		isTyping = true;
+	}
+
+	private void OnChoice1Pressed()
+	{
+		GD.Print("Choice 1 selected");
+	}
+
+	private void OnChoice2Pressed()
+	{
+		GD.Print("Choice 2 selected");
 	}
 }
