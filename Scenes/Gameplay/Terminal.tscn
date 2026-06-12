@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dffivr4ickdkd"]
+
+[node name="Terminal" type="Control" unique_id=1794695089]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Terminal" type="Label" parent="." unique_id=1302387300]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Terminal"

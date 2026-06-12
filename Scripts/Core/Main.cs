@@ -132,27 +132,15 @@ public partial class Main : Control
 
 	private void OnChoice1Pressed()
 	{
-		dialogueData = LoadDialogue(
-			"res://Dialogue/Chapters/look_around.json"
+		GetTree().ChangeSceneToFile(
+			"res://Scenes/Gameplay/Bedroom.tscn"
 		);
-
-		dialogue = dialogueData.lines;
-
-		currentLine = 0;
-
-		ShowDialogueLine();
 	}
 
 	private void OnChoice2Pressed()
 	{
-		dialogueData = LoadDialogue(
-			"res://Dialogue/Chapters/terminal.json"
+		GetTree().ChangeSceneToFile(
+			"res://Scenes/Gameplay/Terminal.tscn"
 		);
-
-		dialogue = dialogueData.lines;
-
-		currentLine = 0;
-
-		ShowDialogueLine();
 	}
 }
