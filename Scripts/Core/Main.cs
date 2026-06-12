@@ -15,6 +15,7 @@ public partial class Main : Control
 	private bool isTyping = false;
 
 	private DialogueData dialogueData;
+	private LocationsData locationsData;
 
 	private Button choiceButton1;
 	private Button choiceButton2;
@@ -33,7 +34,29 @@ public partial class Main : Control
 		choiceButton1.Visible = true;
 		choiceButton2.Visible = true;
 	}
+	private LocationData GetLocationById(
+		string locationId,
+		LocationsData data
+	)
+	{
+		foreach (LocationData location in data.locations)
+		{
+			if (location.id == locationId)
+			{
+				return location;
+			}
+		}
 
+		return null;
+	}
+	private LocationsData LoadLocations()
+	{
+		string json = FileAccess.GetFileAsString(
+			"res://Locations/locations.json"
+		);
+
+		return JsonSerializer.Deserialize<LocationsData>(json);
+	}
 	public override void _Ready()
 	{
 		dialogueLabel = GetNode<RichTextLabel>(
@@ -64,6 +87,13 @@ public partial class Main : Control
 		choiceButton2.Visible = false;
 
 		ShowDialogueLine();
+
+		locationsData = LoadLocations();
+
+		LocationData bedroom =
+			GetLocationById("bedroom", locationsData);
+
+		GD.Print(bedroom.name);
 	}
 
 	public override void _Process(double delta)

@@ -1,0 +1,16 @@
+{
+  "locations": [
+    {
+      "id": "bedroom",
+      "name": "Scientist Quarters",
+      "background": "bedroom.png",
+      "exits": ["hallway"]
+    },
+    {
+      "id": "hallway",
+      "name": "Main Hallway",
+      "background": "hallway.png",
+      "exits": ["bedroom"]
+    }
+  ]
+}
