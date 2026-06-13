@@ -20,6 +20,14 @@ public partial class Main : Control
 	private Button choiceButton1;
 	private Button choiceButton2;
 
+	private Label locationLabel;
+
+	private TextureRect backgroundImage;
+
+	private AnimationPlayer animationPlayer;
+
+	private string targetLocation;
+
 	private DialogueData LoadDialogue(string filePath)
 	{
 		string json = FileAccess.GetFileAsString(
@@ -57,10 +65,51 @@ public partial class Main : Control
 
 		return JsonSerializer.Deserialize<LocationsData>(json);
 	}
+
+	private void UpdateLocation()
+	{
+		LocationData location =
+			GetLocationById(
+				currentLocation,
+				locationsData
+			);
+
+		locationLabel.Text = location.name;
+
+		backgroundImage.Texture =
+			ResourceLoader.Load<Texture2D>(
+				"res://Assets/Backgrounds/" +
+				location.background
+			);
+	}
+
+	private string currentLocation = "bedroom";
+
+	private void ChangeLocation()
+	{
+		GD.Print("CHANGE LOCATION CALLED");
+
+		currentLocation = targetLocation;
+		UpdateLocation();
+	}
+
+	public void TestMethod()
+	{
+		GD.Print("TEST METHOD CALLED");
+	}
+
 	public override void _Ready()
 	{
 		dialogueLabel = GetNode<RichTextLabel>(
 			"DialoguePanel/RichTextLabel"
+		);
+
+		locationLabel = GetNode<Label>(
+			"SidePanel/LocationLabel"
+		);
+
+		backgroundImage = GetNode<TextureRect>(
+			"BackgroundImage"
 		);
 
 		choiceButton1 = GetNode<Button>(
@@ -90,10 +139,13 @@ public partial class Main : Control
 
 		locationsData = LoadLocations();
 
-		LocationData bedroom =
-			GetLocationById("bedroom", locationsData);
+		UpdateLocation();
 
-		GD.Print(bedroom.name);
+		animationPlayer = GetNode<AnimationPlayer>(
+			"AnimationPlayer"
+		);
+
+		animationPlayer.AnimationFinished += OnAnimationFinished;
 	}
 
 	public override void _Process(double delta)
@@ -162,15 +214,29 @@ public partial class Main : Control
 
 	private void OnChoice1Pressed()
 	{
-		GetTree().ChangeSceneToFile(
-			"res://Scenes/Gameplay/Bedroom.tscn"
-		);
+		targetLocation = "bedroom";
+		animationPlayer.Play("FadeOut");
 	}
 
 	private void OnChoice2Pressed()
 	{
-		GetTree().ChangeSceneToFile(
-			"res://Scenes/Gameplay/Terminal.tscn"
-		);
+		targetLocation = "hallway";
+		animationPlayer.Play("FadeOut");
+	}
+
+	private void OnAnimationFinished(StringName animationName)
+	{
+		GD.Print("Animation finished: " + animationName);
+
+		if (animationName == "FadeOut")
+		{
+			GD.Print("Changing location to: " + targetLocation);
+
+			currentLocation = targetLocation;
+
+			UpdateLocation();
+
+			animationPlayer.Play("FadeIn");
+		}
 	}
 }

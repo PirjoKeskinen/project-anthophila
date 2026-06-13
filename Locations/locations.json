@@ -3,13 +3,13 @@
     {
       "id": "bedroom",
       "name": "Scientist Quarters",
-      "background": "bedroom.png",
+      "background": "scene1.png",
       "exits": ["hallway"]
     },
     {
       "id": "hallway",
       "name": "Main Hallway",
-      "background": "hallway.png",
+      "background": "scene2.png",
       "exits": ["bedroom"]
     }
   ]
