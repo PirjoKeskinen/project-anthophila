@@ -46,7 +46,7 @@ When a critical failure threatens the colony’s survival, the protagonist is fo
 ## Inspiration
 
 - Inspired by environmental collapse themes and speculative science ideas
-- Based on an earlier text adventure game created as [a Python course final project](https://github.com/PirjoKeskinen/python-text-adventure)
+- Based on an earlier [text adventure game](https://github.com/PirjoKeskinen/python-text-adventure) created as a Python course final project
 - Inspired by a quote often attributed to Albert Einstein regarding the importance of bees and ecological balance
 
 > _“If the bee disappears off the surface of the globe, then man would have only four years of life left. No more bees. No more pollination. No more plants. No more animals. No more man…”_
