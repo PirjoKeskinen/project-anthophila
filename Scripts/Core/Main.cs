@@ -17,8 +17,10 @@ public partial class Main : Control
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 
-	private Button choiceButton1;
-	private Button choiceButton2;
+	private Button choiceButton1; // TODO: dialogue choices
+	private Button choiceButton2; // TODO: dialogue choices
+
+	private Button exitButton1;
 
 	private Label locationLabel;
 
@@ -37,15 +39,11 @@ public partial class Main : Control
 		return JsonSerializer.Deserialize<DialogueData>(json);
 	}
 
-	private void ShowChoices()
-	{
-		choiceButton1.Visible = true;
-		choiceButton2.Visible = true;
-	}
 	private LocationData GetLocationById(
 		string locationId,
 		LocationsData data
 	)
+
 	{
 		foreach (LocationData location in data.locations)
 		{
@@ -57,6 +55,15 @@ public partial class Main : Control
 
 		return null;
 	}
+
+	private LocationData GetCurrentLocation()
+	{
+		return GetLocationById(
+			currentLocation,
+			locationsData
+		);
+	}
+
 	private LocationsData LoadLocations()
 	{
 		string json = FileAccess.GetFileAsString(
@@ -69,10 +76,7 @@ public partial class Main : Control
 	private void UpdateLocation()
 	{
 		LocationData location =
-			GetLocationById(
-				currentLocation,
-				locationsData
-			);
+			GetCurrentLocation();
 
 		locationLabel.Text = location.name;
 
@@ -81,21 +85,33 @@ public partial class Main : Control
 				"res://Assets/Backgrounds/" +
 				location.background
 			);
+
+		UpdateExitButtons();
 	}
 
 	private string currentLocation = "bedroom";
 
-	private void ChangeLocation()
+	private void UpdateExitButtons()
 	{
-		GD.Print("CHANGE LOCATION CALLED");
+		LocationData location = GetCurrentLocation();
 
-		currentLocation = targetLocation;
-		UpdateLocation();
-	}
+		if (location.exits.Length > 0)
+		{
+			LocationData exitLocation =
+				GetLocationById(
+					location.exits[0],
+					locationsData
+				);
 
-	public void TestMethod()
-	{
-		GD.Print("TEST METHOD CALLED");
+			exitButton1.Text =
+				exitLocation.name;
+
+			exitButton1.Visible = true;
+		}
+		else
+		{
+			exitButton1.Visible = false;
+		}
 	}
 
 	public override void _Ready()
@@ -120,6 +136,10 @@ public partial class Main : Control
 			"DialoguePanel/VBoxContainer/ChoiceButton2"
 		);
 
+		exitButton1 = GetNode<Button>(
+			"SidePanel/ExitButton1"
+		);
+
 		dialogueData = LoadDialogue(
 			"res://Dialogue/Chapters/intro.json"
 		);
@@ -129,8 +149,9 @@ public partial class Main : Control
 		choiceButton1.Text = dialogueData.choices[0].text;
 		choiceButton2.Text = dialogueData.choices[1].text;
 
-		choiceButton1.Pressed += OnChoice1Pressed;
-		choiceButton2.Pressed += OnChoice2Pressed;
+		// choiceButton1.Pressed += OnChoice1Pressed;
+		// choiceButton2.Pressed += OnChoice2Pressed;
+		exitButton1.Pressed += OnExitButtonPressed;
 
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
@@ -164,11 +185,6 @@ public partial class Main : Control
 			if (dialogueLabel.VisibleCharacters >= dialogueLabel.Text.Length)
 			{
 				isTyping = false;
-
-				if (currentLine == dialogue.Length - 1)
-				{
-					ShowChoices();
-				}
 			}
 		}
 	}
@@ -183,11 +199,6 @@ public partial class Main : Control
 					dialogueLabel.Text.Length;
 
 				isTyping = false;
-
-				if (currentLine == dialogue.Length - 1)
-				{
-					ShowChoices();
-				}
 			}
 			else
 			{
@@ -202,6 +213,8 @@ public partial class Main : Control
 
 	private void ShowDialogueLine()
 	{
+		// TODO: show dialogue choices when dialogue data supports them
+
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 
@@ -214,13 +227,23 @@ public partial class Main : Control
 
 	private void OnChoice1Pressed()
 	{
-		targetLocation = "bedroom";
+		LocationData location =
+			GetCurrentLocation();
+
+		targetLocation =
+			location.exits[0];
+
 		animationPlayer.Play("FadeOut");
 	}
 
-	private void OnChoice2Pressed()
+	private void OnExitButtonPressed()
 	{
-		targetLocation = "hallway";
+		LocationData location =
+			GetCurrentLocation();
+
+		targetLocation =
+			location.exits[0];
+
 		animationPlayer.Play("FadeOut");
 	}
 

@@ -89,6 +89,14 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
+[node name="ExitButton1" type="Button" parent="SidePanel" unique_id=2081260425]
+layout_mode = 0
+offset_left = 132.0
+offset_top = 376.0
+offset_right = 173.0
+offset_bottom = 407.0
+text = "EXIT"
+
 [node name="DialoguePanel" type="ColorRect" parent="." unique_id=223925726]
 layout_mode = 0
 offset_top = 480.0
