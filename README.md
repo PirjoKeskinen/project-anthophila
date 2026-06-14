@@ -10,7 +10,7 @@ Sent outside to restore a failing system, a scientist discovers a world of decay
 
 - [About the Project](#about-the-project)
 - [Core Concept](#core-concept)
-- [Visual & Audio Direcrion](#visual--audio-direction)
+- [Visual & Audio Direction](#visual--audio-direction)
 - [Tech Stack](#tech-stack)
 - [Inspiration](#inspiration)
 - [Developer](#developer)
@@ -46,7 +46,7 @@ When a critical failure threatens the colony’s survival, the protagonist is fo
 ## Inspiration
 
 - Inspired by environmental collapse themes and speculative science ideas
-- Based on an earlier text adventure game created as a Python course final project
+- Based on an earlier text adventure game created as [a Python course final project](https://github.com/PirjoKeskinen/python-text-adventure)
 - Inspired by a quote often attributed to Albert Einstein regarding the importance of bees and ecological balance
 
 > _“If the bee disappears off the surface of the globe, then man would have only four years of life left. No more bees. No more pollination. No more plants. No more animals. No more man…”_
@@ -54,6 +54,8 @@ When a critical failure threatens the colony’s survival, the protagonist is fo
 ## Developer
 
 Solo-developed as part of a game development course. The project serves as a learning experience in game design, project planning, and full pipeline game development.
+
+Prior to studying software development, I formally trained and worked in the horticultural and green sector. My interest in biodiversity, pollinators, and environmental themes has influenced several of the narrative and worldbuilding ideas explored in this project.
 
 ## Project Status
 
