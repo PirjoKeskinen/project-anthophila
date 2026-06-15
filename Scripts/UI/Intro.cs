@@ -12,6 +12,17 @@ public partial class Intro : Control
 	private bool isTyping = true;
 
 	private Button skipButton;
+
+	private string[] introSlides =
+	{
+	"The last bee disappeared long ago.",
+
+	"Humanity survived underground.",
+
+	"This project was called..."
+	};
+
+	private int currentSlide = 0;
 	public override void _Ready()
 	{
 		skipButton = GetNode<Button>(
@@ -25,9 +36,11 @@ public partial class Intro : Control
 		);
 
 		introText.Text =
-			"The last bee disappeared long ago.";
+			introSlides[currentSlide];
 
 		introText.VisibleCharacters = 0;
+
+		ShowSlide();
 	}
 
 	public override void _Process(double delta)
@@ -70,11 +83,31 @@ public partial class Intro : Control
 			}
 			else
 			{
-				GetTree().ChangeSceneToFile(
-					"res://Scenes/Gameplay/Main.tscn"
-				);
+				currentSlide++;
+
+				if (currentSlide < introSlides.Length)
+				{
+					ShowSlide();
+				}
+				else
+				{
+					GetTree().ChangeSceneToFile(
+						"res://Scenes/Gameplay/Main.tscn"
+					);
+				}
 			}
 		}
 	}
 
+	private void ShowSlide()
+	{
+		introText.Text =
+			introSlides[currentSlide];
+
+		introText.VisibleCharacters = 0;
+
+		typingTimer = 0f;
+
+		isTyping = true;
+	}
 }
