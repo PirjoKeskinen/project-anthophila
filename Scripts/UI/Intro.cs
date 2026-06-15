@@ -13,6 +13,8 @@ public partial class Intro : Control
 
 	private Button skipButton;
 
+	private bool showingTitle = false;
+
 	private string[] introSlides =
 	{
 	"The last bee disappeared long ago.",
@@ -34,11 +36,6 @@ public partial class Intro : Control
 		introText = GetNode<RichTextLabel>(
 			"RichTextLabel"
 		);
-
-		introText.Text =
-			introSlides[currentSlide];
-
-		introText.VisibleCharacters = 0;
 
 		ShowSlide();
 	}
@@ -65,9 +62,7 @@ public partial class Intro : Control
 
 	private void OnSkipPressed()
 	{
-		GetTree().ChangeSceneToFile(
-			"res://Scenes/Gameplay/Main.tscn"
-		);
+		ShowTitle();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -83,6 +78,15 @@ public partial class Intro : Control
 			}
 			else
 			{
+				if (showingTitle)
+				{
+					GetTree().ChangeSceneToFile(
+						"res://Scenes/Gameplay/Main.tscn"
+					);
+
+					return;
+				}
+
 				currentSlide++;
 
 				if (currentSlide < introSlides.Length)
@@ -91,9 +95,7 @@ public partial class Intro : Control
 				}
 				else
 				{
-					GetTree().ChangeSceneToFile(
-						"res://Scenes/Gameplay/Main.tscn"
-					);
+					ShowTitle();
 				}
 			}
 		}
@@ -109,5 +111,21 @@ public partial class Intro : Control
 		typingTimer = 0f;
 
 		isTyping = true;
+	}
+
+	private void ShowTitle()
+	{
+		showingTitle = true;
+
+		introText.Text =
+			"PROJECT HIVE";
+
+		introText.VisibleCharacters = 0;
+
+		typingTimer = 0f;
+
+		isTyping = true;
+
+		skipButton.Visible = false;
 	}
 }
