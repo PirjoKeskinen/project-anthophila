@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c24p0fkvscm4o"]
+
+[ext_resource type="Script" uid="uid://chupu687gkrm1" path="res://Scripts/UI/Intro.cs" id="1_ibvsm"]
+
+[node name="Intro" type="Control" unique_id=781316724]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ibvsm")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1128003397]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=507954120]
+layout_mode = 0
+offset_left = 324.0
+offset_top = 183.0
+offset_right = 924.0
+offset_bottom = 283.0
+
+[node name="SkipButton" type="Button" parent="." unique_id=921246241]
+layout_mode = 0
+offset_left = 1142.0
+offset_top = 658.0
+offset_right = 1238.0
+offset_bottom = 689.0
+text = "SKIP INTRO"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=418739365]

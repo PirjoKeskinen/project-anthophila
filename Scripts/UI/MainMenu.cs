@@ -8,11 +8,11 @@ public partial class MainMenu : Control
 	public override void _Ready()
 	{
 		startButton = GetNode<Button>(
-            "CenterContainer/VBoxContainer/StartButton"
+			"CenterContainer/VBoxContainer/StartButton"
 		);
 
 		quitButton = GetNode<Button>(
-            "CenterContainer/VBoxContainer/QuitButton"
+			"CenterContainer/VBoxContainer/QuitButton"
 		);
 
 		startButton.Pressed += OnStartPressed;
@@ -22,7 +22,7 @@ public partial class MainMenu : Control
 	private void OnStartPressed()
 	{
 		GetTree().ChangeSceneToFile(
-            "res://Scenes/Gameplay/Main.tscn"
+			"res://Scenes/UI/Intro.tscn"
 		);
 	}
 
