@@ -25,17 +25,34 @@ public partial class Intro : Control
 	};
 
 	private int currentSlide = 0;
+
+	private TextureRect titleLogo;
+
+	private Timer titleTimer;
+
 	public override void _Ready()
 	{
+		introText = GetNode<RichTextLabel>(
+			"RichTextLabel"
+		);
+
+		titleLogo = GetNode<TextureRect>(
+			"TitleLogo"
+		);
+
+		titleLogo.Visible = false;
+
+		titleTimer = GetNode<Timer>(
+			"TitleTimer"
+		);
+
+		titleTimer.Timeout += OnTitleTimeout;
+
 		skipButton = GetNode<Button>(
 			"SkipButton"
 		);
 
 		skipButton.Pressed += OnSkipPressed;
-
-		introText = GetNode<RichTextLabel>(
-			"RichTextLabel"
-		);
 
 		ShowSlide();
 	}
@@ -103,6 +120,9 @@ public partial class Intro : Control
 
 	private void ShowSlide()
 	{
+		titleLogo.Visible = false;
+		introText.Visible = true;
+
 		introText.Text =
 			introSlides[currentSlide];
 
@@ -117,15 +137,20 @@ public partial class Intro : Control
 	{
 		showingTitle = true;
 
-		introText.Text =
-			"PROJECT HIVE";
-
-		introText.VisibleCharacters = 0;
-
-		typingTimer = 0f;
-
-		isTyping = true;
+		titleLogo.Visible = true;
+		introText.Visible = false;
 
 		skipButton.Visible = false;
+
+		titleTimer.Start();
+	}
+
+	private void OnTitleTimeout()
+	{
+		titleLogo.Visible = false;
+
+		GetTree().ChangeSceneToFile(
+			"res://Scenes/Gameplay/Main.tscn"
+		);
 	}
 }

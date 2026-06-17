@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c24p0fkvscm4o"]
 
 [ext_resource type="Script" uid="uid://chupu687gkrm1" path="res://Scripts/UI/Intro.cs" id="1_ibvsm"]
+[ext_resource type="Texture2D" uid="uid://dm64nqkqtd4xs" path="res://Assets/UI/logo-placeholder.png" id="2_n66p7"]
 
 [node name="Intro" type="Control" unique_id=781316724]
 layout_mode = 3
@@ -20,6 +21,14 @@ offset_top = 183.0
 offset_right = 924.0
 offset_bottom = 283.0
 
+[node name="TitleLogo" type="TextureRect" parent="." unique_id=297256356]
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("2_n66p7")
+expand_mode = 1
+
 [node name="SkipButton" type="Button" parent="." unique_id=921246241]
 layout_mode = 0
 offset_left = 1142.0
@@ -27,5 +36,19 @@ offset_top = 658.0
 offset_right = 1238.0
 offset_bottom = 689.0
 text = "SKIP INTRO"
+
+[node name="FadeRect" type="ColorRect" parent="." unique_id=320521284]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleTimer" type="Timer" parent="." unique_id=1090155944]
+wait_time = 3.0
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=418739365]
