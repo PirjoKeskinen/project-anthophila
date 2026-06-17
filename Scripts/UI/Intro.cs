@@ -30,6 +30,8 @@ public partial class Intro : Control
 
 	private Timer titleTimer;
 
+	private ColorRect fadeRect;
+
 	public override void _Ready()
 	{
 		introText = GetNode<RichTextLabel>(
@@ -47,6 +49,12 @@ public partial class Intro : Control
 		);
 
 		titleTimer.Timeout += OnTitleTimeout;
+
+		fadeRect = GetNode<ColorRect>(
+			"FadeRect"
+		);
+
+		fadeRect.Visible = false;
 
 		skipButton = GetNode<Button>(
 			"SkipButton"
@@ -145,9 +153,16 @@ public partial class Intro : Control
 		titleTimer.Start();
 	}
 
-	private void OnTitleTimeout()
+	private async void OnTitleTimeout()
 	{
 		titleLogo.Visible = false;
+
+		fadeRect.Visible = true;
+
+		await ToSignal(
+			GetTree().CreateTimer(3f),
+			SceneTreeTimer.SignalName.Timeout
+		);
 
 		GetTree().ChangeSceneToFile(
 			"res://Scenes/Gameplay/Main.tscn"

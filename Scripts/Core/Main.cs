@@ -156,8 +156,6 @@ public partial class Main : Control
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 
-		ShowDialogueLine();
-
 		locationsData = LoadLocations();
 
 		UpdateLocation();
@@ -167,6 +165,8 @@ public partial class Main : Control
 		);
 
 		animationPlayer.AnimationFinished += OnAnimationFinished;
+
+		animationPlayer.Play("IntroFadeIn");
 	}
 
 	public override void _Process(double delta)
@@ -250,6 +250,12 @@ public partial class Main : Control
 	private void OnAnimationFinished(StringName animationName)
 	{
 		GD.Print("Animation finished: " + animationName);
+
+		if (animationName == "IntroFadeIn")
+		{
+			ShowDialogueLine();
+			return;
+		}
 
 		if (animationName == "FadeOut")
 		{

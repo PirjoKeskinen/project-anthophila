@@ -34,6 +34,22 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_hdil2"]
+resource_name = "IntroFadeIn"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroFadeRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_dwobv"]
 length = 0.001
 tracks/0/type = "value"
@@ -48,11 +64,24 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("IntroFadeRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0jepq"]
 _data = {
 &"FadeIn": SubResource("Animation_0jepq"),
 &"FadeOut": SubResource("Animation_ibm2l"),
+&"IntroFadeIn": SubResource("Animation_hdil2"),
 &"RESET": SubResource("Animation_dwobv")
 }
 
@@ -127,6 +156,17 @@ layout_mode = 0
 offset_right = 960.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 0)
+
+[node name="IntroFadeRect" type="ColorRect" parent="." unique_id=742933030]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1240.0
+offset_bottom = 680.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=868245854]
 libraries/ = SubResource("AnimationLibrary_0jepq")
