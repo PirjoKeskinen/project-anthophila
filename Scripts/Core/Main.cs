@@ -238,6 +238,9 @@ public partial class Main : Control
 
 	private void OnExitButtonPressed()
 	{
+
+		GD.Print("Exit button pressed");
+
 		LocationData location =
 			GetCurrentLocation();
 
