@@ -24,6 +24,8 @@ public partial class Intro : Control
 
 	private ColorRect fadeRect;
 
+	private TextureRect introImage;
+
 	private IntroData LoadIntro(string filePath)
 	{
 		string json = FileAccess.GetFileAsString(filePath);
@@ -63,6 +65,10 @@ public partial class Intro : Control
 
 		introData = LoadIntro(
 			"res://Dialogue/Intro/intro.json"
+		);
+
+		introImage = GetNode<TextureRect>(
+			"IntroImage"
 		);
 
 		ShowSlide();
@@ -138,6 +144,20 @@ public partial class Intro : Control
 			introData.slides[currentSlide];
 
 		introText.Text = slide.text;
+
+		if (!string.IsNullOrEmpty(slide.image))
+		{
+			introImage.Texture =
+				ResourceLoader.Load<Texture2D>(
+					slide.image
+				);
+
+			introImage.Visible = true;
+		}
+		else
+		{
+			introImage.Visible = false;
+		}
 
 		introText.VisibleCharacters = 0;
 
