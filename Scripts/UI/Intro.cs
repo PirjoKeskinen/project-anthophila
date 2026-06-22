@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Text.Json;
 
 public partial class Intro : Control
 {
@@ -15,15 +15,7 @@ public partial class Intro : Control
 
 	private bool showingTitle = false;
 
-	private string[] introSlides =
-	{
-	"The last bee disappeared long ago.",
-
-	"Humanity survived underground.",
-
-	"This project was called..."
-	};
-
+	private IntroData introData;
 	private int currentSlide = 0;
 
 	private TextureRect titleLogo;
@@ -31,6 +23,13 @@ public partial class Intro : Control
 	private Timer titleTimer;
 
 	private ColorRect fadeRect;
+
+	private IntroData LoadIntro(string filePath)
+	{
+		string json = FileAccess.GetFileAsString(filePath);
+
+		return JsonSerializer.Deserialize<IntroData>(json);
+	}
 
 	public override void _Ready()
 	{
@@ -61,6 +60,10 @@ public partial class Intro : Control
 		);
 
 		skipButton.Pressed += OnSkipPressed;
+
+		introData = LoadIntro(
+			"res://Dialogue/Intro/intro.json"
+		);
 
 		ShowSlide();
 	}
@@ -114,7 +117,7 @@ public partial class Intro : Control
 
 				currentSlide++;
 
-				if (currentSlide < introSlides.Length)
+				if (currentSlide < introData.slides.Length)
 				{
 					ShowSlide();
 				}
@@ -131,8 +134,10 @@ public partial class Intro : Control
 		titleLogo.Visible = false;
 		introText.Visible = true;
 
-		introText.Text =
-			introSlides[currentSlide];
+		IntroSlide slide =
+			introData.slides[currentSlide];
+
+		introText.Text = slide.text;
 
 		introText.VisibleCharacters = 0;
 
