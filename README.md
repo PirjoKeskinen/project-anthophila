@@ -64,6 +64,7 @@ Prototype development in progress.
 **Completed:**
 
 - Main menu
+- Intro sequence
 - Dialogue system
 - Typewriter text effect
 - JSON-based dialogue loading
@@ -76,17 +77,19 @@ Prototype development in progress.
 
 **Currently in progress:**
 
-- Navigation UI improvements
-- Branching dialogue consequences
-- Inventory and item interaction system
+- First complete gameplay segment
 - Additional narrative content
-- Prototype playtesting and bug fixing
+- New locations and scene building
+- UI refinement
+- Audio implementation
 
-The current prototype allows the player to:
+**The current prototype allows the player to:**
 
 - Start the game frim a main menu
+- Experience an intro sequence before gameplay (placeholder)
 - Progress through dialogue loaded from JSON files
 - Navigate between locations defined in JSON data
 - View location-specific background images
 - Transition between locations using fade effects
 - Interact with a separate dialogue and navigation interface
+- Make dialogue choices (prototype)
