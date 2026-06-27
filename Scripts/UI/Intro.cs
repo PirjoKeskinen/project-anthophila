@@ -149,7 +149,7 @@ public partial class Intro : Control
 		{
 			introImage.Texture =
 				ResourceLoader.Load<Texture2D>(
-					slide.image
+					"res://Assets/Intro/" + slide.image
 				);
 
 			introImage.Visible = true;

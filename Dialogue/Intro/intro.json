@@ -32,23 +32,27 @@
     },
     {
       "text": "The surface slowly became uninhabitable.",
-      "image": "res://Assets/Intro/test.png"
+      "image": "intro-pollution.png"
     },
     {
       "text": "Crops failed.\n\nEcosystem collapsed.\n\nHumanity retreated underground.",
-      "image": ""
+      "image": "intro-deadforest.png"
+    },
+    {
+      "text": "Governments and scientists searched desperately for a solution.",
+      "image": "intro-government.png"
     },
     {
       "text": "Before the final migration, scientists gathered what remained:",
-      "image": ""
+      "image": "intro-laboratory.png"
     },
     {
       "text": "seeds, genetic samples...",
-      "image": ""
+      "image": "intro-laboratory.png"
     },
     {
       "text": "and the last fragments of a dying world",
-      "image": ""
+      "image": "intro-laboratory.png"
     },
     {
       "text": "Humanity did not disappear because nature failed..."
