@@ -26,6 +26,12 @@ public partial class Intro : Control
 
 	private TextureRect introImage;
 
+	private AnimationPlayer animationPlayer;
+
+	private bool waitingForFadeOut = false;
+
+	private bool isTransitioning = false;
+
 	private IntroData LoadIntro(string filePath)
 	{
 		string json = FileAccess.GetFileAsString(filePath);
@@ -71,6 +77,12 @@ public partial class Intro : Control
 			"IntroImage"
 		);
 
+		animationPlayer = GetNode<AnimationPlayer>(
+			"AnimationPlayer"
+		);
+
+		animationPlayer.AnimationFinished += OnAnimationFinished;
+
 		ShowSlide();
 	}
 
@@ -101,6 +113,9 @@ public partial class Intro : Control
 
 	public override void _Input(InputEvent @event)
 	{
+		if (isTransitioning)
+			return;
+
 		if (@event.IsActionPressed("ui_accept"))
 		{
 			if (isTyping)
@@ -121,11 +136,10 @@ public partial class Intro : Control
 					return;
 				}
 
-				currentSlide++;
-
-				if (currentSlide < introData.slides.Length)
+				if (currentSlide < introData.slides.Length - 1)
 				{
-					ShowSlide();
+					waitingForFadeOut = true;
+					animationPlayer.Play("ImageFadeOut");
 				}
 				else
 				{
@@ -153,6 +167,14 @@ public partial class Intro : Control
 				);
 
 			introImage.Visible = true;
+
+			GD.Print(introImage.Texture != null);
+			animationPlayer.Play("ImageFadeIn");
+			GD.Print(animationPlayer.CurrentAnimation);
+			GD.Print(introImage.Visible);
+			GD.Print(introImage.Size);
+			GD.Print(introImage.Modulate);
+
 		}
 		else
 		{
@@ -164,6 +186,21 @@ public partial class Intro : Control
 		typingTimer = 0f;
 
 		isTyping = true;
+	}
+
+	private void OnAnimationFinished(StringName animationName)
+	{
+		if (
+			animationName == "ImageFadeOut" &&
+			waitingForFadeOut
+		)
+		{
+			waitingForFadeOut = false;
+
+			currentSlide++;
+
+			ShowSlide();
+		}
 	}
 
 	private void ShowTitle()

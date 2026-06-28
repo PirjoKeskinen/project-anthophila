@@ -3,6 +3,60 @@
 [ext_resource type="Script" uid="uid://chupu687gkrm1" path="res://Scripts/UI/Intro.cs" id="1_ibvsm"]
 [ext_resource type="Texture2D" uid="uid://dm64nqkqtd4xs" path="res://Assets/UI/logo-placeholder.png" id="2_n66p7"]
 
+[sub_resource type="Animation" id="Animation_n66p7"]
+resource_name = "ImageFadeIn"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroImage:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bjyge"]
+resource_name = "ImageFadeOut"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroImage:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3l18w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroImage:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ysgm0"]
+_data = {
+&"ImageFadeIn": SubResource("Animation_n66p7"),
+&"ImageFadeOut": SubResource("Animation_bjyge"),
+&"RESET": SubResource("Animation_3l18w")
+}
+
 [node name="Intro" type="Control" unique_id=781316724]
 layout_mode = 3
 anchors_preset = 0
@@ -15,6 +69,7 @@ offset_bottom = 720.0
 color = Color(0, 0, 0, 1)
 
 [node name="IntroImage" type="TextureRect" parent="." unique_id=2083277658]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -50,10 +105,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0)
 
 [node name="TitleTimer" type="Timer" parent="." unique_id=1090155944]
 wait_time = 3.0
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=418739365]
+libraries/ = SubResource("AnimationLibrary_ysgm0")
