@@ -138,7 +138,12 @@ public partial class Intro : Control
 
 				if (currentSlide < introData.slides.Length - 1)
 				{
+					currentSlide++;
+
+					ShowText();
+
 					waitingForFadeOut = true;
+
 					animationPlayer.Play("ImageFadeOut");
 				}
 				else
@@ -154,10 +159,28 @@ public partial class Intro : Control
 		titleLogo.Visible = false;
 		introText.Visible = true;
 
+		ShowText();
+		ShowImage();
+	}
+
+	private void ShowText()
+	{
 		IntroSlide slide =
 			introData.slides[currentSlide];
 
 		introText.Text = slide.text;
+
+		introText.VisibleCharacters = 0;
+
+		typingTimer = 0f;
+
+		isTyping = true;
+	}
+
+	private void ShowImage()
+	{
+		IntroSlide slide =
+			introData.slides[currentSlide];
 
 		if (!string.IsNullOrEmpty(slide.image))
 		{
@@ -168,24 +191,12 @@ public partial class Intro : Control
 
 			introImage.Visible = true;
 
-			GD.Print(introImage.Texture != null);
 			animationPlayer.Play("ImageFadeIn");
-			GD.Print(animationPlayer.CurrentAnimation);
-			GD.Print(introImage.Visible);
-			GD.Print(introImage.Size);
-			GD.Print(introImage.Modulate);
-
 		}
 		else
 		{
 			introImage.Visible = false;
 		}
-
-		introText.VisibleCharacters = 0;
-
-		typingTimer = 0f;
-
-		isTyping = true;
 	}
 
 	private void OnAnimationFinished(StringName animationName)
@@ -197,9 +208,7 @@ public partial class Intro : Control
 		{
 			waitingForFadeOut = false;
 
-			currentSlide++;
-
-			ShowSlide();
+			ShowImage();
 		}
 	}
 
