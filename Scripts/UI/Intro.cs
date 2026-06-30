@@ -26,11 +26,11 @@ public partial class Intro : Control
 
 	private TextureRect introImage;
 
+	private string currentImagePath = "";
+
 	private AnimationPlayer animationPlayer;
 
 	private bool waitingForFadeOut = false;
-
-	private bool isTransitioning = false;
 
 	private IntroData LoadIntro(string filePath)
 	{
@@ -113,9 +113,6 @@ public partial class Intro : Control
 
 	public override void _Input(InputEvent @event)
 	{
-		if (isTransitioning)
-			return;
-
 		if (@event.IsActionPressed("ui_accept"))
 		{
 			if (isTyping)
@@ -138,13 +135,28 @@ public partial class Intro : Control
 
 				if (currentSlide < introData.slides.Length - 1)
 				{
+					string previousImage =
+						introData.slides[currentSlide].image;
+
 					currentSlide++;
 
 					ShowText();
 
-					waitingForFadeOut = true;
+					string currentImage =
+						introData.slides[currentSlide].image;
 
-					animationPlayer.Play("ImageFadeOut");
+					bool imageChanged =
+						previousImage != currentImage;
+
+					if (imageChanged)
+					{
+						waitingForFadeOut = true;
+						animationPlayer.Play("ImageFadeOut");
+					}
+					else
+					{
+						ShowImage();
+					}
 				}
 				else
 				{
@@ -182,25 +194,38 @@ public partial class Intro : Control
 		IntroSlide slide =
 			introData.slides[currentSlide];
 
-		if (!string.IsNullOrEmpty(slide.image))
-		{
-			introImage.Texture =
-				ResourceLoader.Load<Texture2D>(
-					"res://Assets/Intro/" + slide.image
-				);
-
-			introImage.Visible = true;
-
-			animationPlayer.Play("ImageFadeIn");
-		}
-		else
+		if (string.IsNullOrEmpty(slide.image))
 		{
 			introImage.Visible = false;
+			currentImagePath = "";
+			return;
 		}
+
+		if (slide.image == currentImagePath)
+		{
+			return;
+		}
+
+		currentImagePath = slide.image;
+
+		introImage.Texture =
+			ResourceLoader.Load<Texture2D>(
+				"res://Assets/Intro/" + slide.image
+			);
+
+		introImage.Visible = true;
+
+		animationPlayer.Play("ImageShow");
 	}
 
 	private void OnAnimationFinished(StringName animationName)
 	{
+		if (animationName == "ImageFadeIn")
+		{
+			animationPlayer.Play("ImagePan");
+			return;
+		}
+
 		if (
 			animationName == "ImageFadeOut" &&
 			waitingForFadeOut
