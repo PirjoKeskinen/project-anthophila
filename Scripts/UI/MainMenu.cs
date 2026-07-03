@@ -13,6 +13,8 @@ public partial class MainMenu : Control
 	private Texture2D hexHover;
 	private Texture2D hexPressed;
 
+	private AnimationPlayer animationPlayer;
+
 	public override void _Ready()
 	{
 		startButton = GetNode<Button>(
@@ -61,13 +63,22 @@ public partial class MainMenu : Control
 			quitButton,
 			quitDecoration
 		);
+
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
 
-	private void OnStartPressed()
+	private async void OnStartPressed()
 	{
-		GetTree().ChangeSceneToFile(
-			"res://Scenes/UI/Intro.tscn"
-		);
+		startButton.Disabled = true;
+		quitButton.Disabled = true;
+
+		animationPlayer.Play("FadeOut");
+
+		await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+
+		await ToSignal(GetTree().CreateTimer(2.00), SceneTreeTimer.SignalName.Timeout);
+
+		GetTree().ChangeSceneToFile("res://Scenes/UI/Intro.tscn");
 	}
 
 	private void OnQuitPressed()
