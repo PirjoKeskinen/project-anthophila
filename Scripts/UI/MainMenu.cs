@@ -5,6 +5,8 @@ public partial class MainMenu : Control
 	private Button startButton;
 	private Button quitButton;
 
+	private bool isTransitioning = false;
+
 	private TextureRect startDecoration;
 
 	private TextureRect quitDecoration;
@@ -69,8 +71,13 @@ public partial class MainMenu : Control
 
 	private async void OnStartPressed()
 	{
+
+		isTransitioning = true;
+
 		startButton.Disabled = true;
 		quitButton.Disabled = true;
+
+		startDecoration.Texture = hexPressed;
 
 		animationPlayer.Play("FadeOut");
 
@@ -96,21 +103,33 @@ public partial class MainMenu : Control
 
 		button.MouseEntered += () =>
 		{
+			if (isTransitioning)
+				return;
+
 			decoration.Texture = hexHover;
 		};
 
 		button.MouseExited += () =>
 		{
+			if (isTransitioning)
+				return;
+
 			decoration.Texture = hexNormal;
 		};
 
 		button.ButtonDown += () =>
 		{
+			if (isTransitioning)
+				return;
+
 			decoration.Texture = hexPressed;
 		};
 
 		button.ButtonUp += () =>
 		{
+			if (isTransitioning)
+				return;
+
 			decoration.Texture = hexHover;
 		};
 	}
