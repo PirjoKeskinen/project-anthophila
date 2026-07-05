@@ -2,7 +2,28 @@
 
 [ext_resource type="Script" uid="uid://brh10kjr74qa4" path="res://Scripts/UI/MainMenu.cs" id="1_b42ut"]
 [ext_resource type="Texture2D" uid="uid://ciaqmuwsyv6i1" path="res://Assets/Backgrounds/scene-mountain-1920-bw-kvlt-light.png" id="1_v3fht"]
-[ext_resource type="Texture2D" uid="uid://dbkw6i176m781" path="res://Assets/UI/button-normal.png" id="3_hqtmt"]
+[ext_resource type="Texture2D" uid="uid://ds78j07i228vs" path="res://Assets/UI/button-normal.png" id="3_hqtmt"]
+[ext_resource type="FontFile" uid="uid://c4aticx54tk5d" path="res://Assets/Fonts/SpecialElite-Regular.ttf" id="3_tfrft"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tfrft"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mc63j"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q15nq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pbd8g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7as8u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uv623"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ts2fx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8w8b8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mb40c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdbg0"]
 
 [sub_resource type="Animation" id="Animation_hqtmt"]
 resource_name = "FadeOut"
@@ -62,36 +83,57 @@ offset_bottom = 720.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=2027632779]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 50
 
 [node name="TitleLable" type="Label" parent="CenterContainer/VBoxContainer" unique_id=621913780]
 layout_mode = 2
+theme_override_constants/line_spacing = 6
+theme_override_fonts/font = ExtResource("3_tfrft")
+theme_override_font_sizes/font_size = 32
 text = "ANTHOPHILA"
 
 [node name="StartButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1785982120]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 0.5647059)
+theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_pressed_color = Color(0.7294118, 0.45882353, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("3_tfrft")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tfrft")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mc63j")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_q15nq")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_pbd8g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7as8u")
 text = "Start Game"
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer/StartButton" unique_id=1070529957]
 layout_mode = 0
-offset_left = -50.0
-offset_top = -17.0
-offset_right = 14.0
-offset_bottom = 47.0
+offset_left = -30.0
+offset_top = -25.0
+offset_right = 34.0
+offset_bottom = 39.0
 texture = ExtResource("3_hqtmt")
 expand_mode = 3
 stretch_mode = 5
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=367650090]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 0.5647059)
+theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_pressed_color = Color(0.7294118, 0.45882353, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("3_tfrft")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uv623")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ts2fx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_8w8b8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_mb40c")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mdbg0")
 text = "Quit"
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer/QuitButton" unique_id=1668969636]
 layout_mode = 0
-offset_left = -50.0
-offset_top = -17.0
-offset_right = 14.0
-offset_bottom = 47.0
+offset_left = -30.0
+offset_top = -25.0
+offset_right = 34.0
+offset_bottom = 39.0
 texture = ExtResource("3_hqtmt")
 expand_mode = 3
 stretch_mode = 5
