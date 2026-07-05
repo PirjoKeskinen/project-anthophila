@@ -64,7 +64,11 @@ Prototype development in progress.
 **Completed:**
 
 - Main menu
-- Intro sequence
+- Intro sequence with slideshow
+- JSON-based intro system
+- Intro image support
+- Image fade transition
+- Ken Burns image effect
 - Dialogue system
 - Typewriter text effect
 - JSON-based dialogue loading
@@ -74,22 +78,27 @@ Prototype development in progress.
 - Background image loading per location
 - Fade-in / fade-out scene transition
 - Separation of dialogue and navigation UI
+- UI layout refinement
+- Main menu transition to gameplay
 
 **Currently in progress:**
 
-- First complete gameplay segment
-- Additional narrative content
-- New locations and scene building
-- UI refinement
+- First complete gameplay segment (vertical slice)
+- Story implementation and branching dialogue
+- FInal UI assets
+- Intro artwork
+- Background artwork
 - Audio implementation
 
 **The current prototype allows the player to:**
 
-- Start the game frim a main menu
-- Experience an intro sequence before gameplay (placeholder)
+- Start the game from a main menu
+- Experience a cinematic intro sequence before gameplay
+- Display text and images loaded from JSON files
+- Skip the intro sequence
 - Progress through dialogue loaded from JSON files
 - Navigate between locations defined in JSON data
 - View location-specific background images
-- Transition between locations using fade effects
+- Experience fade transitions and image animations
 - Interact with a separate dialogue and navigation interface
 - Make dialogue choices (prototype)
