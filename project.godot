@@ -13,7 +13,7 @@ config_version=5
 config/name="project-anthophila"
 run/main_scene="uid://ciq7rmivd8tgf"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://b6wapui6gcxdi"
 
 [display]
 
