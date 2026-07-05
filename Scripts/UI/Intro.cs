@@ -6,7 +6,7 @@ public partial class Intro : Control
 
 	private RichTextLabel introText;
 
-	private float typingSpeed = 30f;
+	private float typingSpeed = 20f;
 	private float typingTimer = 0f;
 
 	private bool isTyping = true;

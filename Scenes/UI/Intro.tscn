@@ -1,7 +1,18 @@
 [gd_scene format=3 uid="uid://c24p0fkvscm4o"]
 
 [ext_resource type="Script" uid="uid://chupu687gkrm1" path="res://Scripts/UI/Intro.cs" id="1_ibvsm"]
+[ext_resource type="FontFile" uid="uid://c4aticx54tk5d" path="res://Assets/Fonts/SpecialElite-Regular.ttf" id="2_bjyge"]
 [ext_resource type="Texture2D" uid="uid://dm64nqkqtd4xs" path="res://Assets/UI/logo-placeholder.png" id="2_n66p7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjyge"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3l18w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ysgm0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8x3a3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ayn7r"]
 
 [sub_resource type="Animation" id="Animation_n66p7"]
 resource_name = "ImageFadeIn"
@@ -148,10 +159,18 @@ stretch_mode = 6
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=507954120]
 layout_mode = 0
-offset_left = 336.0
-offset_top = 214.0
-offset_right = 936.0
-offset_bottom = 473.0
+offset_left = 236.0
+offset_top = 300.0
+offset_right = 1036.0
+offset_bottom = 450.0
+theme_override_colors/default_color = Color(1, 1, 1, 0.8862745)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.627451)
+theme_override_constants/shadow_outline_size = 2
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/normal_font = ExtResource("2_bjyge")
+theme_override_font_sizes/normal_font_size = 24
+horizontal_alignment = 1
 
 [node name="TitleLogo" type="TextureRect" parent="." unique_id=297256356]
 visible = false
@@ -167,6 +186,15 @@ offset_left = 1142.0
 offset_top = 658.0
 offset_right = 1238.0
 offset_bottom = 689.0
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 0.5647059)
+theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_bjyge")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bjyge")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3l18w")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ysgm0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_8x3a3")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ayn7r")
 text = "SKIP INTRO"
 
 [node name="FadeRect" type="ColorRect" parent="." unique_id=320521284]
