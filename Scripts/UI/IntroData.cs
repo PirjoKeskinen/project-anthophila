@@ -7,4 +7,6 @@ public class IntroSlide
 {
     public string text { get; set; }
     public string image { get; set; }
+
+    public bool fadeOut { get; set; }
 }

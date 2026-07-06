@@ -135,6 +135,14 @@ public partial class Intro : Control
 
 				if (currentSlide < introData.slides.Length - 1)
 				{
+					IntroSlide slide = introData.slides[currentSlide];
+
+					if (slide.fadeOut)
+					{
+						animationPlayer.Play("TextFadeOut");
+						return;
+					}
+
 					string previousImage =
 						introData.slides[currentSlide].image;
 
@@ -177,6 +185,8 @@ public partial class Intro : Control
 
 	private void ShowText()
 	{
+		introText.Modulate = Colors.White;
+
 		IntroSlide slide =
 			introData.slides[currentSlide];
 
@@ -187,6 +197,19 @@ public partial class Intro : Control
 		typingTimer = 0f;
 
 		isTyping = true;
+	}
+
+	private async void ContinueAfterTextFade()
+	{
+		await ToSignal(
+			GetTree().CreateTimer(1.0f),
+			SceneTreeTimer.SignalName.Timeout
+		);
+
+		currentSlide++;
+
+		ShowText();
+		ShowImage();
 	}
 
 	private void ShowImage()
@@ -220,9 +243,9 @@ public partial class Intro : Control
 
 	private void OnAnimationFinished(StringName animationName)
 	{
-		if (animationName == "ImageFadeIn")
+		if (animationName == "TextFadeOut")
 		{
-			animationPlayer.Play("ImagePan");
+			ContinueAfterTextFade();
 			return;
 		}
 
