@@ -45,6 +45,8 @@ public partial class Intro : Control
 			"RichTextLabel"
 		);
 
+		introText.BbcodeEnabled = true;
+
 		titleLogo = GetNode<TextureRect>(
 			"TitleLogo"
 		);
