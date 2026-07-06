@@ -155,13 +155,23 @@ public partial class Intro : Control
 					string currentImage =
 						introData.slides[currentSlide].image;
 
+					bool firstImage =
+						string.IsNullOrEmpty(previousImage);
+
 					bool imageChanged =
 						previousImage != currentImage;
 
 					if (imageChanged)
 					{
-						waitingForFadeOut = true;
-						animationPlayer.Play("ImageFadeOut");
+						if (firstImage)
+						{
+							ShowImage();
+						}
+						else
+						{
+							waitingForFadeOut = true;
+							animationPlayer.Play("ImageFadeOut");
+						}
 					}
 					else
 					{
