@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://ciaqmuwsyv6i1" path="res://Assets/Backgrounds/scene-mountain-1920-bw-kvlt-light.png" id="1_v3fht"]
 [ext_resource type="Texture2D" uid="uid://ds78j07i228vs" path="res://Assets/UI/button-normal.png" id="3_hqtmt"]
 [ext_resource type="FontFile" uid="uid://c4aticx54tk5d" path="res://Assets/Fonts/SpecialElite-Regular.ttf" id="3_tfrft"]
+[ext_resource type="AudioStream" uid="uid://c6qq6yq4rdsxe" path="res://Assets/Audio/Music/menu-music.mp3" id="5_mc63j"]
+[ext_resource type="AudioStream" uid="uid://b5jb438woobnr" path="res://Assets/Audio/SFX/menu-start.mp3" id="6_q15nq"]
+[ext_resource type="AudioStream" uid="uid://bumq3fv6hvo2f" path="res://Assets/Audio/SFX/ui-hover.mp3" id="7_q15nq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tfrft"]
 
@@ -152,3 +155,14 @@ color = Color(0.08235294, 0.07450981, 0.0627451, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1028110887]
 libraries/ = SubResource("AnimationLibrary_uv623")
+
+[node name="MenuMusic" type="AudioStreamPlayer" parent="." unique_id=1278025331]
+stream = ExtResource("5_mc63j")
+autoplay = true
+parameters/looping = true
+
+[node name="MenuSFX" type="AudioStreamPlayer" parent="." unique_id=1881633362]
+stream = ExtResource("6_q15nq")
+
+[node name="HoverSFX" type="AudioStreamPlayer" parent="." unique_id=509551399]
+stream = ExtResource("7_q15nq")

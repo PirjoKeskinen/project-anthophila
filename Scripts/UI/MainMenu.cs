@@ -17,6 +17,11 @@ public partial class MainMenu : Control
 
 	private AnimationPlayer animationPlayer;
 
+	private AudioStreamPlayer menuMusic;
+	private AudioStreamPlayer menuSfx;
+
+	private AudioStreamPlayer hoverSfx;
+
 	public override void _Ready()
 	{
 		startButton = GetNode<Button>(
@@ -67,10 +72,15 @@ public partial class MainMenu : Control
 		);
 
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+
+		menuMusic = GetNode<AudioStreamPlayer>("MenuMusic");
+		menuSfx = GetNode<AudioStreamPlayer>("MenuSFX");
+		hoverSfx = GetNode<AudioStreamPlayer>("HoverSFX");
 	}
 
 	private async void OnStartPressed()
 	{
+		menuSfx.Play();
 
 		isTransitioning = true;
 
@@ -78,6 +88,8 @@ public partial class MainMenu : Control
 		quitButton.Disabled = true;
 
 		startDecoration.Texture = hexPressed;
+
+		menuMusic.VolumeDb = -80;
 
 		animationPlayer.Play("FadeOut");
 
@@ -107,6 +119,9 @@ public partial class MainMenu : Control
 				return;
 
 			decoration.Texture = hexHover;
+
+			hoverSfx.Stop();
+			hoverSfx.Play();
 		};
 
 		button.MouseExited += () =>
