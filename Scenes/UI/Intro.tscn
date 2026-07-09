@@ -3,6 +3,11 @@
 [ext_resource type="Script" uid="uid://chupu687gkrm1" path="res://Scripts/UI/Intro.cs" id="1_ibvsm"]
 [ext_resource type="FontFile" uid="uid://c4aticx54tk5d" path="res://Assets/Fonts/SpecialElite-Regular.ttf" id="2_bjyge"]
 [ext_resource type="Texture2D" uid="uid://dm64nqkqtd4xs" path="res://Assets/UI/logo-placeholder.png" id="2_n66p7"]
+[ext_resource type="AudioStream" uid="uid://cnsxywmecvmwe" path="res://Assets/Audio/Music/intro-music2.mp3" id="4_3l18w"]
+[ext_resource type="AudioStream" uid="uid://cfw4fprtgb0k2" path="res://Assets/Audio/SFX/intro-text.mp3" id="5_ysgm0"]
+[ext_resource type="AudioStream" uid="uid://rq1qcw4b8e0n" path="res://Assets/Audio/SFX/intro-man.mp3" id="6_8x3a3"]
+[ext_resource type="AudioStream" uid="uid://be0x38nt43xye" path="res://Assets/Audio/SFX/intro-bee.mp3" id="7_rq348"]
+[ext_resource type="AudioStream" uid="uid://bmqxqguqph2tb" path="res://Assets/Audio/SFX/intro-bee-echo.mp3" id="8_72vj6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjyge"]
 
@@ -191,8 +196,28 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
 [node name="TitleTimer" type="Timer" parent="." unique_id=1090155944]
-wait_time = 3.0
+wait_time = 5.0
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=418739365]
 libraries/ = SubResource("AnimationLibrary_ysgm0")
+
+[node name="IntroMusic" type="AudioStreamPlayer" parent="." unique_id=969462317]
+stream = ExtResource("4_3l18w")
+volume_db = -12.0
+parameters/looping = true
+
+[node name="TextSFX" type="AudioStreamPlayer" parent="." unique_id=682927145]
+stream = ExtResource("5_ysgm0")
+volume_db = -6.0
+parameters/looping = true
+
+[node name="ManImpactSFX" type="AudioStreamPlayer" parent="." unique_id=1071811315]
+stream = ExtResource("6_8x3a3")
+volume_db = -4.0
+
+[node name="BeeSFX" type="AudioStreamPlayer" parent="." unique_id=1225396137]
+stream = ExtResource("7_rq348")
+
+[node name="BeeEchoSFX" type="AudioStreamPlayer" parent="." unique_id=13685768]
+stream = ExtResource("8_72vj6")

@@ -1,67 +1,70 @@
 {
   "slides": [
-    {
-      "text": "This quote is often attributed to Albert Einstein:"
-    },
-    {
-      "text": "\"If the bee disappears off the surface of the globe,\n\nthen man would have only four years of life left.\""
-    },
-    {
-      "text": "\"No more bees.\""
-    },
-    {
-      "text": "\"No more pollination.\""
-    },
-    {
-      "text": "\"No more plants.\""
-    },
-    {
-      "text": "\"No more animals.\""
-    },
-    {
-      "text": "\"No...\""
-    },
-    {
-      "text": "\"more...\""
-    },
-    {
-      "text": "[color=#af0000]\"MAN.\"[/color]",
-      "fadeOut": true
-    },
-    {
-      "text": "The last bee disappeared long ago."
-    },
-    {
-      "text": "The surface slowly became uninhabitable.",
-      "image": "intro-pollution.png"
-    },
-    {
-      "text": "Crops failed.\n\nEcosystem collapsed.\n\nHumanity retreated underground.",
-      "image": "intro-deadforest.png"
-    },
-    {
-      "text": "Governments and scientists searched desperately for a solution.",
-      "image": "intro-government.png"
-    },
-    {
-      "text": "Before the final migration, scientists gathered what remained:",
-      "image": "intro-laboratory.png"
-    },
-    {
-      "text": "seeds, genetic samples...",
-      "image": "intro-laboratory.png"
-    },
-    {
-      "text": "and the last fragments of a dying world."
-    },
-    {
-      "text": "Humanity did not disappear because nature failed..."
-    },
-    {
-      "text": "Nature disappeared because humanity did."
-    },
-    {
-      "text": "This project was called..."
-    }
+	{
+	  "text": "This quote is often attributed to Albert Einstein:"
+	},
+	{
+	  "text": "\"If the bee disappears off the surface of the globe,\n\nthen man would have only four years of life left.\""
+	},
+	{
+	  "text": "\"No more bees.\""
+	},
+	{
+	  "text": "\"No more pollination.\""
+	},
+	{
+	  "text": "\"No more plants.\""
+	},
+	{
+	  "text": "\"No more animals.\""
+	},
+	{
+	  "text": "\"No...\""
+	},
+	{
+	  "text": "\"more...\""
+	},
+	{
+	  "text": "[color=#af0000]\"MAN.\"[/color]",
+	  "fadeOut": true,
+	  "fadeNoise": true,
+	  "sfx": "man-impact"
+	},
+	{
+	  "text": "The last bee disappeared long ago."
+	},
+	{
+	  "text": "The surface slowly became uninhabitable.",
+	  "image": "intro-pollution.png"
+	},
+	{
+	  "text": "Crops failed.\n\nEcosystem collapsed.\n\nHumanity retreated underground.",
+	  "image": "intro-deadforest.png"
+	},
+	{
+	  "text": "Governments and scientists searched desperately for a solution.",
+	  "image": "intro-government.png"
+	},
+	{
+	  "text": "Before the final migration, scientists gathered what remained:",
+	  "image": "intro-laboratory.png"
+	},
+	{
+	  "text": "seeds, genetic samples...",
+	  "image": "intro-laboratory.png"
+	},
+	{
+	  "text": "and the last fragments of a dying world.",
+	  "fadeMusic": true
+	},
+	{
+	  "text": "Humanity did not disappear because nature failed..."
+	},
+	{
+	  "text": "Nature disappeared because humanity did."
+	},
+	{
+	  "text": "This project was called..."
+	}
   ]
 }

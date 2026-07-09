@@ -95,7 +95,7 @@ public partial class MainMenu : Control
 
 		await ToSignal(animationPlayer, AnimationPlayer.SignalName.AnimationFinished);
 
-		await ToSignal(GetTree().CreateTimer(2.00), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(3.00), SceneTreeTimer.SignalName.Timeout);
 
 		GetTree().ChangeSceneToFile("res://Scenes/UI/Intro.tscn");
 	}

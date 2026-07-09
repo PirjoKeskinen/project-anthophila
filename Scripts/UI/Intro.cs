@@ -30,11 +30,25 @@ public partial class Intro : Control
 
 	private AnimationPlayer animationPlayer;
 
+	private AudioStreamPlayer introMusic;
+
+	private AudioStreamPlayer textSfx;
+
+	private AudioStreamPlayer manImpactSfx;
+
+	private AudioStreamPlayer beeSfx;
+
+	private AudioStreamPlayer beeEchoSfx;
+
 	private bool waitingForFadeOut = false;
+
+	private bool noiseEnabled = true;
 
 	private IntroData LoadIntro(string filePath)
 	{
 		string json = FileAccess.GetFileAsString(filePath);
+
+		GD.Print(json);
 
 		return JsonSerializer.Deserialize<IntroData>(json);
 	}
@@ -83,6 +97,18 @@ public partial class Intro : Control
 			"AnimationPlayer"
 		);
 
+		introMusic =
+			GetNode<AudioStreamPlayer>("IntroMusic");
+
+		textSfx = GetNode<AudioStreamPlayer>("TextSFX");
+
+		manImpactSfx =
+			GetNode<AudioStreamPlayer>("ManImpactSFX");
+
+		beeSfx = GetNode<AudioStreamPlayer>("BeeSFX");
+
+		beeEchoSfx = GetNode<AudioStreamPlayer>("BeeEchoSFX");
+
 		animationPlayer.AnimationFinished += OnAnimationFinished;
 
 		ShowSlide();
@@ -100,6 +126,7 @@ public partial class Intro : Control
 			typingTimer = 0f;
 
 			introText.VisibleCharacters++;
+
 
 			if (introText.VisibleCharacters >= introText.Text.Length)
 			{
@@ -195,12 +222,69 @@ public partial class Intro : Control
 		ShowImage();
 	}
 
+	private async void FadeNoiseDelayed()
+	{
+		await ToSignal(
+			GetTree().CreateTimer(1.5f),
+			SceneTreeTimer.SignalName.Timeout
+		);
+
+		FadeOutNoise();
+	}
+
+	private async void FadeOutNoise()
+	{
+		noiseEnabled = false;
+
+		var tween = CreateTween();
+
+		tween.TweenProperty(
+			textSfx,
+			"volume_db",
+			-40,
+			1.0
+		);
+
+		await ToSignal(
+			tween,
+			Tween.SignalName.Finished
+		);
+
+		textSfx.Stop();
+		textSfx.VolumeDb = 0;
+	}
+
 	private void ShowText()
 	{
-		introText.Modulate = Colors.White;
-
 		IntroSlide slide =
 			introData.slides[currentSlide];
+
+		if (slide.fadeMusic)
+		{
+			FadeOutMusic();
+		}
+
+		if (noiseEnabled && !textSfx.Playing)
+		{
+			textSfx.Play();
+		}
+
+		if (slide.fadeNoise)
+		{
+			FadeNoiseDelayed();
+		}
+
+		if (slide.sfx == "man-impact")
+		{
+			manImpactSfx.Play();
+		}
+
+		if (slide.stopNoise)
+		{
+			FadeOutNoise();
+		}
+
+		introText.Modulate = Colors.White;
 
 		introText.Text = slide.text;
 
@@ -209,6 +293,14 @@ public partial class Intro : Control
 		typingTimer = 0f;
 
 		isTyping = true;
+
+		if (
+			currentSlide == 9 &&
+			!introMusic.Playing
+		)
+		{
+			introMusic.Play();
+		}
 	}
 
 	private async void ContinueAfterTextFade()
@@ -272,11 +364,33 @@ public partial class Intro : Control
 		}
 	}
 
+	private async void FadeOutMusic()
+	{
+		var tween = CreateTween();
+
+		tween.TweenProperty(
+			introMusic,
+			"volume_db",
+			-40,
+			2.0
+		);
+
+		await ToSignal(
+			tween,
+			Tween.SignalName.Finished
+		);
+
+		introMusic.Stop();
+		introMusic.VolumeDb = 0;
+	}
+
 	private void ShowTitle()
 	{
 		showingTitle = true;
 
 		titleLogo.Visible = true;
+		beeSfx.Play();
+
 		introText.Visible = false;
 
 		skipButton.Visible = false;
@@ -288,10 +402,13 @@ public partial class Intro : Control
 	{
 		titleLogo.Visible = false;
 
+		beeSfx.Stop();
+		beeEchoSfx.Play();
+
 		fadeRect.Visible = true;
 
 		await ToSignal(
-			GetTree().CreateTimer(3f),
+			GetTree().CreateTimer(10f),
 			SceneTreeTimer.SignalName.Timeout
 		);
 

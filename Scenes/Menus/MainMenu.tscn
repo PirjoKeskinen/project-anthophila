@@ -158,11 +158,14 @@ libraries/ = SubResource("AnimationLibrary_uv623")
 
 [node name="MenuMusic" type="AudioStreamPlayer" parent="." unique_id=1278025331]
 stream = ExtResource("5_mc63j")
+volume_db = -8.0
 autoplay = true
 parameters/looping = true
 
 [node name="MenuSFX" type="AudioStreamPlayer" parent="." unique_id=1881633362]
 stream = ExtResource("6_q15nq")
+volume_db = -3.0
 
 [node name="HoverSFX" type="AudioStreamPlayer" parent="." unique_id=509551399]
 stream = ExtResource("7_q15nq")
+volume_db = -10.0
