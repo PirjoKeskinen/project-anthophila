@@ -22,6 +22,8 @@ public partial class Main : Control
 
 	private Button exitButton1;
 
+	private Button lookAroundButton;
+
 	private Label locationLabel;
 
 	private TextureRect backgroundImage;
@@ -100,6 +102,7 @@ public partial class Main : Control
 			);
 
 		UpdateExitButtons();
+		UpdateActionButtons();
 	}
 
 	private string currentLocation = "bedroom";
@@ -150,7 +153,11 @@ public partial class Main : Control
 		);
 
 		exitButton1 = GetNode<Button>(
-			"SidePanel/ExitButton1"
+			"SidePanel/VBoxContainer/ExitButton1"
+		);
+
+		lookAroundButton = GetNode<Button>(
+			"SidePanel/VBoxContainer/LookAroundButton"
 		);
 
 		// choiceButton1.Pressed += OnChoice1Pressed;
@@ -159,6 +166,7 @@ public partial class Main : Control
 
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
+		lookAroundButton.Visible = false;
 
 		locationsData = LoadLocations();
 
@@ -194,6 +202,17 @@ public partial class Main : Control
 			if (dialogueLabel.VisibleCharacters >= dialogueLabel.Text.Length)
 			{
 				isTyping = false;
+
+				LocationData location = GetCurrentLocation();
+
+				if (
+					currentLine == dialogue.Length - 1 &&
+					!location.dialoguePlayed
+				)
+				{
+					location.dialoguePlayed = true;
+					UpdateActionButtons();
+				}
 			}
 		}
 	}
@@ -259,16 +278,24 @@ public partial class Main : Control
 		animationPlayer.Play("FadeOut");
 	}
 
+	private void UpdateActionButtons()
+	{
+		if (GetCurrentLocation().dialoguePlayed)
+		{
+			lookAroundButton.Visible = true;
+			exitButton1.Visible = true;
+		}
+		else
+		{
+			lookAroundButton.Visible = false;
+			exitButton1.Visible = false;
+		}
+	}
+
 	private async void OnAnimationFinished(StringName animationName)
 	{
-		GD.Print("Animation finished: " + animationName);
-
 		if (animationName == "IntroFadeIn")
 		{
-			LocationData location = GetCurrentLocation();
-
-			location.dialoguePlayed = true;
-
 			ShowDialogueLine();
 			return;
 		}
@@ -294,8 +321,6 @@ public partial class Main : Control
 			{
 				LoadLocationDialogue();
 				ShowDialogueLine();
-
-				location.dialoguePlayed = true;
 			}
 			else
 			{
