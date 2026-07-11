@@ -73,6 +73,19 @@ public partial class Main : Control
 		return JsonSerializer.Deserialize<LocationsData>(json);
 	}
 
+	private void LoadLocationDialogue()
+	{
+		LocationData location = GetCurrentLocation();
+
+		dialogueData = LoadDialogue(
+			"res://Dialogue/Chapters/" + location.dialogue
+		);
+
+		dialogue = dialogueData.lines;
+
+		currentLine = 0;
+	}
+
 	private void UpdateLocation()
 	{
 		LocationData location =
@@ -140,15 +153,6 @@ public partial class Main : Control
 			"SidePanel/ExitButton1"
 		);
 
-		dialogueData = LoadDialogue(
-			"res://Dialogue/Chapters/intro.json"
-		);
-
-		dialogue = dialogueData.lines;
-
-		choiceButton1.Text = dialogueData.choices[0].text;
-		choiceButton2.Text = dialogueData.choices[1].text;
-
 		// choiceButton1.Pressed += OnChoice1Pressed;
 		// choiceButton2.Pressed += OnChoice2Pressed;
 		exitButton1.Pressed += OnExitButtonPressed;
@@ -157,6 +161,11 @@ public partial class Main : Control
 		choiceButton2.Visible = false;
 
 		locationsData = LoadLocations();
+
+		LoadLocationDialogue();
+
+		choiceButton1.Text = dialogueData.choices[0].text;
+		choiceButton2.Text = dialogueData.choices[1].text;
 
 		UpdateLocation();
 
@@ -250,12 +259,16 @@ public partial class Main : Control
 		animationPlayer.Play("FadeOut");
 	}
 
-	private void OnAnimationFinished(StringName animationName)
+	private async void OnAnimationFinished(StringName animationName)
 	{
 		GD.Print("Animation finished: " + animationName);
 
 		if (animationName == "IntroFadeIn")
 		{
+			LocationData location = GetCurrentLocation();
+
+			location.dialoguePlayed = true;
+
 			ShowDialogueLine();
 			return;
 		}
@@ -264,9 +277,30 @@ public partial class Main : Control
 		{
 			GD.Print("Changing location to: " + targetLocation);
 
+			await ToSignal(
+				GetTree().CreateTimer(0.25f),
+				SceneTreeTimer.SignalName.Timeout
+			);
+
 			currentLocation = targetLocation;
 
 			UpdateLocation();
+
+			LocationData location = GetCurrentLocation();
+
+			GD.Print(location.id + "dialoguePlayed = " + location.dialoguePlayed);
+
+			if (!location.dialoguePlayed)
+			{
+				LoadLocationDialogue();
+				ShowDialogueLine();
+
+				location.dialoguePlayed = true;
+			}
+			else
+			{
+				dialogueLabel.Text = "";
+			}
 
 			animationPlayer.Play("FadeIn");
 		}

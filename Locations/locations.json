@@ -4,12 +4,14 @@
       "id": "bedroom",
       "name": "Scientist Quarters",
       "background": "scene1.png",
+      "dialogue": "bedroom.json",
       "exits": ["hallway"]
     },
     {
       "id": "hallway",
       "name": "Main Hallway",
       "background": "scene2.png",
+      "dialogue": "hallway.json",
       "exits": ["bedroom"]
     }
   ]

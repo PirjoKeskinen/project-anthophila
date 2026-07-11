@@ -1,0 +1,39 @@
+{
+  "lines": [
+    {
+      "text": "*sigh*\n\"It's already morning...\""
+    },
+    {
+      "text": "*yawn*"
+    },
+    {
+      "text": "\"Ugh, I had a very weird dream last night...\""
+    },
+    {
+      "text": "\"There was lots of bees flying in the flowerfield.\""
+    },
+    {
+      "text": "\"But then flowers started to melt\nand all the bees falls to the ground.\""
+    },
+    {
+      "text": "\"All dead...\""
+    },
+    {
+      "text": "\"Maybe I have studiet too much about the bees.\nThey are facinating creatures!\""
+    },
+    {
+      "text": "\"But now I need to start my shift.\""
+    },
+    {
+      "text": "TASK: Go to the greenhouse"
+    }
+  ],
+  "choices": [
+    {
+      "text": "Open locker"
+    },
+    {
+      "text": "Check terminal"
+    }
+  ]
+}

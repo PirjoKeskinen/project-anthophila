@@ -1,0 +1,19 @@
+{
+  "lines": [
+    {
+      "text": "Ah, what a wonderful day!"
+    },
+    {
+      "text": "It's time to collect veggies for the colony."
+    }
+  ],
+
+  "choices": [
+    {
+      "text": "Open locker"
+    },
+    {
+      "text": "Check terminal"
+    }
+  ]
+}

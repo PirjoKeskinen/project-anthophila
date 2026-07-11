@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dxounbcshv75g"]
 
 [ext_resource type="Script" uid="uid://dj50nye8ofhil" path="res://Scripts/Core/Main.cs" id="1_dwobv"]
+[ext_resource type="Texture2D" uid="uid://ckssl38m7mb0d" path="res://Assets/UI/ui-gameview2.png" id="2_dwobv"]
 
 [sub_resource type="Animation" id="Animation_0jepq"]
 resource_name = "FadeIn"
@@ -12,10 +13,10 @@ tracks/0/path = NodePath("FadeRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23333335),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(3, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+"values": [Color(0.08235294, 0.07450981, 0.0627451, 1), Color(0.08235294, 0.07450981, 0.0627451, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ibm2l"]
@@ -28,10 +29,10 @@ tracks/0/path = NodePath("FadeRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23333335),
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 0), Color(0.08235294, 0.07450981, 0.0627451, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_hdil2"]
@@ -96,7 +97,13 @@ script = ExtResource("1_dwobv")
 layout_mode = 0
 offset_right = 960.0
 offset_bottom = 480.0
-color = Color(0, 0.5372549, 0, 1)
+color = Color(0.08235294, 0.07450981, 0.0627451, 1)
+
+[node name="TextureRect" type="TextureRect" parent="GameView" unique_id=1733132836]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 480.0
+texture = ExtResource("2_dwobv")
 
 [node name="BackgroundImage" type="TextureRect" parent="." unique_id=1246986065]
 layout_mode = 0
@@ -111,12 +118,14 @@ layout_mode = 0
 offset_left = 960.0
 offset_right = 1280.0
 offset_bottom = 480.0
-color = Color(0.68235296, 0, 0, 1)
+color = Color(0.08235294, 0.07450981, 0.0627451, 1)
 
 [node name="LocationLabel" type="Label" parent="SidePanel" unique_id=904981132]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ExitButton1" type="Button" parent="SidePanel" unique_id=2081260425]
 layout_mode = 0
@@ -124,6 +133,7 @@ offset_left = 132.0
 offset_top = 376.0
 offset_right = 173.0
 offset_bottom = 407.0
+focus_mode = 0
 text = "EXIT"
 
 [node name="DialoguePanel" type="ColorRect" parent="." unique_id=223925726]
@@ -131,12 +141,15 @@ layout_mode = 0
 offset_top = 480.0
 offset_right = 1280.0
 offset_bottom = 720.0
-color = Color(0, 0, 0.7176471, 1)
+color = Color(0.08235294, 0.07450981, 0.0627451, 1)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="DialoguePanel" unique_id=1400399866]
 layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 240.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 1240.0
+offset_bottom = 200.0
+theme_override_font_sizes/normal_font_size = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DialoguePanel" unique_id=1495597219]
 layout_mode = 0
@@ -153,7 +166,8 @@ layout_mode = 2
 
 [node name="FadeRect" type="ColorRect" parent="." unique_id=1439488636]
 layout_mode = 0
-offset_right = 960.0
+offset_left = 119.0
+offset_right = 841.064
 offset_bottom = 480.0
 color = Color(0, 0, 0, 0)
 
