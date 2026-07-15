@@ -227,6 +227,17 @@ public partial class Main : Control
 					dialogueLabel.Text.Length;
 
 				isTyping = false;
+
+				LocationData location = GetCurrentLocation();
+
+				if (
+					currentLine == dialogue.Length - 1 &&
+					!location.dialoguePlayed
+				)
+				{
+					location.dialoguePlayed = true;
+					UpdateActionButtons();
+				}
 			}
 			else
 			{
@@ -266,9 +277,6 @@ public partial class Main : Control
 
 	private void OnExitButtonPressed()
 	{
-
-		GD.Print("Exit button pressed");
-
 		LocationData location =
 			GetCurrentLocation();
 
@@ -302,8 +310,6 @@ public partial class Main : Control
 
 		if (animationName == "FadeOut")
 		{
-			GD.Print("Changing location to: " + targetLocation);
-
 			await ToSignal(
 				GetTree().CreateTimer(0.25f),
 				SceneTreeTimer.SignalName.Timeout
@@ -314,8 +320,6 @@ public partial class Main : Control
 			UpdateLocation();
 
 			LocationData location = GetCurrentLocation();
-
-			GD.Print(location.id + "dialoguePlayed = " + location.dialoguePlayed);
 
 			if (!location.dialoguePlayed)
 			{

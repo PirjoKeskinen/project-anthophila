@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dxounbcshv75g"]
 
 [ext_resource type="Script" uid="uid://dj50nye8ofhil" path="res://Scripts/Core/Main.cs" id="1_dwobv"]
-[ext_resource type="Texture2D" uid="uid://ckssl38m7mb0d" path="res://Assets/UI/ui-gameview2.png" id="2_dwobv"]
 
 [sub_resource type="Animation" id="Animation_0jepq"]
 resource_name = "FadeIn"
@@ -103,13 +102,17 @@ color = Color(0.08235294, 0.07450981, 0.0627451, 1)
 layout_mode = 0
 offset_right = 960.0
 offset_bottom = 480.0
-texture = ExtResource("2_dwobv")
 
 [node name="BackgroundImage" type="TextureRect" parent="." unique_id=1246986065]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = 119.0
-offset_right = 841.0641
-offset_bottom = 480.0
+offset_right = 801.064
+offset_bottom = 440.0
+grow_horizontal = 2
+grow_vertical = 2
 expand_mode = 3
 stretch_mode = 5
 
@@ -172,8 +175,7 @@ layout_mode = 2
 
 [node name="FadeRect" type="ColorRect" parent="." unique_id=1439488636]
 layout_mode = 0
-offset_left = 119.0
-offset_right = 841.064
+offset_right = 960.0
 offset_bottom = 480.0
 color = Color(0, 0, 0, 0)
 
