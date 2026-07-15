@@ -1,0 +1,24 @@
+{
+  "inspectables": [
+    {
+      "id": "terminal",
+      "name": "Terminal",
+      "text": "The terminal indicates that all greenhouse systems are operating normally."
+    },
+    {
+      "id": "locker",
+      "name": "Locker",
+      "text": "Your locker contains only spare clothing."
+    },
+    {
+      "id": "burned_plants",
+      "name": "Burned Plants",
+      "text": "Most of the plants have been destroyed by the fire."
+    },
+    {
+      "id": "water_pump",
+      "name": "Water Pump",
+      "text": "The emergency sprinkler system has already shut down."
+    }
+  ]
+}

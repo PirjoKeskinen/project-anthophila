@@ -5,7 +5,8 @@
       "name": "Scientists Quarters",
       "background": "bedroom.png",
       "dialogue": "bedroom.json",
-      "exits": ["hallway"]
+      "exits": ["hallway"],
+      "inspectables": ["terminal", "locker"]
     },
     {
       "id": "hallway",
@@ -13,105 +14,118 @@
       "background": "hallway.png",
       "dialogue": "hallway.json",
       "exits": [
-        "bedroom",
         "medic",
         "quarters",
         "greenhouse",
         "maintenance",
         "mess",
         "elevator"
-      ]
+      ],
+      "inspectables": []
     },
     {
       "id": "elevator",
       "name": "Elevator",
       "background": "elevator.png",
       "dialogue": "elevator.json",
-      "exits": ["outside", "hallway"]
+      "exits": ["outside", "hallway"],
+      "inspectables": []
     },
     {
       "id": "mess",
       "name": "Mess Hall",
       "background": "mess.png",
       "dialogue": "mess.json",
-      "exits": ["hallway"]
+      "exits": ["hallway"],
+      "inspectables": []
     },
     {
       "id": "greenhouse",
       "name": "Botanical Sector",
       "background": "greenhouse.png",
       "dialogue": "greenhouse.json",
-      "exits": ["hallway"]
+      "exits": ["hallway"],
+      "inspectables": ["burned_plants", "water_pump"]
     },
     {
       "id": "maintenance",
       "name": "Maintenance",
       "background": "maintenance.png",
       "dialogue": "maintenance.json",
-      "exits": ["hallway"]
+      "exits": ["hallway"],
+      "inspectables": []
     },
     {
       "id": "quarters",
       "name": "Crew Quarters",
       "background": "quarters.png",
       "dialogue": "quarters.json",
-      "exits": ["hallway"]
+      "exits": ["hallway"],
+      "inspectables": []
     },
     {
       "id": "medic",
       "name": "Medical Sector",
       "background": "medic.png",
       "dialogue": "medic.json",
-      "exits": ["hallway"]
+      "exits": ["hallway"],
+      "inspectables": []
     },
     {
       "id": "outside",
       "name": "Entrance to Bunker",
       "background": "outside.png",
       "dialogue": "outside.json",
-      "exits": ["elevator", "shore", "cabin", "pond"]
+      "exits": ["elevator", "shore", "cabin", "pond"],
+      "inspectables": []
     },
     {
       "id": "garbage",
       "name": "Garbage",
       "background": "garbage.png",
       "dialogue": "garbage.json",
-      "exits": ["shore", "outside"]
+      "exits": ["shore", "outside"],
+      "inspectables": []
     },
     {
       "id": "shore",
       "name": "Shore",
       "background": "shore.png",
       "dialogue": "shore.json",
-      "exits": ["garbage", "ocean"]
+      "exits": ["garbage", "ocean"],
+      "inspectables": []
     },
     {
       "id": "ocean",
       "name": "Ocean",
       "background": "ocean.png",
       "dialogue": "ocean.json",
-      "exits": []
+      "exits": [],
+      "inspectables": []
     },
     {
       "id": "cabin",
       "name": "Cabin",
       "background": "cabin.png",
       "dialogue": "cabin.json",
-      "exits": ["inside", "outside"]
+      "exits": ["inside", "outside"],
+      "inspectables": []
     },
     {
       "id": "inside",
       "name": "Inside the Cabin",
       "background": "inside.png",
       "dialogue": "inside.json",
-      "exits": ["cabin"]
+      "exits": ["cabin"],
+      "inspectables": []
     },
     {
       "id": "",
       "name": "",
       "background": "",
       "dialogue": "",
-      "exits": [""]
+      "exits": [""],
+      "inspectables": []
     }
   ]
 }

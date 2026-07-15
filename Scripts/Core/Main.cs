@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using System.Text.Json;
 
 public partial class Main : Control
@@ -16,6 +17,7 @@ public partial class Main : Control
 
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
+	private InspectablesData inspectablesData;
 
 	private Button choiceButton1; // TODO: dialogue choices
 	private Button choiceButton2; // TODO: dialogue choices
@@ -24,6 +26,10 @@ public partial class Main : Control
 
 	private Button lookAroundButton;
 
+	private Button[] inspectButtons;
+
+	private Button backButton;
+
 	private Label locationLabel;
 
 	private TextureRect backgroundImage;
@@ -31,6 +37,18 @@ public partial class Main : Control
 	private AnimationPlayer animationPlayer;
 
 	private string targetLocation;
+
+	private Dictionary<string, bool> gameEvents = new();
+
+	private bool HasEvent(string eventId)
+	{
+		return gameEvents.ContainsKey(eventId);
+	}
+
+	private void SetEvent(string eventId)
+	{
+		gameEvents[eventId] = true;
+	}
 
 	private DialogueData LoadDialogue(string filePath)
 	{
@@ -73,6 +91,15 @@ public partial class Main : Control
 		);
 
 		return JsonSerializer.Deserialize<LocationsData>(json);
+	}
+
+	private InspectablesData LoadInspectables()
+	{
+		string json = FileAccess.GetFileAsString(
+			"res://Dialogue/Inspectables/inspectables.json"
+		);
+
+		return JsonSerializer.Deserialize<InspectablesData>(json);
 	}
 
 	private void LoadLocationDialogue()
@@ -165,9 +192,23 @@ public partial class Main : Control
 			GetNode<Button>("SidePanel/VBoxContainer/ExitButton7")
 		};
 
+		inspectButtons = new Button[]
+		{
+			GetNode<Button>("SidePanel/VBoxContainer/InspectButton1"),
+			GetNode<Button>("SidePanel/VBoxContainer/InspectButton2"),
+			GetNode<Button>("SidePanel/VBoxContainer/InspectButton3")
+		};
+
 		lookAroundButton = GetNode<Button>(
 			"SidePanel/VBoxContainer/LookAroundButton"
 		);
+
+		backButton = GetNode<Button>(
+			"SidePanel/VBoxContainer/BackButton"
+		);
+
+		lookAroundButton.Pressed += OnLookAroundPressed;
+		backButton.Pressed += OnBackPressed;
 
 		// choiceButton1.Pressed += OnChoice1Pressed;
 		// choiceButton2.Pressed += OnChoice2Pressed;
@@ -178,11 +219,24 @@ public partial class Main : Control
 			exitButtons[i].Pressed += () => OnExitButtonPressed(index);
 		}
 
+		for (int i = 0; i < inspectButtons.Length; i++)
+		{
+			int index = i;
+			inspectButtons[i].Pressed += () => OnInspectButtonPressed(index);
+		}
+
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 		lookAroundButton.Visible = false;
+		backButton.Visible = false;
+
+		foreach (Button button in inspectButtons)
+		{
+			button.Visible = false;
+		}
 
 		locationsData = LoadLocations();
+		inspectablesData = LoadInspectables();
 
 		LoadLocationDialogue();
 
@@ -299,6 +353,77 @@ public partial class Main : Control
 			location.exits[exitIndex];
 
 		animationPlayer.Play("FadeOut");
+	}
+
+	private void OnLookAroundPressed()
+	{
+		foreach (Button button in exitButtons)
+		{
+			button.Visible = false;
+		}
+
+		LocationData location = GetCurrentLocation();
+
+		for (int i = 0; i < inspectButtons.Length; i++)
+		{
+			if (i < location.inspectables.Length)
+			{
+				InspectableData inspectable =
+					GetInspectableById(location.inspectables[i]);
+
+				inspectButtons[i].Text = inspectable.name;
+				inspectButtons[i].Visible = true;
+			}
+			else
+			{
+				inspectButtons[i].Visible = false;
+			}
+		}
+
+		backButton.Visible = true;
+	}
+
+	private void OnBackPressed()
+	{
+		backButton.Visible = false;
+
+		foreach (Button button in inspectButtons)
+		{
+			button.Visible = false;
+		}
+
+		foreach (Button button in exitButtons)
+		{
+			button.Visible = button.Text != "";
+		}
+	}
+
+	private void OnInspectButtonPressed(int index)
+	{
+		LocationData location = GetCurrentLocation();
+
+		string id = location.inspectables[index];
+
+		InspectableData inspectable = GetInspectableById(id);
+
+		dialogueLabel.Text = inspectable.text;
+		dialogueLabel.VisibleCharacters = 0;
+
+		typingTimer = 0f;
+		isTyping = true;
+	}
+
+	private InspectableData GetInspectableById(string id)
+	{
+		foreach (InspectableData inspectable in inspectablesData.inspectables)
+		{
+			if (inspectable.id == id)
+			{
+				return inspectable;
+			}
+		}
+
+		return null;
 	}
 
 	private void UpdateActionButtons()

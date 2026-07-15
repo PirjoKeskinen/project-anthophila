@@ -141,6 +141,18 @@ offset_bottom = 215.0
 layout_mode = 2
 text = "Look around"
 
+[node name="InspectButton1" type="Button" parent="SidePanel/VBoxContainer" unique_id=12740348]
+layout_mode = 2
+text = "Button"
+
+[node name="InspectButton2" type="Button" parent="SidePanel/VBoxContainer" unique_id=1115488262]
+layout_mode = 2
+text = "Button"
+
+[node name="InspectButton3" type="Button" parent="SidePanel/VBoxContainer" unique_id=1744235063]
+layout_mode = 2
+text = "Button"
+
 [node name="ExitButton1" type="Button" parent="SidePanel/VBoxContainer" unique_id=2081260425]
 layout_mode = 2
 focus_mode = 0
@@ -162,6 +174,10 @@ layout_mode = 2
 
 [node name="ExitButton7" type="Button" parent="SidePanel/VBoxContainer" unique_id=1429109237]
 layout_mode = 2
+
+[node name="BackButton" type="Button" parent="SidePanel/VBoxContainer" unique_id=2067635415]
+layout_mode = 2
+text = "Back"
 
 [node name="DialoguePanel" type="ColorRect" parent="." unique_id=223925726]
 layout_mode = 0
