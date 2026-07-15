@@ -38,7 +38,7 @@
     },
     {
       "id": "greenhouse",
-      "name": "Greenhouse",
+      "name": "Botanical Sector",
       "background": "greenhouse.png",
       "dialogue": "greenhouse.json",
       "exits": ["hallway"]

@@ -20,7 +20,7 @@ public partial class Main : Control
 	private Button choiceButton1; // TODO: dialogue choices
 	private Button choiceButton2; // TODO: dialogue choices
 
-	private Button exitButton1;
+	private Button[] exitButtons;
 
 	private Button lookAroundButton;
 
@@ -111,22 +111,24 @@ public partial class Main : Control
 	{
 		LocationData location = GetCurrentLocation();
 
-		if (location.exits.Length > 0)
+		for (int i = 0; i < exitButtons.Length; i++)
 		{
-			LocationData exitLocation =
-				GetLocationById(
-					location.exits[0],
-					locationsData
-				);
+			if (i < location.exits.Length)
+			{
+				LocationData exitLocation =
+					GetLocationById(
+						location.exits[i],
+						locationsData
+					);
 
-			exitButton1.Text =
-				exitLocation.name;
-
-			exitButton1.Visible = true;
-		}
-		else
-		{
-			exitButton1.Visible = false;
+				exitButtons[i].Text = exitLocation.name;
+				exitButtons[i].Visible = true;
+			}
+			else
+			{
+				exitButtons[i].Text = "";
+				exitButtons[i].Visible = false;
+			}
 		}
 	}
 
@@ -152,9 +154,16 @@ public partial class Main : Control
 			"DialoguePanel/VBoxContainer/ChoiceButton2"
 		);
 
-		exitButton1 = GetNode<Button>(
-			"SidePanel/VBoxContainer/ExitButton1"
-		);
+		exitButtons = new Button[]
+		{
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton1"),
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton2"),
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton3"),
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton4"),
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton5"),
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton6"),
+			GetNode<Button>("SidePanel/VBoxContainer/ExitButton7")
+		};
 
 		lookAroundButton = GetNode<Button>(
 			"SidePanel/VBoxContainer/LookAroundButton"
@@ -162,7 +171,12 @@ public partial class Main : Control
 
 		// choiceButton1.Pressed += OnChoice1Pressed;
 		// choiceButton2.Pressed += OnChoice2Pressed;
-		exitButton1.Pressed += OnExitButtonPressed;
+
+		for (int i = 0; i < exitButtons.Length; i++)
+		{
+			int index = i;
+			exitButtons[i].Pressed += () => OnExitButtonPressed(index);
+		}
 
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
@@ -275,29 +289,29 @@ public partial class Main : Control
 		animationPlayer.Play("FadeOut");
 	}
 
-	private void OnExitButtonPressed()
+	private void OnExitButtonPressed(int exitIndex)
 	{
+		GD.Print("Pressed exit " + exitIndex);
 		LocationData location =
 			GetCurrentLocation();
 
 		targetLocation =
-			location.exits[0];
+			location.exits[exitIndex];
 
 		animationPlayer.Play("FadeOut");
 	}
 
 	private void UpdateActionButtons()
 	{
-		if (GetCurrentLocation().dialoguePlayed)
+		bool visible = GetCurrentLocation().dialoguePlayed;
+
+		lookAroundButton.Visible = visible;
+
+		foreach (Button button in exitButtons)
 		{
-			lookAroundButton.Visible = true;
-			exitButton1.Visible = true;
+			button.Visible = visible && button.Text != "";
 		}
-		else
-		{
-			lookAroundButton.Visible = false;
-			exitButton1.Visible = false;
-		}
+
 	}
 
 	private async void OnAnimationFinished(StringName animationName)
