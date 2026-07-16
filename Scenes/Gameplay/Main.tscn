@@ -180,6 +180,7 @@ layout_mode = 2
 text = "Back"
 
 [node name="DialoguePanel" type="ColorRect" parent="." unique_id=223925726]
+visible = true
 layout_mode = 0
 offset_top = 480.0
 offset_right = 1280.0

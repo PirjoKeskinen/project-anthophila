@@ -3,22 +3,35 @@
     {
       "id": "terminal",
       "name": "Terminal",
-      "text": "The terminal indicates that all greenhouse systems are operating normally."
+      "text": [
+        "The terminal indicates that all greenhouse systems are operating normally."
+      ]
     },
     {
       "id": "locker",
       "name": "Locker",
-      "text": "Your locker contains only spare clothing."
+      "text": ["Your locker contains only spare clothing."]
     },
     {
       "id": "burned_plants",
       "name": "Burned Plants",
-      "text": "Most of the plants have been destroyed by the fire."
+      "text": ["Most of the plants have been destroyed by the fire."]
     },
     {
       "id": "water_pump",
       "name": "Water Pump",
-      "text": "The emergency sprinkler system has already shut down."
+      "text": ["The emergency sprinkler system has already shut down."]
+    },
+    {
+      "id": "plaque",
+      "name": "Wall Plaque",
+      "text": [
+        "The plaque reads:",
+        "\"And again,\nas swarms of bees do not gather for the sake of making honeycomb\nbut make the honeycomb because they are gregarious by nature,\nso human beings—and to a much higher degree—exercise their skill together in action\nand thought because they are naturally gregarious.\"",
+        "\"And so,\nif that virtue which centres in the safeguarding of human interests,\nthat is, in the maintenance of human society, were not to accompany the pursuit of knowledge,\nthat knowledge would seem isolated and barren of results.\"",
+        "\"In the same way,\ncourage, if unrestrained by the uniting bonds of society,\nwould be but a sort of brutality and savagery.\"",
+        "- Marcus Tullius Cicero, *De Officiis*"
+      ]
     }
   ]
 }

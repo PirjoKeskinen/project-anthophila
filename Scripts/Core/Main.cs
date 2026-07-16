@@ -40,6 +40,11 @@ public partial class Main : Control
 
 	private Dictionary<string, bool> gameEvents = new();
 
+	private InspectableData currentInspectable;
+	private int currentInspectablePage = 0;
+
+	private bool isReadingInspectable = false;
+
 	private bool HasEvent(string eventId)
 	{
 		return gameEvents.ContainsKey(eventId);
@@ -309,6 +314,26 @@ public partial class Main : Control
 			}
 			else
 			{
+				if (isReadingInspectable)
+				{
+					if (currentInspectablePage < currentInspectable.text.Length - 1)
+					{
+						currentInspectablePage++;
+
+						dialogueLabel.Text = currentInspectable.text[currentInspectablePage];
+						dialogueLabel.VisibleCharacters = 0;
+
+						typingTimer = 0f;
+						isTyping = true;
+					}
+					else
+					{
+						isReadingInspectable = false;
+					}
+
+					return;
+				}
+
 				if (currentLine < dialogue.Length - 1)
 				{
 					currentLine++;
@@ -385,6 +410,9 @@ public partial class Main : Control
 
 	private void OnBackPressed()
 	{
+		isReadingInspectable = false;
+		dialogueLabel.Text = "";
+
 		backButton.Visible = false;
 
 		foreach (Button button in inspectButtons)
@@ -400,13 +428,18 @@ public partial class Main : Control
 
 	private void OnInspectButtonPressed(int index)
 	{
+		GetViewport().GuiReleaseFocus();
+		GD.Print("OnInspectButtonPressed");
 		LocationData location = GetCurrentLocation();
 
 		string id = location.inspectables[index];
 
-		InspectableData inspectable = GetInspectableById(id);
+		currentInspectable = GetInspectableById(id);
+		currentInspectablePage = 0;
+		isReadingInspectable = true;
 
-		dialogueLabel.Text = inspectable.text;
+		dialogueLabel.Text = currentInspectable.text[currentInspectablePage];
+
 		dialogueLabel.VisibleCharacters = 0;
 
 		typingTimer = 0f;

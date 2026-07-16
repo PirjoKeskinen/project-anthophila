@@ -6,7 +6,7 @@
       "background": "bedroom.png",
       "dialogue": "bedroom.json",
       "exits": ["hallway"],
-      "inspectables": ["terminal", "locker"]
+      "inspectables": ["terminal"]
     },
     {
       "id": "hallway",
@@ -21,7 +21,7 @@
         "mess",
         "elevator"
       ],
-      "inspectables": []
+      "inspectables": ["plaque"]
     },
     {
       "id": "elevator",
