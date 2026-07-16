@@ -24,6 +24,8 @@ public partial class Main : Control
 
 	private Button[] exitButtons;
 
+	private Button moveButton;
+
 	private Button lookAroundButton;
 
 	private Button[] inspectButtons;
@@ -204,6 +206,10 @@ public partial class Main : Control
 			GetNode<Button>("SidePanel/VBoxContainer/InspectButton3")
 		};
 
+		moveButton = GetNode<Button>(
+			"SidePanel/VBoxContainer/MoveButton"
+		);
+
 		lookAroundButton = GetNode<Button>(
 			"SidePanel/VBoxContainer/LookAroundButton"
 		);
@@ -212,6 +218,7 @@ public partial class Main : Control
 			"SidePanel/VBoxContainer/BackButton"
 		);
 
+		moveButton.Pressed += OnMovePressed;
 		lookAroundButton.Pressed += OnLookAroundPressed;
 		backButton.Pressed += OnBackPressed;
 
@@ -232,6 +239,7 @@ public partial class Main : Control
 
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
+		moveButton.Visible = false;
 		lookAroundButton.Visible = false;
 		backButton.Visible = false;
 
@@ -380,8 +388,24 @@ public partial class Main : Control
 		animationPlayer.Play("FadeOut");
 	}
 
+	private void OnMovePressed()
+	{
+		lookAroundButton.Visible = false;
+		moveButton.Visible = false;
+
+		foreach (Button button in exitButtons)
+		{
+			button.Visible = button.Text != "";
+		}
+
+		backButton.Visible = true;
+	}
+
 	private void OnLookAroundPressed()
 	{
+		moveButton.Visible = false;
+		lookAroundButton.Visible = false;
+
 		foreach (Button button in exitButtons)
 		{
 			button.Visible = false;
@@ -422,8 +446,11 @@ public partial class Main : Control
 
 		foreach (Button button in exitButtons)
 		{
-			button.Visible = button.Text != "";
+			button.Visible = false;
 		}
+
+		moveButton.Visible = true;
+		lookAroundButton.Visible = true;
 	}
 
 	private void OnInspectButtonPressed(int index)
@@ -463,11 +490,12 @@ public partial class Main : Control
 	{
 		bool visible = GetCurrentLocation().dialoguePlayed;
 
+		moveButton.Visible = visible;
 		lookAroundButton.Visible = visible;
 
 		foreach (Button button in exitButtons)
 		{
-			button.Visible = visible && button.Text != "";
+			button.Visible = false;
 		}
 
 	}
