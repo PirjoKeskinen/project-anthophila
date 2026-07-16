@@ -449,8 +449,10 @@ public partial class Main : Control
 			button.Visible = false;
 		}
 
-		moveButton.Visible = true;
-		lookAroundButton.Visible = true;
+		bool visible = GetCurrentLocation().dialoguePlayed;
+
+		moveButton.Visible = visible && HasEvent("alarm_triggered");
+		lookAroundButton.Visible = visible;
 	}
 
 	private void OnInspectButtonPressed(int index)
@@ -466,6 +468,11 @@ public partial class Main : Control
 		isReadingInspectable = true;
 
 		dialogueLabel.Text = currentInspectable.text[currentInspectablePage];
+
+		if (currentInspectable.eventId != null)
+		{
+			SetEvent(currentInspectable.eventId);
+		}
 
 		dialogueLabel.VisibleCharacters = 0;
 
@@ -490,7 +497,7 @@ public partial class Main : Control
 	{
 		bool visible = GetCurrentLocation().dialoguePlayed;
 
-		moveButton.Visible = visible;
+		moveButton.Visible = visible && HasEvent("alarm_triggered");
 		lookAroundButton.Visible = visible;
 
 		foreach (Button button in exitButtons)
