@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://dxounbcshv75g"]
 
 [ext_resource type="Script" uid="uid://dj50nye8ofhil" path="res://Scripts/Core/Main.cs" id="1_dwobv"]
+[ext_resource type="AudioStream" uid="uid://whg8qwdkrbl" path="res://Assets/Audio/SFX/terminal.mp3" id="2_0jepq"]
+[ext_resource type="AudioStream" uid="uid://r1ux8rt2n2gn" path="res://Assets/Audio/SFX/warning.mp3" id="3_hdil2"]
+[ext_resource type="AudioStream" uid="uid://cn4pxxh8oqry3" path="res://Assets/Audio/SFX/bedroomhum.mp3" id="4_hdil2"]
 
 [sub_resource type="Animation" id="Animation_0jepq"]
 resource_name = "FadeIn"
@@ -232,3 +235,17 @@ color = Color(0, 0, 0, 1)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=868245854]
 libraries/ = SubResource("AnimationLibrary_0jepq")
 speed_scale = 0.5
+
+[node name="NormalAnnouncement" type="AudioStreamPlayer" parent="." unique_id=911335920]
+stream = ExtResource("2_0jepq")
+volume_db = -14.0
+
+[node name="AlarmAnnouncement" type="AudioStreamPlayer" parent="." unique_id=1564978841]
+stream = ExtResource("3_hdil2")
+volume_db = -12.0
+
+[node name="BackgroundHum" type="AudioStreamPlayer" parent="." unique_id=1142196231]
+stream = ExtResource("4_hdil2")
+volume_db = -20.0
+autoplay = true
+parameters/looping = true

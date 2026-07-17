@@ -36,6 +36,9 @@ public partial class Main : Control
 
 	private TextureRect backgroundImage;
 
+	private AudioStreamPlayer normalAnnouncement;
+	private AudioStreamPlayer alarmAnnouncement;
+
 	private AnimationPlayer animationPlayer;
 
 	private string targetLocation;
@@ -258,6 +261,14 @@ public partial class Main : Control
 
 		UpdateLocation();
 
+		normalAnnouncement = GetNode<AudioStreamPlayer>(
+			"NormalAnnouncement"
+		);
+
+		alarmAnnouncement = GetNode<AudioStreamPlayer>(
+			"AlarmAnnouncement"
+		);
+
 		animationPlayer = GetNode<AnimationPlayer>(
 			"AnimationPlayer"
 		);
@@ -283,6 +294,14 @@ public partial class Main : Control
 			if (dialogueLabel.VisibleCharacters >= dialogueLabel.Text.Length)
 			{
 				isTyping = false;
+
+				if (
+					currentInspectable != null &&
+					currentInspectable.id == "terminal"
+				)
+				{
+					StartTerminalSequence();
+				}
 
 				LocationData location = GetCurrentLocation();
 
@@ -328,15 +347,23 @@ public partial class Main : Control
 					{
 						currentInspectablePage++;
 
-						dialogueLabel.Text = currentInspectable.text[currentInspectablePage];
-						dialogueLabel.VisibleCharacters = 0;
-
-						typingTimer = 0f;
-						isTyping = true;
+						ShowText(currentInspectable.text[currentInspectablePage]);
 					}
 					else
 					{
 						isReadingInspectable = false;
+
+						if (
+							currentInspectable.id == "terminal" &&
+							!HasEvent("alarm_triggered")
+						)
+						{
+							dialogueLabel.Text = "\"Everything seems to be in order...\"";
+							dialogueLabel.VisibleCharacters = 0;
+
+							typingTimer = 0f;
+							isTyping = true;
+						}
 					}
 
 					return;
@@ -351,6 +378,15 @@ public partial class Main : Control
 		}
 	}
 
+	private void ShowText(string text)
+	{
+		dialogueLabel.Text = text;
+		dialogueLabel.VisibleCharacters = 0;
+
+		typingTimer = 0f;
+		isTyping = true;
+	}
+
 	private void ShowDialogueLine()
 	{
 		// TODO: show dialogue choices when dialogue data supports them
@@ -358,11 +394,7 @@ public partial class Main : Control
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 
-		dialogueLabel.Text = dialogue[currentLine].text;
-		dialogueLabel.VisibleCharacters = 0;
-
-		typingTimer = 0f;
-		isTyping = true;
+		ShowText(dialogue[currentLine].text);
 	}
 
 	private void OnChoice1Pressed()
@@ -464,20 +496,33 @@ public partial class Main : Control
 		string id = location.inspectables[index];
 
 		currentInspectable = GetInspectableById(id);
+
+		if (
+			id == "terminal" &&
+			HasEvent("alarm_triggered")
+		)
+		{
+			currentInspectable = GetInspectableById("terminal_alarm");
+
+			ShowText(currentInspectable.text[0]);
+
+			return;
+		}
+
+		if (id == "terminal")
+		{
+			normalAnnouncement.Play();
+		}
+
 		currentInspectablePage = 0;
 		isReadingInspectable = true;
 
-		dialogueLabel.Text = currentInspectable.text[currentInspectablePage];
+		ShowText(currentInspectable.text[currentInspectablePage]);
 
-		if (currentInspectable.eventId != null)
+		if (id == "terminal")
 		{
-			SetEvent(currentInspectable.eventId);
+			normalAnnouncement.Play();
 		}
-
-		dialogueLabel.VisibleCharacters = 0;
-
-		typingTimer = 0f;
-		isTyping = true;
 	}
 
 	private InspectableData GetInspectableById(string id)
@@ -505,6 +550,68 @@ public partial class Main : Control
 			button.Visible = false;
 		}
 
+	}
+
+	private async void StartTerminalSequence()
+	{
+		currentInspectable = null;
+
+		await ToSignal(
+			normalAnnouncement,
+			AudioStreamPlayer.SignalName.Finished
+		);
+
+		ShowText("Everything seems to be in order...");
+
+		await ToSignal(
+			GetTree().CreateTimer(1.0f),
+			SceneTreeTimer.SignalName.Timeout
+		);
+
+		StartAlarmSequence();
+	}
+	private async void StartAlarmSequence()
+	{
+		await ToSignal(
+			GetTree().CreateTimer(1.0f),
+			SceneTreeTimer.SignalName.Timeout
+		);
+
+		backgroundImage.Texture =
+			ResourceLoader.Load<Texture2D>(
+				"res://Assets/Backgrounds/bedroom-warning.png"
+			);
+
+		ShowText(
+			"WARNING.\nFire detected in Botanical Sector.\nContainment protocols activated."
+		);
+
+		alarmAnnouncement.Play();
+
+		isReadingInspectable = false;
+		currentInspectable = null;
+
+		foreach (Button button in inspectButtons)
+		{
+			button.Visible = false;
+		}
+
+		backButton.Visible = false;
+
+		await ToSignal(
+			alarmAnnouncement,
+			AudioStreamPlayer.SignalName.Finished
+		);
+
+		ShowText("Fire...? I have to get to the Botanical Sector!");
+
+		await ToSignal(
+			GetTree().CreateTimer(2.0f),
+			SceneTreeTimer.SignalName.Timeout
+		);
+
+		SetEvent("alarm_triggered");
+		UpdateActionButtons();
 	}
 
 	private async void OnAnimationFinished(StringName animationName)

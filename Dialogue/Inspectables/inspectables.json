@@ -4,15 +4,15 @@
       "id": "terminal",
       "name": "Terminal",
       "text": [
-        "The terminal indicates that all greenhouse systems are operating normally.",
-        "WARNING: Fire detected in Botanical Sector. Emergency response teams report immediately."
-      ],
-      "eventId": "alarm_triggered"
+        "SYSTEM STATUS:\nBotanical Sector: Operational.\nAll environmental systems functioning within normal parameters."
+      ]
     },
     {
-      "id": "locker",
-      "name": "Locker",
-      "text": ["Your locker contains only spare clothing."]
+      "id": "terminal_alarm",
+      "name": "Terminal",
+      "text": [
+        "WARNING:\nFire detected in Botanical Sector.\nEmergency protocol is active."
+      ]
     },
     {
       "id": "burned_plants",
