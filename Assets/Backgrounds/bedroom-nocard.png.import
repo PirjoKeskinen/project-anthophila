@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3ng5vqcdf005"
-path="res://.godot/imported/maintenance-nosuite.png-35a68cfee18f61d5a7d5a04944bf7742.ctex"
+uid="uid://df33clk1gykun"
+path="res://.godot/imported/bedroom-nocard.png-88d33a1f60ec6306af71f613a1770601.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Backgrounds/maintenance-nosuite.png"
-dest_files=["res://.godot/imported/maintenance-nosuite.png-35a68cfee18f61d5a7d5a04944bf7742.ctex"]
+source_file="res://Assets/Backgrounds/bedroom-nocard.png"
+dest_files=["res://.godot/imported/bedroom-nocard.png-88d33a1f60ec6306af71f613a1770601.ctex"]
 
 [params]
 

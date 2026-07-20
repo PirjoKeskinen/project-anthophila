@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "protective_suit",
+      "name": "Protective Suit",
+      "description": "A sealed environmental suit used for surface expeditions."
+    },
+    {
+      "id": "keycard",
+      "name": "Keycard",
+      "description": "Grants access to restricted sectors."
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "description": "Just harvested fresh and tasty apple."
+    },
+    {
+      "id": "oxygen_bottle",
+      "name": "Oxygen Bottle",
+      "description": "Oxygen for breathing when climate is too toxic."
+    }
+  ]
+}

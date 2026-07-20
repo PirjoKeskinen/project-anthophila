@@ -19,6 +19,10 @@ public partial class Main : Control
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
 
+	private InventoryData inventoryData;
+
+	private VBoxContainer inventoryContainer;
+
 	private Button choiceButton1; // TODO: dialogue choices
 	private Button choiceButton2; // TODO: dialogue choices
 
@@ -28,11 +32,17 @@ public partial class Main : Control
 
 	private Button lookAroundButton;
 
+	private Panel menuPanel;
+	private Panel inventoryPanel;
+	private Button inventoryButton;
+
 	private Button[] inspectButtons;
 
 	private Button backButton;
 
 	private Label locationLabel;
+
+	private Label menuTitle;
 
 	private TextureRect backgroundImage;
 
@@ -44,6 +54,8 @@ public partial class Main : Control
 	private string targetLocation;
 
 	private Dictionary<string, bool> gameEvents = new();
+
+	private Inventory inventory = new();
 
 	private InspectableData currentInspectable;
 	private int currentInspectablePage = 0;
@@ -112,6 +124,15 @@ public partial class Main : Control
 		return JsonSerializer.Deserialize<InspectablesData>(json);
 	}
 
+	private InventoryData LoadInventory()
+	{
+		string json = FileAccess.GetFileAsString(
+			"res://Inventory/inventory.json"
+		);
+
+		return JsonSerializer.Deserialize<InventoryData>(json);
+	}
+
 	private void LoadLocationDialogue()
 	{
 		LocationData location = GetCurrentLocation();
@@ -158,6 +179,12 @@ public partial class Main : Control
 						locationsData
 					);
 
+				if (exitLocation == null)
+				{
+					GD.PushError($"Location '{location.exits[i]}' not found.");
+					continue;
+				}
+
 				exitButtons[i].Text = exitLocation.name;
 				exitButtons[i].Visible = true;
 			}
@@ -172,61 +199,82 @@ public partial class Main : Control
 	public override void _Ready()
 	{
 		dialogueLabel = GetNode<RichTextLabel>(
-			"DialoguePanel/RichTextLabel"
+			"DialoguePanel/MarginContainer/VBoxContainer/RichTextLabel"
 		);
 
 		locationLabel = GetNode<Label>(
 			"SidePanel/LocationLabel"
 		);
 
+		menuTitle = GetNode<Label>(
+			"SidePanel/MenuPanel/MarginContainer/VBoxContainer/MenuTitle"
+		);
+
 		backgroundImage = GetNode<TextureRect>(
 			"BackgroundImage"
 		);
 
+		menuPanel = GetNode<Panel>(
+			"SidePanel/MenuPanel"
+		);
+
+		inventoryPanel = GetNode<Panel>(
+			"SidePanel/InventoryPanel"
+		);
+
+		inventoryContainer = GetNode<VBoxContainer>(
+			"SidePanel/InventoryPanel/MarginContainer/VBoxContainer"
+		);
+
 		choiceButton1 = GetNode<Button>(
-			"DialoguePanel/VBoxContainer/ChoiceButton1"
+			"DialoguePanel/MarginContainer/VBoxContainer/ChoiceContainer/ChoiceButton1"
 		);
 
 		choiceButton2 = GetNode<Button>(
-			"DialoguePanel/VBoxContainer/ChoiceButton2"
+			"DialoguePanel/MarginContainer/VBoxContainer/ChoiceContainer/ChoiceButton2"
 		);
 
 		exitButtons = new Button[]
 		{
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton1"),
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton2"),
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton3"),
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton4"),
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton5"),
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton6"),
-			GetNode<Button>("SidePanel/VBoxContainer/ExitButton7")
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton1"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton2"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton3"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton4"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton5"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton6"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/ExitButton7")
 		};
 
 		inspectButtons = new Button[]
 		{
-			GetNode<Button>("SidePanel/VBoxContainer/InspectButton1"),
-			GetNode<Button>("SidePanel/VBoxContainer/InspectButton2"),
-			GetNode<Button>("SidePanel/VBoxContainer/InspectButton3")
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/InspectButton1"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/InspectButton2"),
+			GetNode<Button>("SidePanel/MenuPanel/MarginContainer/VBoxContainer/InspectButton3")
 		};
 
 		moveButton = GetNode<Button>(
-			"SidePanel/VBoxContainer/MoveButton"
+			"SidePanel/MenuPanel/MarginContainer/VBoxContainer/MoveButton"
 		);
 
 		lookAroundButton = GetNode<Button>(
-			"SidePanel/VBoxContainer/LookAroundButton"
+			"SidePanel/MenuPanel/MarginContainer/VBoxContainer/LookAroundButton"
 		);
 
 		backButton = GetNode<Button>(
-			"SidePanel/VBoxContainer/BackButton"
+			"SidePanel/MenuPanel/MarginContainer/VBoxContainer/BackButton"
+		);
+
+		inventoryButton = GetNode<Button>(
+			"SidePanel/MenuPanel/MarginContainer/VBoxContainer/InventoryButton"
 		);
 
 		moveButton.Pressed += OnMovePressed;
 		lookAroundButton.Pressed += OnLookAroundPressed;
 		backButton.Pressed += OnBackPressed;
+		inventoryButton.Pressed += OnInventoryPressed;
 
-		// choiceButton1.Pressed += OnChoice1Pressed;
-		// choiceButton2.Pressed += OnChoice2Pressed;
+		choiceButton1.Pressed += OnChoice1Pressed;
+		choiceButton2.Pressed += OnChoice2Pressed;
 
 		for (int i = 0; i < exitButtons.Length; i++)
 		{
@@ -253,11 +301,9 @@ public partial class Main : Control
 
 		locationsData = LoadLocations();
 		inspectablesData = LoadInspectables();
+		inventoryData = LoadInventory();
 
 		LoadLocationDialogue();
-
-		choiceButton1.Text = dialogueData.choices[0].text;
-		choiceButton2.Text = dialogueData.choices[1].text;
 
 		UpdateLocation();
 
@@ -295,6 +341,8 @@ public partial class Main : Control
 			{
 				isTyping = false;
 
+				ShowInspectableChoices();
+
 				if (
 					currentInspectable != null &&
 					currentInspectable.id == "terminal"
@@ -327,6 +375,8 @@ public partial class Main : Control
 					dialogueLabel.Text.Length;
 
 				isTyping = false;
+
+				ShowInspectableChoices();
 
 				LocationData location = GetCurrentLocation();
 
@@ -387,6 +437,18 @@ public partial class Main : Control
 		isTyping = true;
 	}
 
+	private async void ShowNotification(string text)
+	{
+		ShowText(text);
+
+		await ToSignal(
+			GetTree().CreateTimer(1.0f),
+			SceneTreeTimer.SignalName.Timeout
+		);
+
+		dialogueLabel.Text = "";
+	}
+
 	private void ShowDialogueLine()
 	{
 		// TODO: show dialogue choices when dialogue data supports them
@@ -397,20 +459,82 @@ public partial class Main : Control
 		ShowText(dialogue[currentLine].text);
 	}
 
+	private void SetMenuTitle(string title)
+	{
+		menuTitle.Text = title;
+	}
+
+	private void ShowInspectableChoices()
+	{
+		if (
+			currentInspectable == null ||
+			currentInspectable.itemId == null ||
+			!isReadingInspectable ||
+			currentInspectablePage != currentInspectable.text.Length - 1
+		)
+		{
+			return;
+		}
+
+		choiceButton1.Text = "Take";
+		choiceButton2.Text = "Leave";
+
+		choiceButton1.Visible = true;
+		choiceButton2.Visible = true;
+	}
+
 	private void OnChoice1Pressed()
 	{
-		LocationData location =
-			GetCurrentLocation();
+		inventory.AddItem(currentInspectable.itemId);
 
-		targetLocation =
-			location.exits[0];
+		InventoryItemData item =
+			GetInventoryItemById(currentInspectable.itemId);
 
-		animationPlayer.Play("FadeOut");
+		ShowNotification("You took the " + item.name + ".");
+
+		if (currentInspectable.removeAfterPickup)
+		{
+			LocationData location = GetCurrentLocation();
+
+			List<string> inspectables = new(location.inspectables);
+
+			inspectables.Remove(currentInspectable.id);
+
+			location.inspectables = inspectables.ToArray();
+
+			if (!string.IsNullOrEmpty(location.backgroundAfterPickup))
+			{
+				location.background = location.backgroundAfterPickup;
+
+				backgroundImage.Texture =
+					ResourceLoader.Load<Texture2D>(
+						"res://Assets/Backgrounds/" +
+						location.background
+					);
+			}
+		}
+
+		UpdateInventoryUI();
+
+		isReadingInspectable = false;
+		currentInspectable = null;
+
+		choiceButton1.Visible = false;
+		choiceButton2.Visible = false;
+
+		inventory.PrintItems();
+	}
+
+	private void OnChoice2Pressed()
+	{
+		choiceButton1.Visible = false;
+		choiceButton2.Visible = false;
+
+		currentInspectable = null;
 	}
 
 	private void OnExitButtonPressed(int exitIndex)
 	{
-		GD.Print("Pressed exit " + exitIndex);
 		LocationData location =
 			GetCurrentLocation();
 
@@ -422,6 +546,8 @@ public partial class Main : Control
 
 	private void OnMovePressed()
 	{
+		SetMenuTitle("Move");
+
 		lookAroundButton.Visible = false;
 		moveButton.Visible = false;
 
@@ -444,6 +570,11 @@ public partial class Main : Control
 		}
 
 		LocationData location = GetCurrentLocation();
+
+		foreach (string inspectableId in location.inspectables)
+		{
+			GD.Print(" - " + inspectableId);
+		}
 
 		for (int i = 0; i < inspectButtons.Length; i++)
 		{
@@ -469,28 +600,18 @@ public partial class Main : Control
 		isReadingInspectable = false;
 		dialogueLabel.Text = "";
 
-		backButton.Visible = false;
+		ShowMainMenu();
+	}
 
-		foreach (Button button in inspectButtons)
-		{
-			button.Visible = false;
-		}
-
-		foreach (Button button in exitButtons)
-		{
-			button.Visible = false;
-		}
-
-		bool visible = GetCurrentLocation().dialoguePlayed;
-
-		moveButton.Visible = visible && HasEvent("alarm_triggered");
-		lookAroundButton.Visible = visible;
+	private void OnInventoryPressed()
+	{
+		UpdateInventoryUI();
+		inventoryPanel.Visible = !inventoryPanel.Visible;
 	}
 
 	private void OnInspectButtonPressed(int index)
 	{
 		GetViewport().GuiReleaseFocus();
-		GD.Print("OnInspectButtonPressed");
 		LocationData location = GetCurrentLocation();
 
 		string id = location.inspectables[index];
@@ -538,18 +659,69 @@ public partial class Main : Control
 		return null;
 	}
 
-	private void UpdateActionButtons()
+	private InventoryItemData GetInventoryItemById(string id)
 	{
+		foreach (InventoryItemData item in inventoryData.items)
+		{
+			if (item.id == id)
+			{
+				return item;
+			}
+		}
+
+		return null;
+	}
+
+	private void UpdateInventoryUI()
+	{
+		foreach (Node child in inventoryContainer.GetChildren())
+		{
+			child.QueueFree();
+		}
+
+		foreach (string itemId in inventory.GetItems())
+		{
+			InventoryItemData item = GetInventoryItemById(itemId);
+
+			if (item == null)
+			{
+				continue;
+			}
+
+			Button button = new Button();
+			button.Text = item.name;
+
+			inventoryContainer.AddChild(button);
+		}
+	}
+
+	private void ShowMainMenu()
+	{
+		SetMenuTitle("Actions");
+
 		bool visible = GetCurrentLocation().dialoguePlayed;
 
 		moveButton.Visible = visible && HasEvent("alarm_triggered");
 		lookAroundButton.Visible = visible;
+
+		inventoryButton.Visible = inventory.HasItems();
+
+		backButton.Visible = false;
 
 		foreach (Button button in exitButtons)
 		{
 			button.Visible = false;
 		}
 
+		foreach (Button button in inspectButtons)
+		{
+			button.Visible = false;
+		}
+	}
+
+	private void UpdateActionButtons()
+	{
+		ShowMainMenu();
 	}
 
 	private async void StartTerminalSequence()

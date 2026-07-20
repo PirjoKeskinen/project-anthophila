@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnkwnx0aqs68q"
-path="res://.godot/imported/bedroom-warning.png-a01b2416c29e5dcb5b63dd8452df0145.ctex"
+uid="uid://fl5kwey1nmes"
+path="res://.godot/imported/quarters.png-6c904c54ec6975dc0fb02da8ec160624.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Backgrounds/bedroom-warning.png"
-dest_files=["res://.godot/imported/bedroom-warning.png-a01b2416c29e5dcb5b63dd8452df0145.ctex"]
+source_file="res://Assets/Backgrounds/quarters.png"
+dest_files=["res://.godot/imported/quarters.png-6c904c54ec6975dc0fb02da8ec160624.ctex"]
 
 [params]
 

@@ -15,14 +15,9 @@
       ]
     },
     {
-      "id": "burned_plants",
-      "name": "Burned Plants",
-      "text": ["Most of the plants have been destroyed by the fire."]
-    },
-    {
-      "id": "water_pump",
-      "name": "Water Pump",
-      "text": ["The emergency sprinkler system has already shut down."]
+      "id": "log",
+      "name": "Terminal Log",
+      "text": ["WARNING:\nComponent overheat.\nReplace components immediately."]
     },
     {
       "id": "plaque",
@@ -34,6 +29,39 @@
         "\"In the same way,\ncourage, if unrestrained by the uniting bonds of society,\nwould be but a sort of brutality and savagery.\"",
         "- Marcus Tullius Cicero, *De Officiis*"
       ]
+    },
+    {
+      "id": "card_reader",
+      "name": "Card Reader",
+      "text": ["Keycard goes here to access the elevator."]
+    },
+    {
+      "id": "protective_suit",
+      "name": "Protective Suit",
+      "text": ["A protective suit hangs on the wall."],
+      "itemId": "protective_suit",
+      "removeAfterPickup": true
+    },
+    {
+      "id": "keycard",
+      "name": "Keycard",
+      "text": ["You need this to get trough the locked doors."],
+      "itemId": "keycard",
+      "removeAfterPickup": true
+    },
+    {
+      "id": "oxygen_bottle",
+      "name": "Oxygen Bottle",
+      "text": ["The side of the bottle says 'O2 - oxygenium'."],
+      "itemId": "oxygen_bottle",
+      "removeAfterPickup": true
+    },
+    {
+      "id": "apple",
+      "name": "An Apple",
+      "text": ["This has been harvested just recently. Looks delicious..."],
+      "itemId": "apple",
+      "removeAfterPickup": true
     }
   ]
 }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gy7wgsyv0qph"
-path="res://.godot/imported/maintenance.png-8a52696b75000cd36ccba1a97c7957c5.ctex"
+uid="uid://bv2vofhb7fsw6"
+path="res://.godot/imported/medic-nooxygen.png-a75e7535702b8fa8efaca4e64cacbca5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Backgrounds/maintenance.png"
-dest_files=["res://.godot/imported/maintenance.png-8a52696b75000cd36ccba1a97c7957c5.ctex"]
+source_file="res://Assets/Backgrounds/medic-nooxygen.png"
+dest_files=["res://.godot/imported/medic-nooxygen.png-a75e7535702b8fa8efaca4e64cacbca5.ctex"]
 
 [params]
 
