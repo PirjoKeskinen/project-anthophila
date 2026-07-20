@@ -21,8 +21,6 @@ public partial class Main : Control
 
 	private InventoryData inventoryData;
 
-	private VBoxContainer inventoryContainer;
-
 	private Button choiceButton1; // TODO: dialogue choices
 	private Button choiceButton2; // TODO: dialogue choices
 
@@ -33,7 +31,7 @@ public partial class Main : Control
 	private Button lookAroundButton;
 
 	private Panel menuPanel;
-	private Panel inventoryPanel;
+	private VBoxContainer inventoryItems;
 	private Button inventoryButton;
 
 	private Button[] inspectButtons;
@@ -218,12 +216,8 @@ public partial class Main : Control
 			"SidePanel/MenuPanel"
 		);
 
-		inventoryPanel = GetNode<Panel>(
-			"SidePanel/InventoryPanel"
-		);
-
-		inventoryContainer = GetNode<VBoxContainer>(
-			"SidePanel/InventoryPanel/MarginContainer/VBoxContainer"
+		inventoryItems = GetNode<VBoxContainer>(
+			"SidePanel/MenuPanel/MarginContainer/VBoxContainer/InventoryItems"
 		);
 
 		choiceButton1 = GetNode<Button>(
@@ -546,7 +540,7 @@ public partial class Main : Control
 
 	private void OnMovePressed()
 	{
-		SetMenuTitle("Move");
+		SetMenuTitle("MOVE");
 
 		lookAroundButton.Visible = false;
 		moveButton.Visible = false;
@@ -605,8 +599,27 @@ public partial class Main : Control
 
 	private void OnInventoryPressed()
 	{
+		SetMenuTitle("INVENTORY");
+
+		moveButton.Visible = false;
+		lookAroundButton.Visible = false;
+		inventoryButton.Visible = false;
+
+		foreach (Button button in exitButtons)
+		{
+			button.Visible = false;
+		}
+
+		foreach (Button button in inspectButtons)
+		{
+			button.Visible = false;
+		}
+
+		inventoryItems.Visible = true;
+
 		UpdateInventoryUI();
-		inventoryPanel.Visible = !inventoryPanel.Visible;
+
+		backButton.Visible = true;
 	}
 
 	private void OnInspectButtonPressed(int index)
@@ -674,9 +687,12 @@ public partial class Main : Control
 
 	private void UpdateInventoryUI()
 	{
-		foreach (Node child in inventoryContainer.GetChildren())
+		foreach (Node child in inventoryItems.GetChildren())
 		{
-			child.QueueFree();
+			if (child != backButton)
+			{
+				child.QueueFree();
+			}
 		}
 
 		foreach (string itemId in inventory.GetItems())
@@ -691,13 +707,15 @@ public partial class Main : Control
 			Button button = new Button();
 			button.Text = item.name;
 
-			inventoryContainer.AddChild(button);
+			inventoryItems.AddChild(button);
 		}
 	}
 
 	private void ShowMainMenu()
 	{
-		SetMenuTitle("Actions");
+		SetMenuTitle("ACTIONS");
+
+		inventoryItems.Visible = false;
 
 		bool visible = GetCurrentLocation().dialoguePlayed;
 
