@@ -1,15 +1,19 @@
 {
   "lines": [
     {
+      "speaker": "SCIENTIST",
       "text": "Oh no..."
     },
     {
+      "speaker": "SCIENTIST",
       "text": "All the plants are ruined!"
     },
     {
+      "speaker": "SCIENTIST",
       "text": "What would have caused this..."
     },
     {
+      "speaker": "SCIENTIST",
       "text": "Better check the terminal log."
     }
   ]

@@ -42,6 +42,8 @@ public partial class Main : Control
 
 	private Label menuTitle;
 
+	private Label speakerLabel;
+
 	private TextureRect backgroundImage;
 
 	private AudioStreamPlayer normalAnnouncement;
@@ -217,6 +219,10 @@ public partial class Main : Control
 
 		locationLabel = GetNode<Label>(
 			"SidePanel/LocationLabel"
+		);
+
+		speakerLabel = GetNode<Label>(
+			"DialoguePanel/MarginContainer/VBoxContainer/SpeakerLabel"
 		);
 
 		menuTitle = GetNode<Label>(
@@ -469,10 +475,10 @@ public partial class Main : Control
 
 	private void ShowDialogueLine()
 	{
-		// TODO: show dialogue choices when dialogue data supports them
-
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
+
+		speakerLabel.Text = dialogue[currentLine].speaker;
 
 		ShowText(dialogue[currentLine].text);
 	}
