@@ -50,6 +50,7 @@ public partial class Main : Control
 	private AudioStreamPlayer alarmAnnouncement;
 
 	private AudioStreamPlayer doorSFX;
+	private AudioStreamPlayer keycardSFX;
 
 	private AnimationPlayer animationPlayer;
 
@@ -341,6 +342,10 @@ public partial class Main : Control
 			"DoorSFX"
 		);
 
+		keycardSFX = GetNode<AudioStreamPlayer>(
+			"KeycardSFX"
+		);
+
 		animationPlayer = GetNode<AnimationPlayer>(
 			"AnimationPlayer"
 		);
@@ -530,6 +535,11 @@ public partial class Main : Control
 	private void OnChoice1Pressed()
 	{
 		inventory.AddItem(currentInspectable.itemId);
+
+		if (currentInspectable.itemId == "keycard")
+		{
+			keycardSFX.Play();
+		}
 
 		InventoryItemData item =
 			GetInventoryItemById(currentInspectable.itemId);
