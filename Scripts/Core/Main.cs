@@ -284,7 +284,11 @@ public partial class Main : Control
 		);
 
 		moveButton.Pressed += OnMovePressed;
-		lookAroundButton.Pressed += OnLookAroundPressed;
+		lookAroundButton.Pressed += () =>
+		{
+			ClearDialogue();
+			OnLookAroundPressed();
+		};
 		backButton.Pressed += OnBackPressed;
 		inventoryButton.Pressed += OnInventoryPressed;
 
@@ -426,18 +430,6 @@ public partial class Main : Control
 					else
 					{
 						isReadingInspectable = false;
-
-						if (
-							currentInspectable.id == "terminal" &&
-							!HasEvent("alarm_triggered")
-						)
-						{
-							dialogueLabel.Text = "\"Everything seems to be in order...\"";
-							dialogueLabel.VisibleCharacters = 0;
-
-							typingTimer = 0f;
-							isTyping = true;
-						}
 					}
 
 					return;
@@ -481,6 +473,12 @@ public partial class Main : Control
 		speakerLabel.Text = dialogue[currentLine].speaker;
 
 		ShowText(dialogue[currentLine].text);
+	}
+
+	private void ClearDialogue()
+	{
+		dialogueLabel.Text = "";
+		speakerLabel.Text = "";
 	}
 
 	private void SetMenuTitle(string title)
@@ -586,7 +584,7 @@ public partial class Main : Control
 
 	private void OnMovePressed()
 	{
-		dialogueLabel.Text = "";
+		ClearDialogue();
 
 		SetMenuTitle("MOVE");
 
@@ -642,14 +640,15 @@ public partial class Main : Control
 	private void OnBackPressed()
 	{
 		isReadingInspectable = false;
-		dialogueLabel.Text = "";
+
+		ClearDialogue();
 
 		ShowMainMenu();
 	}
 
 	private void OnInventoryPressed()
 	{
-		dialogueLabel.Text = "";
+		ClearDialogue();
 
 		SetMenuTitle("INVENTORY");
 
@@ -834,6 +833,7 @@ public partial class Main : Control
 			AudioStreamPlayer.SignalName.Finished
 		);
 
+		speakerLabel.Text = "SCIENTIST";
 		ShowText("Everything seems to be in order...");
 
 		await ToSignal(
@@ -853,9 +853,12 @@ public partial class Main : Control
 		SetEvent("alarm_triggered");
 		UpdateBedroomBackground();
 
-		ShowText(
-			"WARNING.\nFire detected in Botanical Sector.\nContainment protocols activated."
-		);
+		InspectableData alarmTerminal =
+			GetInspectableById("terminal_alarm");
+
+		speakerLabel.Text = "TERMINAL";
+
+		ShowText(alarmTerminal.text[0]);
 
 		alarmAnnouncement.Play();
 
@@ -874,13 +877,14 @@ public partial class Main : Control
 			AudioStreamPlayer.SignalName.Finished
 		);
 
+		speakerLabel.Text = "PLAYER";
+
 		ShowText("Fire...? I have to get to the Botanical Sector!");
 
 		await ToSignal(
 			GetTree().CreateTimer(2.0f),
 			SceneTreeTimer.SignalName.Timeout
 		);
-
 
 		UpdateActionButtons();
 	}

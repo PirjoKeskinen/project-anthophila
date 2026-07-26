@@ -333,6 +333,8 @@ layout_mode = 2
 
 [node name="SpeakerLabel" type="Label" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=1799095795]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 22
 
 [node name="MarginContainer" type="MarginContainer" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=950633922]
 layout_mode = 2
@@ -346,7 +348,7 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/normal_font = ExtResource("5_xopan")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 24
 
 [node name="ChoiceContainer" type="HBoxContainer" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=834098288]
 custom_minimum_size = Vector2(180, 45)
