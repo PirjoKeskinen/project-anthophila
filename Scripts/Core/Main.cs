@@ -52,6 +52,7 @@ public partial class Main : Control
 	private AudioStreamPlayer keycardSFX;
 	private AudioStreamPlayer appleSFX;
 	private AudioStreamPlayer protectiveSuitSFX;
+	private AudioStreamPlayer applePickupSFX;
 
 	private AnimationPlayer animationPlayer;
 
@@ -359,6 +360,10 @@ public partial class Main : Control
 			"ProtectiveSuitSFX"
 		);
 
+		applePickupSFX = GetNode<AudioStreamPlayer>(
+			"ApplePickupSFX"
+		);
+
 		animationPlayer.AnimationFinished += OnAnimationFinished;
 
 		animationPlayer.Play("IntroFadeIn");
@@ -553,6 +558,11 @@ public partial class Main : Control
 		if (currentInspectable.itemId == "protective_suit")
 		{
 			protectiveSuitSFX.Play();
+		}
+
+		if (currentInspectable.itemId == "apple")
+		{
+			applePickupSFX.Play();
 		}
 
 		InventoryItemData item =

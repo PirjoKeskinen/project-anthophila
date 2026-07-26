@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://cxuos5hnolg6c" path="res://Assets/Audio/SFX/keycard-pickup.mp3" id="10_2fwlt"]
 [ext_resource type="AudioStream" uid="uid://c56oxdpt4qrn" path="res://Assets/Audio/SFX/apple-eat.mp3" id="11_27gth"]
 [ext_resource type="AudioStream" uid="uid://dic7o6y1csgrl" path="res://Assets/Audio/SFX/protectivesuit.mp3" id="12_axrgr"]
+[ext_resource type="AudioStream" uid="uid://pwgcfymp7hp2" path="res://Assets/Audio/SFX/pickup.mp3" id="13_i4eox"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
@@ -422,3 +423,6 @@ stream = ExtResource("11_27gth")
 
 [node name="ProtectiveSuitSFX" type="AudioStreamPlayer" parent="." unique_id=1378388389]
 stream = ExtResource("12_axrgr")
+
+[node name="ApplePickupSFX" type="AudioStreamPlayer" parent="." unique_id=1649599903]
+stream = ExtResource("13_i4eox")
