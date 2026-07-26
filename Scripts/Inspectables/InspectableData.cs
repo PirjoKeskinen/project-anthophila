@@ -6,4 +6,5 @@ public class InspectableData
     public string eventId { get; set; }
     public string itemId { get; set; }
     public bool removeAfterPickup { get; set; }
+    public string dialogue { get; set; }
 }

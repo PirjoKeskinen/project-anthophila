@@ -440,6 +440,11 @@ public partial class Main : Control
 					currentLine++;
 					ShowDialogueLine();
 				}
+				else if (currentInspectable != null &&
+						 currentInspectable.id == "log")
+				{
+					SetEvent("greenhouse_log_read");
+				}
 			}
 		}
 	}
@@ -572,6 +577,7 @@ public partial class Main : Control
 			!inventory.HasItem("keycard")
 		)
 		{
+			speakerLabel.Text = "SCIENTIST";
 			ShowText("Oh wait, I need to take my keycard...");
 			return;
 		}
@@ -602,6 +608,8 @@ public partial class Main : Control
 
 	private void OnLookAroundPressed()
 	{
+		SetMenuTitle("LOOK AROUND");
+
 		moveButton.Visible = false;
 		lookAroundButton.Visible = false;
 		inventoryButton.Visible = false;
@@ -689,6 +697,8 @@ public partial class Main : Control
 		{
 			currentInspectable = GetInspectableById("terminal_alarm");
 
+			speakerLabel.Text = currentInspectable.name.ToUpper();
+
 			ShowText(currentInspectable.text[0]);
 
 			return;
@@ -700,11 +710,35 @@ public partial class Main : Control
 		}
 
 		currentInspectablePage = 0;
-		isReadingInspectable = true;
 
 		speakerLabel.Text = currentInspectable.name.ToUpper();
 
-		ShowText(currentInspectable.text[currentInspectablePage]);
+		if (
+			!string.IsNullOrEmpty(currentInspectable.dialogue) &&
+			!(
+				currentInspectable.id == "log" &&
+				HasEvent("greenhouse_log_read")
+			)
+		)
+		{
+			isReadingInspectable = false;
+
+			dialogueData = LoadDialogue(
+				"res://Dialogue/Chapters/" +
+				currentInspectable.dialogue
+			);
+
+			dialogue = dialogueData.lines;
+			currentLine = 0;
+
+			ShowDialogueLine();
+		}
+		else
+		{
+			isReadingInspectable = true;
+
+			ShowText(currentInspectable.text[currentInspectablePage]);
+		}
 
 		if (id == "terminal")
 		{
@@ -858,6 +892,8 @@ public partial class Main : Control
 		InspectableData alarmTerminal =
 			GetInspectableById("terminal_alarm");
 
+		speakerLabel.Text = alarmTerminal.name.ToUpper();
+
 		ShowText(alarmTerminal.text[0]);
 
 		alarmAnnouncement.Play();
@@ -877,7 +913,7 @@ public partial class Main : Control
 			AudioStreamPlayer.SignalName.Finished
 		);
 
-		speakerLabel.Text = "PLAYER";
+		speakerLabel.Text = "SCIENTIST";
 
 		ShowText("Fire...? I have to get to the Botanical Sector!");
 

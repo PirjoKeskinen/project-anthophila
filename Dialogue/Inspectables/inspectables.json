@@ -11,13 +11,16 @@
       "id": "terminal_alarm",
       "name": "Terminal",
       "text": [
-        "WARNING:\nFire detected in Botanical Sector.\nEmergency protocol is active."
+        "WARNING:\nFire detected in Botanical Sector.\nContainment protocols actived."
       ]
     },
     {
       "id": "log",
       "name": "Terminal Log",
-      "text": ["WARNING:\nComponent overheat.\nReplace components immediately."]
+      "text": [
+        "WARNING. Component overheat detected.\nRequired components can be found at an abandoned botanical facility.\nProtective equipment and an oxygen supply are required."
+      ],
+      "dialogue": "greenhouse_terminal.json"
     },
     {
       "id": "plaque",

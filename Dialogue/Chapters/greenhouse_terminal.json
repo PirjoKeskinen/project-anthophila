@@ -1,0 +1,96 @@
+{
+  "lines": [
+    {
+      "speaker": "SCIENTIST",
+      "text": "What happened here?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "WARNING. Component overheat detected."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "What caused the overheating?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Environmental control systems malfunctioned."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "Can it be repaired?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Repair is possible."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "Then what do we need?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Replacement components."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "Do we have them in storage?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Negative. Required components are unavailable."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "Then where can I find them?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Processing..."
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "An abandoned botanical facility has been identified as a potential source."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "An abandoned facility... Outside?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Affirmative."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "But..."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "No one has been outside in decades!"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Correction. No human presence has been recorded in the external environment for 47 years."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "I've never been outside."
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Environmental conditions are unsuitable for unprotected human exposure."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "So I need safety gear?"
+    },
+    {
+      "speaker": "TERMINAL LOG",
+      "text": "Protective equipment and an oxygen supply are required."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "So I need to search for a protective suit and an oxygen bottle..."
+    }
+  ]
+}
