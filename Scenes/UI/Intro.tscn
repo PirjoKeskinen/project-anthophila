@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cfw4fprtgb0k2" path="res://Assets/Audio/SFX/intro-text.mp3" id="5_ysgm0"]
 [ext_resource type="AudioStream" uid="uid://rq1qcw4b8e0n" path="res://Assets/Audio/SFX/intro-man.mp3" id="6_8x3a3"]
 [ext_resource type="AudioStream" uid="uid://be0x38nt43xye" path="res://Assets/Audio/SFX/intro-bee.mp3" id="7_rq348"]
-[ext_resource type="AudioStream" uid="uid://bmqxqguqph2tb" path="res://Assets/Audio/SFX/intro-bee-echo.mp3" id="8_72vj6"]
+[ext_resource type="AudioStream" uid="uid://4xnsd3kombkt" path="res://Assets/Audio/SFX/intro-bee-echo.mp3" id="8_72vj6"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjyge"]
 

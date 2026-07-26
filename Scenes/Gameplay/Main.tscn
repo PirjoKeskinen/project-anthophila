@@ -2,8 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dj50nye8ofhil" path="res://Scripts/Core/Main.cs" id="1_dwobv"]
 [ext_resource type="AudioStream" uid="uid://whg8qwdkrbl" path="res://Assets/Audio/SFX/terminal.mp3" id="2_0jepq"]
+[ext_resource type="Texture2D" uid="uid://c3nn3g2p41l77" path="res://Assets/UI/sidepanelframe.png" id="2_cihyx"]
+[ext_resource type="Texture2D" uid="uid://bvbotrq2j47fa" path="res://Assets/UI/dialoguepanel1.png" id="3_cihyx"]
 [ext_resource type="AudioStream" uid="uid://r1ux8rt2n2gn" path="res://Assets/Audio/SFX/warning.mp3" id="3_hdil2"]
+[ext_resource type="FontFile" uid="uid://d3y5taxc2d8ga" path="res://Assets/Fonts/ShareTechMono-Regular.ttf" id="3_sy641"]
 [ext_resource type="AudioStream" uid="uid://cn4pxxh8oqry3" path="res://Assets/Audio/SFX/bedroomhum.mp3" id="4_hdil2"]
+[ext_resource type="FontFile" uid="uid://tri6ky720k5x" path="res://Assets/Fonts/VT323-Regular.ttf" id="5_xopan"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
 [sub_resource type="Animation" id="Animation_0jepq"]
 resource_name = "FadeIn"
@@ -111,9 +117,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 119.0
-offset_right = 801.064
-offset_bottom = 440.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 900.0
+offset_bottom = 420.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 3
@@ -126,16 +133,7 @@ offset_right = 1280.0
 offset_bottom = 480.0
 color = Color(0.08235294, 0.07450981, 0.0627451, 1)
 
-[node name="LocationLabel" type="Label" parent="SidePanel" unique_id=904981132]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 310.0
-offset_bottom = 40.0
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuPanel" type="Panel" parent="SidePanel" unique_id=829054049]
+[node name="TextureRect" type="TextureRect" parent="SidePanel" unique_id=93836430]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -146,6 +144,40 @@ offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_cihyx")
+expand_mode = 1
+
+[node name="LocationLabel" type="Label" parent="SidePanel" unique_id=904981132]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 25.0
+offset_right = 300.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer3" type="Control" parent="SidePanel" unique_id=251604840]
+custom_minimum_size = Vector2(0, 20)
+anchors_preset = 0
+offset_left = 30.0
+offset_top = 63.0
+offset_right = 290.0
+offset_bottom = 73.0
+
+[node name="MenuPanel" type="Panel" parent="SidePanel" unique_id=829054049]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 80.0
+offset_right = -20.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_n3er6")
 
 [node name="MarginContainer" type="MarginContainer" parent="SidePanel/MenuPanel" unique_id=1373523968]
 layout_mode = 1
@@ -161,54 +193,92 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SidePanel/MenuPanel/MarginContainer" unique_id=1488136069]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Spacer2" type="Control" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=635142752]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
 [node name="MenuTitle" type="Label" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1840405506]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1550718657]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="MoveButton" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=729956335]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "MOVE"
 
 [node name="LookAroundButton" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=36273399]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "LOOK AROUND"
 
 [node name="InventoryButton" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1407916377]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "INVENTORY"
 
 [node name="ExitButton1" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=2081260425]
 layout_mode = 2
 focus_mode = 0
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ExitButton2" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=190942464]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ExitButton3" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1817948583]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ExitButton4" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=166261369]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ExitButton5" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1123760680]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ExitButton6" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1010366354]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ExitButton7" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1429109237]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="InspectButton1" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=12740348]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "Button"
 
 [node name="InspectButton2" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1115488262]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "Button"
 
 [node name="InspectButton3" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1744235063]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "Button"
 
 [node name="InventoryItems" type="VBoxContainer" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=1659698192]
@@ -217,6 +287,8 @@ layout_mode = 2
 
 [node name="BackButton" type="Button" parent="SidePanel/MenuPanel/MarginContainer/VBoxContainer" unique_id=2067635415]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 text = "BACK"
 
 [node name="DialoguePanel" type="ColorRect" parent="." unique_id=223925726]
@@ -226,11 +298,29 @@ offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0.08235294, 0.07450981, 0.0627451, 1)
 
+[node name="TextureRect" type="TextureRect" parent="DialoguePanel" unique_id=415952034]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_cihyx")
+expand_mode = 1
+
 [node name="MarginContainer" type="MarginContainer" parent="DialoguePanel" unique_id=52670706]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
@@ -241,22 +331,39 @@ theme_override_constants/margin_bottom = 15
 [node name="VBoxContainer" type="VBoxContainer" parent="DialoguePanel/MarginContainer" unique_id=1495597219]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=1400399866]
+[node name="MarginContainer" type="MarginContainer" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=950633922]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 20
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="ChoiceContainer" type="VBoxContainer" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=1905734373]
+[node name="RichTextLabel" type="RichTextLabel" parent="DialoguePanel/MarginContainer/VBoxContainer/MarginContainer" unique_id=1400399866]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("5_xopan")
+theme_override_font_sizes/normal_font_size = 28
+
+[node name="ChoiceContainer" type="HBoxContainer" parent="DialoguePanel/MarginContainer/VBoxContainer" unique_id=834098288]
+custom_minimum_size = Vector2(180, 45)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 40
 
 [node name="ChoiceButton1" type="Button" parent="DialoguePanel/MarginContainer/VBoxContainer/ChoiceContainer" unique_id=1268690531]
+custom_minimum_size = Vector2(180, 45)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="ChoiceButton2" type="Button" parent="DialoguePanel/MarginContainer/VBoxContainer/ChoiceContainer" unique_id=1459841267]
+custom_minimum_size = Vector2(180, 45)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_sy641")
+theme_override_font_sizes/font_size = 18
 
 [node name="FadeRect" type="ColorRect" parent="." unique_id=1439488636]
 layout_mode = 0
@@ -282,11 +389,11 @@ speed_scale = 0.5
 
 [node name="NormalAnnouncement" type="AudioStreamPlayer" parent="." unique_id=911335920]
 stream = ExtResource("2_0jepq")
-volume_db = -14.0
+volume_db = -20.0
 
 [node name="AlarmAnnouncement" type="AudioStreamPlayer" parent="." unique_id=1564978841]
 stream = ExtResource("3_hdil2")
-volume_db = -12.0
+volume_db = -22.0
 
 [node name="BackgroundHum" type="AudioStreamPlayer" parent="." unique_id=1142196231]
 stream = ExtResource("4_hdil2")

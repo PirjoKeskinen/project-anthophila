@@ -197,7 +197,7 @@ public partial class Main : Control
 	public override void _Ready()
 	{
 		dialogueLabel = GetNode<RichTextLabel>(
-			"DialoguePanel/MarginContainer/VBoxContainer/RichTextLabel"
+			"DialoguePanel/MarginContainer/VBoxContainer/MarginContainer/RichTextLabel"
 		);
 
 		locationLabel = GetNode<Label>(
@@ -287,6 +287,7 @@ public partial class Main : Control
 		moveButton.Visible = false;
 		lookAroundButton.Visible = false;
 		backButton.Visible = false;
+		menuTitle.Visible = false;
 
 		foreach (Button button in inspectButtons)
 		{
@@ -370,6 +371,14 @@ public partial class Main : Control
 
 				isTyping = false;
 
+				if (
+					currentInspectable != null &&
+					currentInspectable.id == "terminal"
+				)
+				{
+					StartTerminalSequence();
+				}
+
 				ShowInspectableChoices();
 
 				LocationData location = GetCurrentLocation();
@@ -385,7 +394,7 @@ public partial class Main : Control
 			}
 			else
 			{
-				if (isReadingInspectable)
+				if (isReadingInspectable && currentInspectable != null)
 				{
 					if (currentInspectablePage < currentInspectable.text.Length - 1)
 					{
@@ -510,6 +519,13 @@ public partial class Main : Control
 
 		UpdateInventoryUI();
 
+		if (currentLocation == "bedroom")
+		{
+			UpdateBedroomBackground();
+		}
+
+		OnLookAroundPressed();
+
 		isReadingInspectable = false;
 		currentInspectable = null;
 
@@ -529,8 +545,17 @@ public partial class Main : Control
 
 	private void OnExitButtonPressed(int exitIndex)
 	{
-		LocationData location =
-			GetCurrentLocation();
+		LocationData location = GetCurrentLocation();
+
+		if (
+			currentLocation == "bedroom" &&
+			location.exits[exitIndex] == "hallway" &&
+			!inventory.HasItem("keycard")
+		)
+		{
+			ShowText("Oh wait, I need to take my keycard...");
+			return;
+		}
 
 		targetLocation =
 			location.exits[exitIndex];
@@ -544,6 +569,7 @@ public partial class Main : Control
 
 		lookAroundButton.Visible = false;
 		moveButton.Visible = false;
+		inventoryButton.Visible = false;
 
 		foreach (Button button in exitButtons)
 		{
@@ -557,6 +583,7 @@ public partial class Main : Control
 	{
 		moveButton.Visible = false;
 		lookAroundButton.Visible = false;
+		inventoryButton.Visible = false;
 
 		foreach (Button button in exitButtons)
 		{
@@ -713,16 +740,17 @@ public partial class Main : Control
 
 	private void ShowMainMenu()
 	{
+		bool visible = GetCurrentLocation().dialoguePlayed;
+
+		menuTitle.Visible = visible;
 		SetMenuTitle("ACTIONS");
 
 		inventoryItems.Visible = false;
 
-		bool visible = GetCurrentLocation().dialoguePlayed;
-
 		moveButton.Visible = visible && HasEvent("alarm_triggered");
 		lookAroundButton.Visible = visible;
 
-		inventoryButton.Visible = inventory.HasItems();
+		inventoryButton.Visible = visible && inventory.HasItems();
 
 		backButton.Visible = false;
 
@@ -740,6 +768,36 @@ public partial class Main : Control
 	private void UpdateActionButtons()
 	{
 		ShowMainMenu();
+	}
+
+	private void UpdateBedroomBackground()
+	{
+		bool hasKeycard = inventory.HasItem("keycard");
+		bool alarmTriggered = HasEvent("alarm_triggered");
+
+		string background;
+
+		if (alarmTriggered && hasKeycard)
+		{
+			background = "bedroom-warning-nocard.png";
+		}
+		else if (alarmTriggered && !hasKeycard)
+		{
+			background = "bedroom-warning.png";
+		}
+		else if (!alarmTriggered && hasKeycard)
+		{
+			background = "bedroom-nocard.png";
+		}
+		else
+		{
+			background = "bedroom.png";
+		}
+
+		backgroundImage.Texture =
+			ResourceLoader.Load<Texture2D>(
+				"res://Assets/Backgrounds/" + background
+			);
 	}
 
 	private async void StartTerminalSequence()
@@ -767,10 +825,8 @@ public partial class Main : Control
 			SceneTreeTimer.SignalName.Timeout
 		);
 
-		backgroundImage.Texture =
-			ResourceLoader.Load<Texture2D>(
-				"res://Assets/Backgrounds/bedroom-warning.png"
-			);
+		SetEvent("alarm_triggered");
+		UpdateBedroomBackground();
 
 		ShowText(
 			"WARNING.\nFire detected in Botanical Sector.\nContainment protocols activated."
@@ -800,7 +856,7 @@ public partial class Main : Control
 			SceneTreeTimer.SignalName.Timeout
 		);
 
-		SetEvent("alarm_triggered");
+
 		UpdateActionButtons();
 	}
 
