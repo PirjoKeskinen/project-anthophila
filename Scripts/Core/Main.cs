@@ -48,9 +48,9 @@ public partial class Main : Control
 
 	private AudioStreamPlayer normalAnnouncement;
 	private AudioStreamPlayer alarmAnnouncement;
-
 	private AudioStreamPlayer doorSFX;
 	private AudioStreamPlayer keycardSFX;
+	private AudioStreamPlayer appleSFX;
 
 	private AnimationPlayer animationPlayer;
 
@@ -350,6 +350,10 @@ public partial class Main : Control
 			"AnimationPlayer"
 		);
 
+		appleSFX = GetNode<AudioStreamPlayer>(
+			"AppleSFX"
+		);
+
 		animationPlayer.AnimationFinished += OnAnimationFinished;
 
 		animationPlayer.Play("IntroFadeIn");
@@ -594,6 +598,8 @@ public partial class Main : Control
 		if (currentInspectable != null &&
 			currentInspectable.id == "apple")
 		{
+			appleSFX.Play();
+
 			ClearDialogue();
 
 			LocationData location = GetCurrentLocation();

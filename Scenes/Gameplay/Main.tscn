@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://tri6ky720k5x" path="res://Assets/Fonts/VT323-Regular.ttf" id="5_xopan"]
 [ext_resource type="AudioStream" uid="uid://dr0e7wei2pxu" path="res://Assets/Audio/SFX/bunker-door.mp3" id="9_00kkh"]
 [ext_resource type="AudioStream" uid="uid://cxuos5hnolg6c" path="res://Assets/Audio/SFX/keycard-pickup.mp3" id="10_2fwlt"]
+[ext_resource type="AudioStream" uid="uid://c56oxdpt4qrn" path="res://Assets/Audio/SFX/apple-eat.mp3" id="11_27gth"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
@@ -414,3 +415,6 @@ volume_db = -5.0
 
 [node name="KeycardSFX" type="AudioStreamPlayer" parent="." unique_id=855067128]
 stream = ExtResource("10_2fwlt")
+
+[node name="AppleSFX" type="AudioStreamPlayer" parent="." unique_id=814150179]
+stream = ExtResource("11_27gth")
