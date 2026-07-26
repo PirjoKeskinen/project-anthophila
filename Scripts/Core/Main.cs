@@ -167,6 +167,10 @@ public partial class Main : Control
 	{
 		LocationData location = GetCurrentLocation();
 
+		bool hallwayUnlocked =
+			currentLocation != "hallway" ||
+			HasEvent("outside_mission_unlocked");
+
 		for (int i = 0; i < exitButtons.Length; i++)
 		{
 			if (i < location.exits.Length)
@@ -180,6 +184,17 @@ public partial class Main : Control
 				if (exitLocation == null)
 				{
 					GD.PushError($"Location '{location.exits[i]}' not found.");
+					continue;
+				}
+
+				if (
+					currentLocation == "hallway" &&
+					!hallwayUnlocked &&
+					location.exits[i] != "greenhouse"
+				)
+				{
+					exitButtons[i].Text = "";
+					exitButtons[i].Visible = false;
 					continue;
 				}
 
