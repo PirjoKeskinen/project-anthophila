@@ -2,7 +2,7 @@
   "lines": [
     {
       "speaker": "SCIENTIST",
-      "text": "*sigh*\n\"It's already morning...\""
+      "text": "*sigh*\nIt's already morning..."
     },
     {
       "speaker": "SCIENTIST",
@@ -10,27 +10,27 @@
     },
     {
       "speaker": "SCIENTIST",
-      "text": "\"Ugh, I had a very weird dream last night...\""
+      "text": "Ugh, I had a very weird dream last night..."
     },
     {
       "speaker": "SCIENTIST",
-      "text": "\"There was lots of bees flying in the flowerfield.\""
+      "text": "There was lots of bees flying in the flowerfield."
     },
     {
       "speaker": "SCIENTIST",
-      "text": "\"But then flowers started to melt\nand all the bees falls to the ground.\""
+      "text": "But then flowers started to melt\nand all the bees falls to the ground."
     },
     {
       "speaker": "SCIENTIST",
-      "text": "\"All dead...\""
+      "text": "All dead..."
     },
     {
       "speaker": "SCIENTIST",
-      "text": "\"Maybe I have studiet too much about the bees.\nThey are facinating creatures!\""
+      "text": "Maybe I have studiet too much about the bees.\nThey are facinating creatures!"
     },
     {
       "speaker": "SCIENTIST",
-      "text": "\"But now I need to start my shift.\""
+      "text": "But now I need to start my shift."
     }
   ]
 }

@@ -444,6 +444,9 @@ public partial class Main : Control
 						 currentInspectable.id == "log")
 				{
 					SetEvent("greenhouse_log_read");
+					SetEvent("outside_mission_unlocked");
+
+					UpdateActionButtons();
 				}
 			}
 		}

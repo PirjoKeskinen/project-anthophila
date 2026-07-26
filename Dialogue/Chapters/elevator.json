@@ -1,18 +1,23 @@
 {
   "lines": [
     {
+      "speaker": "SCIENTIST",
       "text": "This is the entrance to the surface."
     },
     {
+      "speaker": "SCIENTIST",
       "text": "Mankind haven't been outside since..."
     },
     {
+      "speaker": "SCIENTIST",
       "text": "...well..."
     },
     {
+      "speaker": "SCIENTIST",
       "text": "For a very long time."
     },
     {
+      "speaker": "SCIENTIST",
       "text": "So here it goes..."
     }
   ]
