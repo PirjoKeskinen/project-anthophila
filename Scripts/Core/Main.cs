@@ -49,6 +49,8 @@ public partial class Main : Control
 	private AudioStreamPlayer normalAnnouncement;
 	private AudioStreamPlayer alarmAnnouncement;
 
+	private AudioStreamPlayer doorSFX;
+
 	private AnimationPlayer animationPlayer;
 
 	private string targetLocation;
@@ -333,6 +335,10 @@ public partial class Main : Control
 
 		alarmAnnouncement = GetNode<AudioStreamPlayer>(
 			"AlarmAnnouncement"
+		);
+
+		doorSFX = GetNode<AudioStreamPlayer>(
+			"DoorSFX"
 		);
 
 		animationPlayer = GetNode<AnimationPlayer>(
@@ -631,6 +637,8 @@ public partial class Main : Control
 
 		targetLocation =
 			location.exits[exitIndex];
+
+		doorSFX.Play();
 
 		animationPlayer.Play("FadeOut");
 	}
