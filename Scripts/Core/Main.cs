@@ -462,7 +462,7 @@ public partial class Main : Control
 			SceneTreeTimer.SignalName.Timeout
 		);
 
-		dialogueLabel.Text = "";
+		ClearDialogue();
 	}
 
 	private void ShowDialogueLine()
@@ -702,6 +702,8 @@ public partial class Main : Control
 		currentInspectablePage = 0;
 		isReadingInspectable = true;
 
+		speakerLabel.Text = currentInspectable.name.ToUpper();
+
 		ShowText(currentInspectable.text[currentInspectablePage]);
 
 		if (id == "terminal")
@@ -855,8 +857,6 @@ public partial class Main : Control
 
 		InspectableData alarmTerminal =
 			GetInspectableById("terminal_alarm");
-
-		speakerLabel.Text = "TERMINAL";
 
 		ShowText(alarmTerminal.text[0]);
 
