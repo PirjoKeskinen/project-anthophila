@@ -503,8 +503,16 @@ public partial class Main : Control
 			return;
 		}
 
-		choiceButton1.Text = "Take";
-		choiceButton2.Text = "Leave";
+		if (currentInspectable.id == "apple")
+		{
+			choiceButton1.Text = "Take";
+			choiceButton2.Text = "Eat";
+		}
+		else
+		{
+			choiceButton1.Text = "Take";
+			choiceButton2.Text = "Leave";
+		}
 
 		choiceButton1.Visible = true;
 		choiceButton2.Visible = true;
@@ -564,7 +572,43 @@ public partial class Main : Control
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 
-		currentInspectable = null;
+		if (currentInspectable != null &&
+			currentInspectable.id == "apple")
+		{
+			ClearDialogue();
+
+			LocationData location = GetCurrentLocation();
+
+			List<string> inspectables = new(location.inspectables);
+
+			inspectables.Remove(currentInspectable.id);
+
+			location.inspectables = inspectables.ToArray();
+
+			if (!string.IsNullOrEmpty(location.backgroundAfterPickup))
+			{
+				location.background = location.backgroundAfterPickup;
+
+				backgroundImage.Texture =
+					ResourceLoader.Load<Texture2D>(
+						"res://Assets/Backgrounds/" +
+						location.background
+					);
+			}
+
+			speakerLabel.Text = "SCIENTIST";
+			ShowText("Yummy!");
+
+			currentInspectable = null;
+
+			OnLookAroundPressed();
+		}
+		else
+		{
+			ClearDialogue();
+
+			currentInspectable = null;
+		}
 	}
 
 	private void OnExitButtonPressed(int exitIndex)
@@ -793,6 +837,12 @@ public partial class Main : Control
 
 			Button button = new Button();
 			button.Text = item.name;
+
+			button.Pressed += () =>
+			{
+				speakerLabel.Text = item.name.ToUpper();
+				ShowText(item.description);
+			};
 
 			inventoryItems.AddChild(button);
 		}
