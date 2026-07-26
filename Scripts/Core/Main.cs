@@ -460,7 +460,7 @@ public partial class Main : Control
 		ShowText(text);
 
 		await ToSignal(
-			GetTree().CreateTimer(1.0f),
+			GetTree().CreateTimer(3.0f),
 			SceneTreeTimer.SignalName.Timeout
 		);
 
@@ -580,6 +580,8 @@ public partial class Main : Control
 
 	private void OnMovePressed()
 	{
+		dialogueLabel.Text = "";
+
 		SetMenuTitle("MOVE");
 
 		lookAroundButton.Visible = false;
@@ -641,6 +643,8 @@ public partial class Main : Control
 
 	private void OnInventoryPressed()
 	{
+		dialogueLabel.Text = "";
+
 		SetMenuTitle("INVENTORY");
 
 		moveButton.Visible = false;
@@ -894,6 +898,13 @@ public partial class Main : Control
 
 			UpdateLocation();
 
+			animationPlayer.Play("FadeIn");
+
+			return;
+		}
+
+		if (animationName == "FadeIn")
+		{
 			LocationData location = GetCurrentLocation();
 
 			if (!location.dialoguePlayed)
@@ -905,8 +916,6 @@ public partial class Main : Control
 			{
 				dialogueLabel.Text = "";
 			}
-
-			animationPlayer.Play("FadeIn");
 		}
 	}
 }
