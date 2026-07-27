@@ -53,6 +53,7 @@ public partial class Main : Control
 	private AudioStreamPlayer appleSFX;
 	private AudioStreamPlayer protectiveSuitSFX;
 	private AudioStreamPlayer applePickupSFX;
+	private AudioStreamPlayer oxygenBottleSFX;
 
 	private AnimationPlayer animationPlayer;
 
@@ -364,6 +365,10 @@ public partial class Main : Control
 			"ApplePickupSFX"
 		);
 
+		oxygenBottleSFX = GetNode<AudioStreamPlayer>(
+			"OxygenBottleSFX"
+		);
+
 		animationPlayer.AnimationFinished += OnAnimationFinished;
 
 		animationPlayer.Play("IntroFadeIn");
@@ -563,6 +568,11 @@ public partial class Main : Control
 		if (currentInspectable.itemId == "apple")
 		{
 			applePickupSFX.Play();
+		}
+
+		if (currentInspectable.itemId == "oxygen_bottle")
+		{
+			oxygenBottleSFX.Play();
 		}
 
 		InventoryItemData item =
