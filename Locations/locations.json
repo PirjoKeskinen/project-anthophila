@@ -22,8 +22,8 @@
       "name": "Elevator",
       "background": "elevator.png",
       "dialogue": "elevator.json",
-      "exits": ["hallway"],
-      "inspectables": ["card_reader"]
+      "exits": ["hallway", "surface"],
+      "inspectables": []
     },
     {
       "id": "greenhouse",
@@ -51,6 +51,14 @@
       "dialogue": "medic.json",
       "exits": ["hallway"],
       "inspectables": ["oxygen_bottle"]
+    },
+    {
+      "id": "surface",
+      "name": "Surface",
+      "background": "surface.png",
+      "dialogue": "surface.json",
+      "exits": ["elevator"],
+      "inspectables": []
     }
   ]
 }

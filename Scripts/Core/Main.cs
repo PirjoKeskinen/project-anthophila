@@ -54,6 +54,7 @@ public partial class Main : Control
 	private AudioStreamPlayer protectiveSuitSFX;
 	private AudioStreamPlayer applePickupSFX;
 	private AudioStreamPlayer oxygenBottleSFX;
+	private AudioStreamPlayer elevatorSFX;
 
 	private AnimationPlayer animationPlayer;
 
@@ -369,6 +370,10 @@ public partial class Main : Control
 			"OxygenBottleSFX"
 		);
 
+		elevatorSFX = GetNode<AudioStreamPlayer>(
+			"ElevatorSFX"
+		);
+
 		animationPlayer.AnimationFinished += OnAnimationFinished;
 
 		animationPlayer.Play("IntroFadeIn");
@@ -391,7 +396,22 @@ public partial class Main : Control
 			{
 				isTyping = false;
 
-				ShowInspectableChoices();
+				if (
+					currentInspectable != null &&
+					currentInspectable.id == "elevator_access" &&
+					currentLine == dialogue.Length - 1
+				)
+				{
+					choiceButton1.Text = "Go to the surface";
+					choiceButton2.Text = "Stay in the bunker";
+
+					choiceButton1.Visible = true;
+					choiceButton2.Visible = true;
+				}
+				else
+				{
+					ShowInspectableChoices();
+				}
 
 				if (
 					currentInspectable != null &&
@@ -467,7 +487,9 @@ public partial class Main : Control
 
 				if (currentLine < dialogue.Length - 1)
 				{
+					GD.Print("Before: " + currentLine);
 					currentLine++;
+					GD.Print("After: " + currentLine);
 					ShowDialogueLine();
 				}
 				else if (currentInspectable != null &&
@@ -536,10 +558,23 @@ public partial class Main : Control
 			return;
 		}
 
-		if (currentInspectable.id == "apple")
+		if (currentInspectable.id == "elevator_access")
+		{
+			choiceButton1.Text = "Go to the surface";
+			choiceButton2.Text = "Stay in the bunker";
+		}
+		else if (currentInspectable.id == "apple")
 		{
 			choiceButton1.Text = "Take";
 			choiceButton2.Text = "Eat";
+		}
+		else if (
+			currentInspectable.itemId == "protective_suit" ||
+			currentInspectable.itemId == "oxygen_bottle"
+		)
+		{
+			choiceButton1.Text = "Equip";
+			choiceButton2.Text = "Leave";
 		}
 		else
 		{
@@ -553,6 +588,26 @@ public partial class Main : Control
 
 	private void OnChoice1Pressed()
 	{
+		if (
+			currentInspectable != null &&
+			currentInspectable.id == "elevator_access"
+		)
+		{
+			ClearDialogue();
+
+			targetLocation = "surface";
+
+			elevatorSFX.Play();
+			animationPlayer.Play("FadeOut");
+
+			choiceButton1.Visible = false;
+			choiceButton2.Visible = false;
+
+			currentInspectable = null;
+
+			return;
+		}
+
 		inventory.AddItem(currentInspectable.itemId);
 
 		if (currentInspectable.itemId == "keycard")
@@ -578,7 +633,17 @@ public partial class Main : Control
 		InventoryItemData item =
 			GetInventoryItemById(currentInspectable.itemId);
 
-		ShowNotification("You took the " + item.name + ".");
+		if (
+			currentInspectable.itemId == "protective_suit" ||
+			currentInspectable.itemId == "oxygen_bottle"
+		)
+		{
+			ShowNotification("You equip the " + item.name + ".");
+		}
+		else
+		{
+			ShowNotification("You took the " + item.name + ".");
+		}
 
 		if (currentInspectable.removeAfterPickup)
 		{
@@ -622,6 +687,23 @@ public partial class Main : Control
 
 	private void OnChoice2Pressed()
 	{
+		if (
+			currentInspectable != null &&
+			currentInspectable.id == "elevator_access"
+		)
+		{
+			choiceButton1.Visible = false;
+			choiceButton2.Visible = false;
+
+			currentInspectable = null;
+
+			ClearDialogue();
+
+			ShowMainMenu();
+
+			return;
+		}
+
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 
@@ -668,6 +750,8 @@ public partial class Main : Control
 
 	private void OnExitButtonPressed(int exitIndex)
 	{
+		GetViewport().GuiReleaseFocus();
+
 		LocationData location = GetCurrentLocation();
 
 		if (
@@ -678,6 +762,39 @@ public partial class Main : Control
 		{
 			speakerLabel.Text = "SCIENTIST";
 			ShowText("Oh wait, I need to take my keycard...");
+			return;
+		}
+
+		if (
+			currentLocation == "elevator" &&
+			location.exits[exitIndex] == "surface"
+		)
+		{
+			if (
+				!inventory.HasItem("keycard") ||
+				!inventory.HasItem("protective_suit") ||
+				!inventory.HasItem("oxygen_bottle")
+			)
+			{
+				speakerLabel.Text = "SYSTEM";
+				ShowText("ACCESS DENIED.\nSAFETY GEAR MISSING.");
+				return;
+			}
+
+			dialogueData = LoadDialogue(
+				"res://Dialogue/Chapters/elevator-access.json"
+			);
+
+			dialogue = dialogueData.lines;
+			GD.Print("OnExitButtonPressed: loading elevator-access");
+			currentLine = 0;
+
+			currentInspectable = GetInspectableById("elevator_access");
+
+			ShowDialogueLine();
+
+			GD.Print(currentLine);
+
 			return;
 		}
 
@@ -791,6 +908,30 @@ public partial class Main : Control
 
 		currentInspectable = GetInspectableById(id);
 
+		if (id == "elevator_access")
+		{
+			if (
+				!inventory.HasItem("keycard") ||
+				!inventory.HasItem("protective_suit") ||
+				!inventory.HasItem("oxygen_bottle")
+			)
+			{
+				speakerLabel.Text = "SYSTEM";
+				ShowText("ACCESS DENIED. SAFETY GEAR MISSING.");
+				return;
+			}
+		}
+
+		if (id == "card_reader")
+		{
+			if (!inventory.HasItem("keycard"))
+			{
+				speakerLabel.Text = "CARD READER";
+				ShowText("Keycard goes here to access the elevator.");
+				return;
+			}
+		}
+
 		if (
 			id == "terminal" &&
 			HasEvent("alarm_triggered")
@@ -893,6 +1034,13 @@ public partial class Main : Control
 			}
 
 			Button button = new Button();
+
+			FontFile font = ResourceLoader.Load<FontFile>(
+				"res://Assets/Fonts/ShareTechMono-Regular.ttf"
+			);
+
+			button.AddThemeFontOverride("font", font);
+
 			button.Text = item.name;
 
 			button.Pressed += () =>
@@ -1047,6 +1195,17 @@ public partial class Main : Control
 				SceneTreeTimer.SignalName.Timeout
 			);
 
+			if (
+				currentLocation == "elevator" &&
+				targetLocation == "surface"
+			)
+			{
+				await ToSignal(
+					elevatorSFX,
+					AudioStreamPlayer.SignalName.Finished
+				);
+			}
+
 			currentLocation = targetLocation;
 
 			UpdateLocation();
@@ -1055,6 +1214,8 @@ public partial class Main : Control
 
 			return;
 		}
+
+		GD.Print("Animation finished: " + animationName);
 
 		if (animationName == "FadeIn")
 		{

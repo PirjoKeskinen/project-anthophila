@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://dic7o6y1csgrl" path="res://Assets/Audio/SFX/protectivesuit.mp3" id="12_axrgr"]
 [ext_resource type="AudioStream" uid="uid://pwgcfymp7hp2" path="res://Assets/Audio/SFX/pickup.mp3" id="13_i4eox"]
 [ext_resource type="AudioStream" uid="uid://blk4kgiauh3uw" path="res://Assets/Audio/SFX/oxygen.mp3" id="14_6wn8e"]
+[ext_resource type="AudioStream" uid="uid://cvp42e542y7v" path="res://Assets/Audio/SFX/elevator.mp3" id="15_x2vti"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
@@ -430,3 +431,6 @@ stream = ExtResource("13_i4eox")
 
 [node name="OxygenBottleSFX" type="AudioStreamPlayer" parent="." unique_id=2014978258]
 stream = ExtResource("14_6wn8e")
+
+[node name="ElevatorSFX" type="AudioStreamPlayer" parent="." unique_id=1118919167]
+stream = ExtResource("15_x2vti")

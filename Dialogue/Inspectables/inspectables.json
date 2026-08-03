@@ -36,9 +36,10 @@
       ]
     },
     {
-      "id": "card_reader",
-      "name": "Card Reader",
-      "text": ["Keycard goes here to access the elevator."]
+      "id": "elevator_access",
+      "name": "Elevator",
+      "dialogue": "elevator-access.json",
+      "text": []
     },
     {
       "id": "protective_suit",
