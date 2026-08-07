@@ -57,48 +57,54 @@ Solo-developed as part of a game development course. The project serves as a lea
 
 Prior to studying software development, I formally trained and worked in the horticultural and green sector. My interest in biodiversity, pollinators, and environmental themes has influenced several of the narrative and worldbuilding ideas explored in this project.
 
-## Project Status
+## Project Status (Updated 2026-08-07)
 
 Prototype development in progress.
 
 **Completed:**
 
 - Main menu
-- Intro sequence with slideshow
+- Cinematic intro sequence
 - JSON-based intro system
-- Intro image support
-- Image fade transition
+- Intro slideshow with image transitions
 - Ken Burns image effect
-- Dialogue system
-- Typewriter text effect
+- Dialogue system with typewriter effect
+- Speaker labels
 - JSON-based dialogue loading
 - Dialogue choices
-- Location data system
+- Location systems
 - JSON-based location loading
 - Background image loading per location
-- Fade-in / fade-out scene transition
-- Separation of dialogue and navigation UI
-- UI layout refinement
-- Main menu transition to gameplay
+- Fade-in / fade-out scene transitions
+- Inventory system
+- Inspectable object system
+- Multi-page inspectables
+- Item interactions
+- Event-driven gameplay progression
+- Room navigation and action menu
+- Terminal alarm sequence
+- Elevator access sequence
+- First transition to the surface
+- Sound effects for gameplay interactions
 
 **Currently in progress:**
 
-- First complete gameplay segment (vertical slice)
+- Surface gameplay
 - Story implementation and branching dialogue
-- FInal UI assets
-- Intro artwork
 - Background artwork
-- Audio implementation
+- Ambient audio
+- Final UI assets
+- Content polish
 
 **The current prototype allows the player to:**
 
 - Start the game from a main menu
 - Experience a cinematic intro sequence before gameplay
-- Display text and images loaded from JSON files
-- Skip the intro sequence
 - Progress through dialogue loaded from JSON files
-- Navigate between locations defined in JSON data
-- View location-specific background images
-- Experience fade transitions and image animations
-- Interact with a separate dialogue and navigation interface
-- Make dialogue choices (prototype)
+- Explore multiple bunker locations
+- Interact with objects in the environment
+- Collect and inspect inventory items
+- Trigger story events through gameplay
+- Unlock new areas by progressing the story
+- Experience scripted gameplay sequences
+- Travel from the bunker to the surface
