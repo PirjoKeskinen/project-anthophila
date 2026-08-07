@@ -20,7 +20,7 @@ Born beneath the Earth, a scientist has never seen the sky. When the bunker's su
 
 ## About the Project
 
-A first-person narrative exploration game with visual novel and point & click elements, set in a dystopian post-apocalyptic sci-fi world.
+Anthophila is a first-person narrative exploration game with visual novel elements, set in a dystopian post-apocalyptic sci-fi world.
 
 The game focuses on storytelling, atmosphere, and visual presentation, combining exploration, environmental storytelling, and narrative-driven progression.
 
@@ -28,9 +28,11 @@ The project is developed using the Godot engine with C# scripting.
 
 ## Core Concept
 
-Humanity now lives underground after the surface became uninhabitable due to ecological collapse. The player takes the role of a scientist maintaining a bunker greenhouse system that sustains human life.
+Following an ecological collapse, humanity survives in underground bunkers sustained by greenhouse systems.
 
-When a critical failure threatens the colony’s survival, the protagonist is forced to venture to the surface for the first time. What follows is a journey of discovery, revealing the truth behind humanity’s past, and the transformation of life itself.
+The player takes the role of a scientist born beneath the Earth. When a critical greenhouse failure threatens the colony's survival, they are sent to the surface for the first time to recover a replacement part.
+
+What begins as a routine repair mission gradually becomes a journey into the forgotten history of the world above.
 
 ## Visual & Audio Direction
 
