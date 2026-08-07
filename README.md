@@ -1,10 +1,12 @@
 # Project: ANTHOPHILA
 
-The surface is dead. Toxic. Abandoned.
+The surface was left behind generations ago.
 
-That is what they were told.
+Toxic.
+Abandoned.
+Forgotten.
 
-Sent outside to restore a failing system, a scientist discovers a world of decay - and signs that something still survives in the ruins.
+Born beneath the Earth, a scientist has never seen the sky. When the bunker's survival depends on a journey outside, the scientist discovers a world far different from the one preserved in history.
 
 ## Table of Contents
 
