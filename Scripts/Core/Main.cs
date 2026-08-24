@@ -19,6 +19,7 @@ public partial class Main : Control
 	private LocationLoader locationLoader = new();
 	private InspectableLoader inspectableLoader = new();
 	private InventoryLoader inventoryLoader = new();
+	private GameState gameState = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -64,24 +65,12 @@ public partial class Main : Control
 
 	private string targetLocation;
 
-	private Dictionary<string, bool> gameEvents = new();
-
 	private Inventory inventory = new();
 
 	private InspectableData currentInspectable;
 	private int currentInspectablePage = 0;
 
 	private bool isReadingInspectable = false;
-
-	private bool HasEvent(string eventId)
-	{
-		return gameEvents.ContainsKey(eventId);
-	}
-
-	private void SetEvent(string eventId)
-	{
-		gameEvents[eventId] = true;
-	}
 
 	private LocationData GetCurrentLocation()
 	{
@@ -129,7 +118,7 @@ public partial class Main : Control
 
 		bool hallwayUnlocked =
 			currentLocation != "hallway" ||
-			HasEvent("outside_mission_unlocked");
+			gameState.HasEvent("outside_mission_unlocked");
 
 		for (int i = 0; i < exitButtons.Length; i++)
 		{
@@ -454,8 +443,8 @@ public partial class Main : Control
 				else if (currentInspectable != null &&
 						 currentInspectable.id == "log")
 				{
-					SetEvent("greenhouse_log_read");
-					SetEvent("outside_mission_unlocked");
+					gameState.SetEvent("greenhouse_log_read");
+					gameState.SetEvent("outside_mission_unlocked");
 
 					UpdateActionButtons();
 				}
@@ -905,7 +894,7 @@ public partial class Main : Control
 
 		if (
 			id == "terminal" &&
-			HasEvent("alarm_triggered")
+			gameState.HasEvent("alarm_triggered")
 		)
 		{
 			currentInspectable = inspectableLoader.GetById(
@@ -933,7 +922,7 @@ public partial class Main : Control
 			!string.IsNullOrEmpty(currentInspectable.dialogue) &&
 			!(
 				currentInspectable.id == "log" &&
-				HasEvent("greenhouse_log_read")
+				gameState.HasEvent("greenhouse_log_read")
 			)
 		)
 		{
@@ -1015,7 +1004,7 @@ public partial class Main : Control
 
 		inventoryItems.Visible = false;
 
-		moveButton.Visible = visible && HasEvent("alarm_triggered");
+		moveButton.Visible = visible && gameState.HasEvent("alarm_triggered");
 		lookAroundButton.Visible = visible;
 
 		inventoryButton.Visible = visible && inventory.HasItems();
@@ -1041,7 +1030,8 @@ public partial class Main : Control
 	private void UpdateBedroomBackground()
 	{
 		bool hasKeycard = inventory.HasItem("keycard");
-		bool alarmTriggered = HasEvent("alarm_triggered");
+		bool alarmTriggered =
+			gameState.HasEvent("alarm_triggered");
 
 		string background;
 
@@ -1094,7 +1084,7 @@ public partial class Main : Control
 			SceneTreeTimer.SignalName.Timeout
 		);
 
-		SetEvent("alarm_triggered");
+		gameState.SetEvent("alarm_triggered");
 		UpdateBedroomBackground();
 
 		InspectableData alarmTerminal =
