@@ -17,6 +17,7 @@ public partial class Main : Control
 
 	private DialogueLoader dialogueLoader = new();
 	private LocationLoader locationLoader = new();
+	private InspectableLoader inspectableLoader = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -87,15 +88,6 @@ public partial class Main : Control
 			currentLocation,
 			locationsData
 		);
-	}
-
-	private InspectablesData LoadInspectables()
-	{
-		string json = FileAccess.GetFileAsString(
-			"res://Dialogue/Inspectables/inspectables.json"
-		);
-
-		return JsonSerializer.Deserialize<InspectablesData>(json);
 	}
 
 	private InventoryData LoadInventory()
@@ -297,7 +289,10 @@ public partial class Main : Control
 			"res://Locations/locations.json"
 		);
 
-		inspectablesData = LoadInspectables();
+		inspectablesData = inspectableLoader.Load(
+			"res://Dialogue/Inspectables/inspectables.json"
+		);
+
 		inventoryData = LoadInventory();
 
 		LoadLocationDialogue();
@@ -759,7 +754,10 @@ public partial class Main : Control
 			GD.Print("OnExitButtonPressed: loading elevator-access");
 			currentLine = 0;
 
-			currentInspectable = GetInspectableById("elevator_access");
+			currentInspectable = inspectableLoader.GetById(
+				"elevator_access",
+				inspectablesData
+			);
 
 			ShowDialogueLine();
 
@@ -819,7 +817,10 @@ public partial class Main : Control
 			if (i < location.inspectables.Length)
 			{
 				InspectableData inspectable =
-					GetInspectableById(location.inspectables[i]);
+					inspectableLoader.GetById(
+						location.inspectables[i],
+						inspectablesData
+					);
 
 				inspectButtons[i].Text = inspectable.name;
 				inspectButtons[i].Visible = true;
@@ -876,7 +877,10 @@ public partial class Main : Control
 
 		string id = location.inspectables[index];
 
-		currentInspectable = GetInspectableById(id);
+		currentInspectable = inspectableLoader.GetById(
+			id,
+			inspectablesData
+		);
 
 		if (id == "elevator_access")
 		{
@@ -907,7 +911,10 @@ public partial class Main : Control
 			HasEvent("alarm_triggered")
 		)
 		{
-			currentInspectable = GetInspectableById("terminal_alarm");
+			currentInspectable = inspectableLoader.GetById(
+				"terminal_alarm",
+				inspectablesData
+			);
 
 			speakerLabel.Text = currentInspectable.name.ToUpper();
 
@@ -956,19 +963,6 @@ public partial class Main : Control
 		{
 			normalAnnouncement.Play();
 		}
-	}
-
-	private InspectableData GetInspectableById(string id)
-	{
-		foreach (InspectableData inspectable in inspectablesData.inspectables)
-		{
-			if (inspectable.id == id)
-			{
-				return inspectable;
-			}
-		}
-
-		return null;
 	}
 
 	private InventoryItemData GetInventoryItemById(string id)
@@ -1115,7 +1109,10 @@ public partial class Main : Control
 		UpdateBedroomBackground();
 
 		InspectableData alarmTerminal =
-			GetInspectableById("terminal_alarm");
+			inspectableLoader.GetById(
+				"terminal_alarm",
+				inspectablesData
+			);
 
 		speakerLabel.Text = alarmTerminal.name.ToUpper();
 
