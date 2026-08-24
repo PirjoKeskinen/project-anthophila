@@ -16,6 +16,7 @@ public partial class Main : Control
 	private bool isTyping = false;
 
 	private DialogueLoader dialogueLoader = new();
+	private LocationLoader locationLoader = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -80,38 +81,12 @@ public partial class Main : Control
 		gameEvents[eventId] = true;
 	}
 
-	private LocationData GetLocationById(
-		string locationId,
-		LocationsData data
-	)
-
-	{
-		foreach (LocationData location in data.locations)
-		{
-			if (location.id == locationId)
-			{
-				return location;
-			}
-		}
-
-		return null;
-	}
-
 	private LocationData GetCurrentLocation()
 	{
-		return GetLocationById(
+		return locationLoader.GetById(
 			currentLocation,
 			locationsData
 		);
-	}
-
-	private LocationsData LoadLocations()
-	{
-		string json = FileAccess.GetFileAsString(
-			"res://Locations/locations.json"
-		);
-
-		return JsonSerializer.Deserialize<LocationsData>(json);
 	}
 
 	private InspectablesData LoadInspectables()
@@ -177,7 +152,7 @@ public partial class Main : Control
 			if (i < location.exits.Length)
 			{
 				LocationData exitLocation =
-					GetLocationById(
+					locationLoader.GetById(
 						location.exits[i],
 						locationsData
 					);
@@ -318,7 +293,10 @@ public partial class Main : Control
 			button.Visible = false;
 		}
 
-		locationsData = LoadLocations();
+		locationsData = locationLoader.Load(
+			"res://Locations/locations.json"
+		);
+
 		inspectablesData = LoadInspectables();
 		inventoryData = LoadInventory();
 
