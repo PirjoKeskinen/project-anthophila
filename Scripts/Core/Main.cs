@@ -18,6 +18,7 @@ public partial class Main : Control
 	private DialogueLoader dialogueLoader = new();
 	private LocationLoader locationLoader = new();
 	private InspectableLoader inspectableLoader = new();
+	private InventoryLoader inventoryLoader = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -88,15 +89,6 @@ public partial class Main : Control
 			currentLocation,
 			locationsData
 		);
-	}
-
-	private InventoryData LoadInventory()
-	{
-		string json = FileAccess.GetFileAsString(
-			"res://Inventory/inventory.json"
-		);
-
-		return JsonSerializer.Deserialize<InventoryData>(json);
 	}
 
 	private void LoadLocationDialogue()
@@ -293,7 +285,9 @@ public partial class Main : Control
 			"res://Dialogue/Inspectables/inspectables.json"
 		);
 
-		inventoryData = LoadInventory();
+		inventoryData = inventoryLoader.Load(
+			"res://Inventory/inventory.json"
+		);
 
 		LoadLocationDialogue();
 
@@ -596,7 +590,10 @@ public partial class Main : Control
 		}
 
 		InventoryItemData item =
-			GetInventoryItemById(currentInspectable.itemId);
+			inventoryLoader.GetById(
+				currentInspectable.itemId,
+				inventoryData
+			);
 
 		if (
 			currentInspectable.itemId == "protective_suit" ||
@@ -965,18 +962,6 @@ public partial class Main : Control
 		}
 	}
 
-	private InventoryItemData GetInventoryItemById(string id)
-	{
-		foreach (InventoryItemData item in inventoryData.items)
-		{
-			if (item.id == id)
-			{
-				return item;
-			}
-		}
-
-		return null;
-	}
 
 	private void UpdateInventoryUI()
 	{
@@ -990,7 +975,11 @@ public partial class Main : Control
 
 		foreach (string itemId in inventory.GetItems())
 		{
-			InventoryItemData item = GetInventoryItemById(itemId);
+			InventoryItemData item =
+				inventoryLoader.GetById(
+					itemId,
+					inventoryData
+				);
 
 			if (item == null)
 			{
