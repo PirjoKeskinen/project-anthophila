@@ -57,7 +57,7 @@
       "name": "Surface",
       "background": "surface.png",
       "dialogue": "surface.json",
-      "exits": ["elevator"],
+      "exits": ["cabin_out"],
       "inspectables": []
     }
   ]

@@ -15,6 +15,7 @@ public partial class Main : Control
 
 	private bool isTyping = false;
 
+	private DialogueLoader dialogueLoader = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -79,15 +80,6 @@ public partial class Main : Control
 		gameEvents[eventId] = true;
 	}
 
-	private DialogueData LoadDialogue(string filePath)
-	{
-		string json = FileAccess.GetFileAsString(
-			filePath
-		);
-
-		return JsonSerializer.Deserialize<DialogueData>(json);
-	}
-
 	private LocationData GetLocationById(
 		string locationId,
 		LocationsData data
@@ -144,7 +136,7 @@ public partial class Main : Control
 	{
 		LocationData location = GetCurrentLocation();
 
-		dialogueData = LoadDialogue(
+		dialogueData = dialogueLoader.Load(
 			"res://Dialogue/Chapters/" + location.dialogue
 		);
 
@@ -781,7 +773,7 @@ public partial class Main : Control
 				return;
 			}
 
-			dialogueData = LoadDialogue(
+			dialogueData = dialogueLoader.Load(
 				"res://Dialogue/Chapters/elevator-access.json"
 			);
 
@@ -965,7 +957,7 @@ public partial class Main : Control
 		{
 			isReadingInspectable = false;
 
-			dialogueData = LoadDialogue(
+			dialogueData = dialogueLoader.Load(
 				"res://Dialogue/Chapters/" +
 				currentInspectable.dialogue
 			);
