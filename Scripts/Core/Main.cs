@@ -6,28 +6,23 @@ public partial class Main : Control
 {
 
 	private DialogueLine[] dialogue;
-	private int currentLine = 0;
 
 	private RichTextLabel dialogueLabel;
-
-	private float typingSpeed = 30f;
-	private float typingTimer = 0f;
-
-	private bool isTyping = false;
 
 	private DialogueLoader dialogueLoader = new();
 	private LocationLoader locationLoader = new();
 	private InspectableLoader inspectableLoader = new();
 	private InventoryLoader inventoryLoader = new();
 	private GameState gameState = new();
+	private DialogueController dialogueController = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
 
 	private InventoryData inventoryData;
 
-	private Button choiceButton1; // TODO: dialogue choices
-	private Button choiceButton2; // TODO: dialogue choices
+	private Button choiceButton1;
+	private Button choiceButton2;
 
 	private Button[] exitButtons;
 
@@ -88,9 +83,7 @@ public partial class Main : Control
 			"res://Dialogue/Chapters/" + location.dialogue
 		);
 
-		dialogue = dialogueData.lines;
-
-		currentLine = 0;
+		dialogueController.SetDialogue(dialogueData.lines);
 	}
 
 	private void UpdateLocation()
@@ -170,6 +163,11 @@ public partial class Main : Control
 
 		speakerLabel = GetNode<Label>(
 			"DialoguePanel/MarginContainer/VBoxContainer/SpeakerLabel"
+		);
+
+		dialogueController.Setup(
+			dialogueLabel,
+			speakerLabel
 		);
 
 		menuTitle = GetNode<Label>(
@@ -329,57 +327,47 @@ public partial class Main : Control
 
 	public override void _Process(double delta)
 	{
-		if (!isTyping)
+		bool wasTyping = dialogueController.IsTyping();
+
+		dialogueController.ProcessTyping(delta);
+
+		if (!wasTyping || dialogueController.IsTyping())
 			return;
 
-		typingTimer += (float)delta;
-
-		if (typingTimer >= 1f / typingSpeed)
+		if (
+			currentInspectable != null &&
+			currentInspectable.id == "elevator_access" &&
+			dialogueController.IsLastLine()
+		)
 		{
-			typingTimer = 0f;
+			choiceButton1.Text = "Go to the surface";
+			choiceButton2.Text = "Stay in the bunker";
 
-			dialogueLabel.VisibleCharacters++;
+			choiceButton1.Visible = true;
+			choiceButton2.Visible = true;
+		}
+		else
+		{
+			ShowInspectableChoices();
+		}
 
-			if (dialogueLabel.VisibleCharacters >= dialogueLabel.Text.Length)
-			{
-				isTyping = false;
+		if (
+			currentInspectable != null &&
+			currentInspectable.id == "terminal"
+		)
+		{
+			StartTerminalSequence();
+		}
 
-				if (
-					currentInspectable != null &&
-					currentInspectable.id == "elevator_access" &&
-					currentLine == dialogue.Length - 1
-				)
-				{
-					choiceButton1.Text = "Go to the surface";
-					choiceButton2.Text = "Stay in the bunker";
+		LocationData location = GetCurrentLocation();
 
-					choiceButton1.Visible = true;
-					choiceButton2.Visible = true;
-				}
-				else
-				{
-					ShowInspectableChoices();
-				}
-
-				if (
-					currentInspectable != null &&
-					currentInspectable.id == "terminal"
-				)
-				{
-					StartTerminalSequence();
-				}
-
-				LocationData location = GetCurrentLocation();
-
-				if (
-					currentLine == dialogue.Length - 1 &&
-					!location.dialoguePlayed
-				)
-				{
-					location.dialoguePlayed = true;
-					UpdateActionButtons();
-				}
-			}
+		if (
+			dialogueController.IsLastLine() &&
+			!location.dialoguePlayed
+		)
+		{
+			location.dialoguePlayed = true;
+			UpdateActionButtons();
 		}
 	}
 
@@ -387,12 +375,9 @@ public partial class Main : Control
 	{
 		if (@event.IsActionPressed("ui_accept"))
 		{
-			if (isTyping)
+			if (dialogueController.IsTyping())
 			{
-				dialogueLabel.VisibleCharacters =
-					dialogueLabel.Text.Length;
-
-				isTyping = false;
+				dialogueController.FinishTyping();
 
 				if (
 					currentInspectable != null &&
@@ -407,7 +392,7 @@ public partial class Main : Control
 				LocationData location = GetCurrentLocation();
 
 				if (
-					currentLine == dialogue.Length - 1 &&
+					dialogueController.IsLastLine() &&
 					!location.dialoguePlayed
 				)
 				{
@@ -433,12 +418,9 @@ public partial class Main : Control
 					return;
 				}
 
-				if (currentLine < dialogue.Length - 1)
+				if (dialogueController.HasNextLine())
 				{
-					GD.Print("Before: " + currentLine);
-					currentLine++;
-					GD.Print("After: " + currentLine);
-					ShowDialogueLine();
+					dialogueController.NextLine();
 				}
 				else if (currentInspectable != null &&
 						 currentInspectable.id == "log")
@@ -454,11 +436,7 @@ public partial class Main : Control
 
 	private void ShowText(string text)
 	{
-		dialogueLabel.Text = text;
-		dialogueLabel.VisibleCharacters = 0;
-
-		typingTimer = 0f;
-		isTyping = true;
+		dialogueController.ShowText(text);
 	}
 
 	private async void ShowNotification(string text)
@@ -478,9 +456,7 @@ public partial class Main : Control
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
 
-		speakerLabel.Text = dialogue[currentLine].speaker;
-
-		ShowText(dialogue[currentLine].text);
+		dialogueController.ShowCurrentLine();
 	}
 
 	private void ClearDialogue()
@@ -736,9 +712,7 @@ public partial class Main : Control
 				"res://Dialogue/Chapters/elevator-access.json"
 			);
 
-			dialogue = dialogueData.lines;
-			GD.Print("OnExitButtonPressed: loading elevator-access");
-			currentLine = 0;
+			dialogueController.SetDialogue(dialogueData.lines);
 
 			currentInspectable = inspectableLoader.GetById(
 				"elevator_access",
@@ -746,8 +720,6 @@ public partial class Main : Control
 			);
 
 			ShowDialogueLine();
-
-			GD.Print(currentLine);
 
 			return;
 		}
@@ -933,8 +905,7 @@ public partial class Main : Control
 				currentInspectable.dialogue
 			);
 
-			dialogue = dialogueData.lines;
-			currentLine = 0;
+			dialogueController.SetDialogue(dialogueData.lines);
 
 			ShowDialogueLine();
 		}
