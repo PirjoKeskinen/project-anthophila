@@ -1,14 +1,9 @@
 using Godot;
 using System.Collections.Generic;
-using System.Text.Json;
 
 public partial class Main : Control
 {
-
-	private DialogueLine[] dialogue;
-
 	private RichTextLabel dialogueLabel;
-
 	private DialogueLoader dialogueLoader = new();
 	private LocationLoader locationLoader = new();
 	private InspectableLoader inspectableLoader = new();
@@ -18,34 +13,20 @@ public partial class Main : Control
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
-
 	private InventoryData inventoryData;
-
 	private Button choiceButton1;
 	private Button choiceButton2;
-
 	private Button[] exitButtons;
-
 	private Button moveButton;
-
 	private Button lookAroundButton;
-
-	private Panel menuPanel;
 	private VBoxContainer inventoryItems;
 	private Button inventoryButton;
-
 	private Button[] inspectButtons;
-
 	private Button backButton;
-
 	private Label locationLabel;
-
 	private Label menuTitle;
-
 	private Label speakerLabel;
-
 	private TextureRect backgroundImage;
-
 	private AudioStreamPlayer normalAnnouncement;
 	private AudioStreamPlayer alarmAnnouncement;
 	private AudioStreamPlayer doorSFX;
@@ -55,16 +36,11 @@ public partial class Main : Control
 	private AudioStreamPlayer applePickupSFX;
 	private AudioStreamPlayer oxygenBottleSFX;
 	private AudioStreamPlayer elevatorSFX;
-
 	private AnimationPlayer animationPlayer;
-
 	private string targetLocation;
-
 	private Inventory inventory = new();
-
 	private InspectableData currentInspectable;
 	private int currentInspectablePage = 0;
-
 	private bool isReadingInspectable = false;
 
 	private LocationData GetCurrentLocation()
@@ -176,10 +152,6 @@ public partial class Main : Control
 
 		backgroundImage = GetNode<TextureRect>(
 			"BackgroundImage"
-		);
-
-		menuPanel = GetNode<Panel>(
-			"SidePanel/MenuPanel"
 		);
 
 		inventoryItems = GetNode<VBoxContainer>(
