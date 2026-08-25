@@ -10,6 +10,7 @@ public partial class Main : Control
 	private InventoryLoader inventoryLoader = new();
 	private GameState gameState = new();
 	private DialogueController dialogueController = new();
+	private InventoryUIController inventoryUIController = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -246,6 +247,15 @@ public partial class Main : Control
 
 		inventoryData = inventoryLoader.Load(
 			"res://Inventory/inventory.json"
+		);
+
+		inventoryUIController.Setup(
+			inventoryItems,
+			inventory,
+			inventoryLoader,
+			inventoryData,
+			speakerLabel,
+			ShowText
 		);
 
 		LoadLocationDialogue();
@@ -566,7 +576,7 @@ public partial class Main : Control
 			}
 		}
 
-		UpdateInventoryUI();
+		inventoryUIController.Update();
 
 		if (currentLocation == "bedroom")
 		{
@@ -795,7 +805,7 @@ public partial class Main : Control
 
 		inventoryItems.Visible = true;
 
-		UpdateInventoryUI();
+		inventoryUIController.Update();
 
 		backButton.Visible = true;
 	}
@@ -891,50 +901,6 @@ public partial class Main : Control
 		if (id == "terminal")
 		{
 			normalAnnouncement.Play();
-		}
-	}
-
-
-	private void UpdateInventoryUI()
-	{
-		foreach (Node child in inventoryItems.GetChildren())
-		{
-			if (child != backButton)
-			{
-				child.QueueFree();
-			}
-		}
-
-		foreach (string itemId in inventory.GetItems())
-		{
-			InventoryItemData item =
-				inventoryLoader.GetById(
-					itemId,
-					inventoryData
-				);
-
-			if (item == null)
-			{
-				continue;
-			}
-
-			Button button = new Button();
-
-			FontFile font = ResourceLoader.Load<FontFile>(
-				"res://Assets/Fonts/ShareTechMono-Regular.ttf"
-			);
-
-			button.AddThemeFontOverride("font", font);
-
-			button.Text = item.name;
-
-			button.Pressed += () =>
-			{
-				speakerLabel.Text = item.name.ToUpper();
-				ShowText(item.description);
-			};
-
-			inventoryItems.AddChild(button);
 		}
 	}
 
