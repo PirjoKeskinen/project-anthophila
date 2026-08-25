@@ -11,6 +11,7 @@ public partial class Main : Control
 	private GameState gameState = new();
 	private DialogueController dialogueController = new();
 	private InventoryUIController inventoryUIController = new();
+	private LookAroundController lookAroundController = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -243,6 +244,20 @@ public partial class Main : Control
 
 		inspectablesData = inspectableLoader.Load(
 			"res://Dialogue/Inspectables/inspectables.json"
+		);
+
+		lookAroundController.Setup(
+			inspectButtons,
+			locationLoader,
+			locationsData,
+			inspectableLoader,
+			inspectablesData,
+			menuTitle,
+			exitButtons,
+			moveButton,
+			lookAroundButton,
+			inventoryButton,
+			backButton
 		);
 
 		inventoryData = inventoryLoader.Load(
@@ -734,44 +749,7 @@ public partial class Main : Control
 
 	private void OnLookAroundPressed()
 	{
-		SetMenuTitle("LOOK AROUND");
-
-		moveButton.Visible = false;
-		lookAroundButton.Visible = false;
-		inventoryButton.Visible = false;
-
-		foreach (Button button in exitButtons)
-		{
-			button.Visible = false;
-		}
-
-		LocationData location = GetCurrentLocation();
-
-		foreach (string inspectableId in location.inspectables)
-		{
-			GD.Print(" - " + inspectableId);
-		}
-
-		for (int i = 0; i < inspectButtons.Length; i++)
-		{
-			if (i < location.inspectables.Length)
-			{
-				InspectableData inspectable =
-					inspectableLoader.GetById(
-						location.inspectables[i],
-						inspectablesData
-					);
-
-				inspectButtons[i].Text = inspectable.name;
-				inspectButtons[i].Visible = true;
-			}
-			else
-			{
-				inspectButtons[i].Visible = false;
-			}
-		}
-
-		backButton.Visible = true;
+		lookAroundController.Show(currentLocation);
 	}
 
 	private void OnBackPressed()
