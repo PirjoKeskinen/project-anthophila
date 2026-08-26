@@ -12,6 +12,7 @@ public partial class Main : Control
 	private DialogueController dialogueController = new();
 	private InventoryUIController inventoryUIController = new();
 	private LookAroundController lookAroundController = new();
+	private InteractionController interactionController = new();
 	private DialogueData dialogueData;
 	private LocationsData locationsData;
 	private InspectablesData inspectablesData;
@@ -41,9 +42,6 @@ public partial class Main : Control
 	private AnimationPlayer animationPlayer;
 	private string targetLocation;
 	private Inventory inventory = new();
-	private InspectableData currentInspectable;
-	private int currentInspectablePage = 0;
-	private bool isReadingInspectable = false;
 
 	private LocationData GetCurrentLocation()
 	{
@@ -260,6 +258,25 @@ public partial class Main : Control
 			backButton
 		);
 
+		normalAnnouncement = GetNode<AudioStreamPlayer>(
+			"NormalAnnouncement"
+		);
+
+		interactionController.Setup(
+			choiceButton1,
+			choiceButton2,
+			inspectableLoader,
+			inspectablesData,
+			dialogueLoader,
+			dialogueController,
+			gameState,
+			inventory,
+			speakerLabel,
+			normalAnnouncement,
+			ShowText,
+			ShowDialogueLine
+		);
+
 		inventoryData = inventoryLoader.Load(
 			"res://Inventory/inventory.json"
 		);
@@ -276,10 +293,6 @@ public partial class Main : Control
 		LoadLocationDialogue();
 
 		UpdateLocation();
-
-		normalAnnouncement = GetNode<AudioStreamPlayer>(
-			"NormalAnnouncement"
-		);
 
 		alarmAnnouncement = GetNode<AudioStreamPlayer>(
 			"AlarmAnnouncement"
@@ -331,26 +344,14 @@ public partial class Main : Control
 		if (!wasTyping || dialogueController.IsTyping())
 			return;
 
-		if (
-			currentInspectable != null &&
-			currentInspectable.id == "elevator_access" &&
-			dialogueController.IsLastLine()
-		)
+		if (dialogueController.IsLastLine())
 		{
-			choiceButton1.Text = "Go to the surface";
-			choiceButton2.Text = "Stay in the bunker";
-
-			choiceButton1.Visible = true;
-			choiceButton2.Visible = true;
-		}
-		else
-		{
-			ShowInspectableChoices();
+			interactionController.ShowChoices();
 		}
 
 		if (
-			currentInspectable != null &&
-			currentInspectable.id == "terminal"
+			interactionController.GetCurrentInspectable() != null &&
+			interactionController.GetCurrentInspectable().id == "terminal"
 		)
 		{
 			StartTerminalSequence();
@@ -377,14 +378,12 @@ public partial class Main : Control
 				dialogueController.FinishTyping();
 
 				if (
-					currentInspectable != null &&
-					currentInspectable.id == "terminal"
+					interactionController.GetCurrentInspectable() != null &&
+					interactionController.GetCurrentInspectable().id == "terminal"
 				)
 				{
 					StartTerminalSequence();
 				}
-
-				ShowInspectableChoices();
 
 				LocationData location = GetCurrentLocation();
 
@@ -399,19 +398,9 @@ public partial class Main : Control
 			}
 			else
 			{
-				if (isReadingInspectable && currentInspectable != null)
+				if (interactionController.IsReadingInspectable())
 				{
-					if (currentInspectablePage < currentInspectable.text.Length - 1)
-					{
-						currentInspectablePage++;
-
-						ShowText(currentInspectable.text[currentInspectablePage]);
-					}
-					else
-					{
-						isReadingInspectable = false;
-					}
-
+					interactionController.NextPage();
 					return;
 				}
 
@@ -419,8 +408,9 @@ public partial class Main : Control
 				{
 					dialogueController.NextLine();
 				}
-				else if (currentInspectable != null &&
-						 currentInspectable.id == "log")
+				else if (
+					interactionController.GetCurrentInspectable() != null &&
+					interactionController.GetCurrentInspectable().id == "log")
 				{
 					gameState.SetEvent("greenhouse_log_read");
 					gameState.SetEvent("outside_mission_unlocked");
@@ -467,48 +457,11 @@ public partial class Main : Control
 		menuTitle.Text = title;
 	}
 
-	private void ShowInspectableChoices()
-	{
-		if (
-			currentInspectable == null ||
-			currentInspectable.itemId == null ||
-			!isReadingInspectable ||
-			currentInspectablePage != currentInspectable.text.Length - 1
-		)
-		{
-			return;
-		}
-
-		if (currentInspectable.id == "elevator_access")
-		{
-			choiceButton1.Text = "Go to the surface";
-			choiceButton2.Text = "Stay in the bunker";
-		}
-		else if (currentInspectable.id == "apple")
-		{
-			choiceButton1.Text = "Take";
-			choiceButton2.Text = "Eat";
-		}
-		else if (
-			currentInspectable.itemId == "protective_suit" ||
-			currentInspectable.itemId == "oxygen_bottle"
-		)
-		{
-			choiceButton1.Text = "Equip";
-			choiceButton2.Text = "Leave";
-		}
-		else
-		{
-			choiceButton1.Text = "Take";
-			choiceButton2.Text = "Leave";
-		}
-
-		choiceButton1.Visible = true;
-		choiceButton2.Visible = true;
-	}
-
 	private void OnChoice1Pressed()
 	{
+		InspectableData currentInspectable =
+			interactionController.GetCurrentInspectable();
+
 		if (
 			currentInspectable != null &&
 			currentInspectable.id == "elevator_access"
@@ -524,12 +477,16 @@ public partial class Main : Control
 			choiceButton1.Visible = false;
 			choiceButton2.Visible = false;
 
-			currentInspectable = null;
+			interactionController.ClearCurrentInspectable();
 
 			return;
 		}
 
+		GD.Print("Before AddItem: " + currentInspectable.itemId);
+
 		inventory.AddItem(currentInspectable.itemId);
+
+		GD.Print("After AddItem");
 
 		if (currentInspectable.itemId == "keycard")
 		{
@@ -550,6 +507,11 @@ public partial class Main : Control
 		{
 			oxygenBottleSFX.Play();
 		}
+
+		GD.Print(
+			"itemId: " + currentInspectable.itemId +
+			" | inventoryData null: " + (inventoryData == null)
+		);
 
 		InventoryItemData item =
 			inventoryLoader.GetById(
@@ -598,19 +560,21 @@ public partial class Main : Control
 			UpdateBedroomBackground();
 		}
 
-		OnLookAroundPressed();
-
-		isReadingInspectable = false;
-		currentInspectable = null;
-
 		choiceButton1.Visible = false;
 		choiceButton2.Visible = false;
+
+		interactionController.ClearCurrentInspectable();
+
+		OnLookAroundPressed();
 
 		inventory.PrintItems();
 	}
 
 	private void OnChoice2Pressed()
 	{
+		InspectableData currentInspectable =
+			interactionController.GetCurrentInspectable();
+
 		if (
 			currentInspectable != null &&
 			currentInspectable.id == "elevator_access"
@@ -619,7 +583,7 @@ public partial class Main : Control
 			choiceButton1.Visible = false;
 			choiceButton2.Visible = false;
 
-			currentInspectable = null;
+			interactionController.ClearCurrentInspectable();
 
 			ClearDialogue();
 
@@ -660,7 +624,7 @@ public partial class Main : Control
 			speakerLabel.Text = "SCIENTIST";
 			ShowText("Yummy!");
 
-			currentInspectable = null;
+			interactionController.ClearCurrentInspectable();
 
 			OnLookAroundPressed();
 		}
@@ -668,7 +632,7 @@ public partial class Main : Control
 		{
 			ClearDialogue();
 
-			currentInspectable = null;
+			interactionController.ClearCurrentInspectable();
 		}
 	}
 
@@ -711,9 +675,11 @@ public partial class Main : Control
 
 			dialogueController.SetDialogue(dialogueData.lines);
 
-			currentInspectable = inspectableLoader.GetById(
-				"elevator_access",
-				inspectablesData
+			interactionController.SetCurrentInspectable(
+				inspectableLoader.GetById(
+					"elevator_access",
+					inspectablesData
+				)
 			);
 
 			ShowDialogueLine();
@@ -754,8 +720,6 @@ public partial class Main : Control
 
 	private void OnBackPressed()
 	{
-		isReadingInspectable = false;
-
 		ClearDialogue();
 
 		ShowMainMenu();
@@ -791,92 +755,15 @@ public partial class Main : Control
 	private void OnInspectButtonPressed(int index)
 	{
 		GetViewport().GuiReleaseFocus();
+
 		LocationData location = GetCurrentLocation();
 
-		string id = location.inspectables[index];
-
-		currentInspectable = inspectableLoader.GetById(
-			id,
-			inspectablesData
-		);
-
-		if (id == "elevator_access")
-		{
-			if (
-				!inventory.HasItem("keycard") ||
-				!inventory.HasItem("protective_suit") ||
-				!inventory.HasItem("oxygen_bottle")
-			)
-			{
-				speakerLabel.Text = "SYSTEM";
-				ShowText("ACCESS DENIED. SAFETY GEAR MISSING.");
-				return;
-			}
-		}
-
-		if (id == "card_reader")
-		{
-			if (!inventory.HasItem("keycard"))
-			{
-				speakerLabel.Text = "CARD READER";
-				ShowText("Keycard goes here to access the elevator.");
-				return;
-			}
-		}
+		interactionController.Inspect(index, location);
 
 		if (
-			id == "terminal" &&
-			gameState.HasEvent("alarm_triggered")
+			location.inspectables[index] == "terminal" &&
+			!gameState.HasEvent("alarm_triggered")
 		)
-		{
-			currentInspectable = inspectableLoader.GetById(
-				"terminal_alarm",
-				inspectablesData
-			);
-
-			speakerLabel.Text = currentInspectable.name.ToUpper();
-
-			ShowText(currentInspectable.text[0]);
-
-			return;
-		}
-
-		if (id == "terminal")
-		{
-			normalAnnouncement.Play();
-		}
-
-		currentInspectablePage = 0;
-
-		speakerLabel.Text = currentInspectable.name.ToUpper();
-
-		if (
-			!string.IsNullOrEmpty(currentInspectable.dialogue) &&
-			!(
-				currentInspectable.id == "log" &&
-				gameState.HasEvent("greenhouse_log_read")
-			)
-		)
-		{
-			isReadingInspectable = false;
-
-			dialogueData = dialogueLoader.Load(
-				"res://Dialogue/Chapters/" +
-				currentInspectable.dialogue
-			);
-
-			dialogueController.SetDialogue(dialogueData.lines);
-
-			ShowDialogueLine();
-		}
-		else
-		{
-			isReadingInspectable = true;
-
-			ShowText(currentInspectable.text[currentInspectablePage]);
-		}
-
-		if (id == "terminal")
 		{
 			normalAnnouncement.Play();
 		}
@@ -947,8 +834,6 @@ public partial class Main : Control
 
 	private async void StartTerminalSequence()
 	{
-		currentInspectable = null;
-
 		await ToSignal(
 			normalAnnouncement,
 			AudioStreamPlayer.SignalName.Finished
@@ -985,9 +870,6 @@ public partial class Main : Control
 		ShowText(alarmTerminal.text[0]);
 
 		alarmAnnouncement.Play();
-
-		isReadingInspectable = false;
-		currentInspectable = null;
 
 		foreach (Button button in inspectButtons)
 		{
