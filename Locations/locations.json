@@ -59,6 +59,14 @@
       "dialogue": "surface.json",
       "exits": ["cabin_out"],
       "inspectables": []
+    },
+    {
+      "id": "cabin_out",
+      "name": "Shed",
+      "background": "cabin-out.png",
+      "dialogue": "",
+      "exits": ["surface"],
+      "inspectables": []
     }
   ]
 }

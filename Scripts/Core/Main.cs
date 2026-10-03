@@ -40,6 +40,7 @@ public partial class Main : Control
 	private AudioStreamPlayer applePickupSFX;
 	private AudioStreamPlayer oxygenBottleSFX;
 	private AudioStreamPlayer elevatorSFX;
+	private AudioStreamPlayer walkSFX;
 	private AudioStreamPlayer backgroundHum;
 	private AnimationPlayer animationPlayer;
 	private string targetLocation;
@@ -330,6 +331,10 @@ public partial class Main : Control
 
 		elevatorSFX = GetNode<AudioStreamPlayer>(
 			"ElevatorSFX"
+		);
+
+		walkSFX = GetNode<AudioStreamPlayer>(
+			"WalkSFX"
 		);
 
 		backgroundHum = GetNode<AudioStreamPlayer>(
@@ -696,7 +701,17 @@ public partial class Main : Control
 		targetLocation =
 			location.exits[exitIndex];
 
-		doorSFX.Play();
+		if (
+			currentLocation == "surface" &&
+			targetLocation == "cabin_out"
+		)
+		{
+			walkSFX.Play();
+		}
+		else
+		{
+			doorSFX.Play();
+		}
 
 		animationPlayer.Play("FadeOut");
 	}
