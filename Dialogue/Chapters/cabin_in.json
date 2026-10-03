@@ -1,0 +1,32 @@
+{
+  "lines": [
+    {
+      "speaker": "SCIENTIST",
+      "text": "*gasp*!"
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "A skeleton..."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "*shiver*"
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "But looks like there's nothing useful here."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "Wait... what's that on the table?"
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "It looks like a book."
+    },
+    {
+      "speaker": "SCIENTIST",
+      "text": "A diary?"
+    }
+  ]
+}

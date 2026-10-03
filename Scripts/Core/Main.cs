@@ -41,6 +41,7 @@ public partial class Main : Control
 	private AudioStreamPlayer oxygenBottleSFX;
 	private AudioStreamPlayer elevatorSFX;
 	private AudioStreamPlayer walkSFX;
+	private AudioStreamPlayer cabinDoorSFX;
 	private AudioStreamPlayer backgroundHum;
 	private AnimationPlayer animationPlayer;
 	private string targetLocation;
@@ -337,6 +338,10 @@ public partial class Main : Control
 			"WalkSFX"
 		);
 
+		cabinDoorSFX = GetNode<AudioStreamPlayer>(
+			"CabinDoorSFX"
+		);
+
 		backgroundHum = GetNode<AudioStreamPlayer>(
 			"BackgroundHum"
 		);
@@ -475,6 +480,43 @@ public partial class Main : Control
 
 		if (
 			currentInspectable != null &&
+			currentInspectable.id == "diary"
+		)
+		{
+			choiceButton1.Visible = false;
+			choiceButton2.Visible = false;
+
+			keycardSFX.Play();
+
+			LocationData location = GetCurrentLocation();
+
+			List<string> inspectables = new(location.inspectables);
+
+			inspectables.Remove(currentInspectable.id);
+
+			location.inspectables = inspectables.ToArray();
+
+			location.background = "cabin-in-nodiary.png";
+
+			backgroundImage.Texture =
+				ResourceLoader.Load<Texture2D>(
+					"res://Assets/Backgrounds/" +
+					location.background
+				);
+
+			dialogueData = dialogueLoader.Load(
+				"res://Dialogue/Chapters/diary_part1.json"
+			);
+
+			dialogueController.SetDialogue(dialogueData.lines);
+
+			ShowDialogueLine();
+
+			return;
+		}
+
+		if (
+			currentInspectable != null &&
 			currentInspectable.id == "elevator_access"
 		)
 		{
@@ -500,6 +542,11 @@ public partial class Main : Control
 		GD.Print("After AddItem");
 
 		if (currentInspectable.itemId == "keycard")
+		{
+			keycardSFX.Play();
+		}
+
+		if (currentInspectable.itemId == "diary")
 		{
 			keycardSFX.Play();
 		}
@@ -555,6 +602,17 @@ public partial class Main : Control
 			if (!string.IsNullOrEmpty(location.backgroundAfterPickup))
 			{
 				location.background = location.backgroundAfterPickup;
+
+				backgroundImage.Texture =
+					ResourceLoader.Load<Texture2D>(
+						"res://Assets/Backgrounds/" +
+						location.background
+					);
+			}
+
+			if (currentInspectable.id == "diary")
+			{
+				location.background = "cabin-in-nodiary.png";
 
 				backgroundImage.Texture =
 					ResourceLoader.Load<Texture2D>(
@@ -707,6 +765,13 @@ public partial class Main : Control
 		)
 		{
 			walkSFX.Play();
+		}
+		else if (
+			currentLocation == "cabin_out" &&
+			targetLocation == "cabin_in"
+		)
+		{
+			cabinDoorSFX.Play();
 		}
 		else
 		{

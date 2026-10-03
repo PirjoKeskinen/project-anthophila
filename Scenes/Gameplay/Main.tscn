@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://blk4kgiauh3uw" path="res://Assets/Audio/SFX/oxygen.mp3" id="14_6wn8e"]
 [ext_resource type="AudioStream" uid="uid://cvp42e542y7v" path="res://Assets/Audio/SFX/elevator.mp3" id="15_x2vti"]
 [ext_resource type="AudioStream" uid="uid://dgpgytybt6jdv" path="res://Assets/Audio/SFX/walk.mp3" id="16_w1dgb"]
+[ext_resource type="AudioStream" uid="uid://dr0l4yc0v5frn" path="res://Assets/Audio/SFX/cabin-door.mp3" id="17_5t3o7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
@@ -438,3 +439,6 @@ stream = ExtResource("15_x2vti")
 
 [node name="WalkSFX" type="AudioStreamPlayer" parent="." unique_id=364594059]
 stream = ExtResource("16_w1dgb")
+
+[node name="CabinDoorSFX" type="AudioStreamPlayer" parent="." unique_id=1052971028]
+stream = ExtResource("17_5t3o7")

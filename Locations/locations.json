@@ -64,9 +64,17 @@
       "id": "cabin_out",
       "name": "Shed",
       "background": "cabin-out.png",
-      "dialogue": "",
-      "exits": ["surface"],
+      "dialogue": "cabin_out.json",
+      "exits": ["surface", "cabin_in"],
       "inspectables": []
+    },
+    {
+      "id": "cabin_in",
+      "name": "Inside the Shed",
+      "background": "cabin-in.png",
+      "dialogue": "cabin_in.json",
+      "exits": ["cabin_out"],
+      "inspectables": ["diary"]
     }
   ]
 }

@@ -19,6 +19,11 @@
       "id": "oxygen_bottle",
       "name": "Oxygen Bottle",
       "description": "Oxygen for breathing when climate is too toxic."
+    },
+    {
+      "id": "diary",
+      "name": "Diary",
+      "description": "An old, worn diary found inside the shed."
     }
   ]
 }

@@ -174,6 +174,11 @@ public class InteractionController
             choiceButton1.Text = "Equip";
             choiceButton2.Text = "Leave";
         }
+        else if (currentInspectable.id == "diary")
+        {
+            choiceButton1.Text = "Read";
+            choiceButton2.Text = "Leave";
+        }
         else
         {
             choiceButton1.Text = "Take";

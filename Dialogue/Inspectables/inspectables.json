@@ -68,6 +68,15 @@
       "text": ["This has been harvested just recently. Looks delicious..."],
       "itemId": "apple",
       "removeAfterPickup": true
+    },
+    {
+      "id": "diary",
+      "name": "A Diary",
+      "text": [
+        "An old diary. The pages look worn, but the book seems to be intact."
+      ],
+      "itemId": "diary",
+      "removeAfterPickup": true
     }
   ]
 }
