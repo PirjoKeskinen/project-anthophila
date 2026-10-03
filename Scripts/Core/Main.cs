@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Threading.Tasks.Dataflow;
 
 public partial class Main : Control
 {
@@ -39,6 +40,7 @@ public partial class Main : Control
 	private AudioStreamPlayer applePickupSFX;
 	private AudioStreamPlayer oxygenBottleSFX;
 	private AudioStreamPlayer elevatorSFX;
+	private AudioStreamPlayer backgroundHum;
 	private AnimationPlayer animationPlayer;
 	private string targetLocation;
 	private Inventory inventory = new();
@@ -328,6 +330,10 @@ public partial class Main : Control
 
 		elevatorSFX = GetNode<AudioStreamPlayer>(
 			"ElevatorSFX"
+		);
+
+		backgroundHum = GetNode<AudioStreamPlayer>(
+			"BackgroundHum"
 		);
 
 		animationPlayer.AnimationFinished += OnAnimationFinished;
@@ -922,6 +928,14 @@ public partial class Main : Control
 			}
 
 			currentLocation = targetLocation;
+
+			if (currentLocation == "surface")
+			{
+				backgroundHum.Stream = GD.Load<AudioStream>(
+					"res://Assets/Audio/Music/outside.mp3"
+				);
+				backgroundHum.Play();
+			}
 
 			UpdateLocation();
 
