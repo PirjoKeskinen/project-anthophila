@@ -31,6 +31,7 @@ public partial class Main : Control
 	private Label menuTitle;
 	private Label speakerLabel;
 	private TextureRect backgroundImage;
+	private AudioStreamPlayer getUpSFX;
 	private AudioStreamPlayer normalAnnouncement;
 	private AudioStreamPlayer alarmAnnouncement;
 	private AudioStreamPlayer doorSFX;
@@ -298,6 +299,10 @@ public partial class Main : Control
 
 		UpdateLocation();
 
+		getUpSFX = GetNode<AudioStreamPlayer>(
+			"GetUpSFX"
+		);
+
 		alarmAnnouncement = GetNode<AudioStreamPlayer>(
 			"AlarmAnnouncement"
 		);
@@ -409,7 +414,17 @@ public partial class Main : Control
 				)
 				{
 					location.dialoguePlayed = true;
-					UpdateActionButtons();
+
+					if (currentLocation == "bedroom")
+					{
+						choiceButton1.Text = "Get Up";
+						choiceButton1.Visible = true;
+						choiceButton2.Visible = false;
+					}
+					else
+					{
+						UpdateActionButtons();
+					}
 				}
 			}
 			else
@@ -477,6 +492,23 @@ public partial class Main : Control
 	{
 		InspectableData currentInspectable =
 			interactionController.GetCurrentInspectable();
+
+		if (
+			currentLocation == "bedroom" &&
+			currentInspectable == null
+		)
+		{
+			choiceButton1.Visible = false;
+
+			getUpSFX.Play();
+
+			backgroundImage.Texture =
+				ResourceLoader.Load<Texture2D>(
+					"res://Assets/Backgrounds/bedroom-getup.png"
+				);
+
+			return;
+		}
 
 		if (
 			currentInspectable != null &&
