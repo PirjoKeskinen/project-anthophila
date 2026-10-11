@@ -18,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://dgpgytybt6jdv" path="res://Assets/Audio/SFX/walk.mp3" id="16_w1dgb"]
 [ext_resource type="AudioStream" uid="uid://dr0l4yc0v5frn" path="res://Assets/Audio/SFX/cabin-door.mp3" id="17_5t3o7"]
 [ext_resource type="AudioStream" uid="uid://dlou0xh57kan2" path="res://Assets/Audio/SFX/getupbed.mp3" id="18_eoy3m"]
+[ext_resource type="AudioStream" uid="uid://ddkcem84w1uas" path="res://Assets/Audio/SFX/hallway.mp3" id="19_rpnmv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
@@ -446,3 +447,8 @@ stream = ExtResource("17_5t3o7")
 
 [node name="GetUpSFX" type="AudioStreamPlayer" parent="." unique_id=1485522973]
 stream = ExtResource("18_eoy3m")
+
+[node name="HallwayAmbient" type="AudioStreamPlayer" parent="." unique_id=389020442]
+stream = ExtResource("19_rpnmv")
+volume_db = -0.897
+autoplay = true
