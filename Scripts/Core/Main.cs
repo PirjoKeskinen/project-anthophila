@@ -35,6 +35,7 @@ public partial class Main : Control
 	private AudioStreamPlayer normalAnnouncement;
 	private AudioStreamPlayer alarmAnnouncement;
 	private AudioStreamPlayer hallwayAmbient;
+	private AudioStreamPlayer greenhouseAmbient;
 	private AudioStreamPlayer doorSFX;
 	private AudioStreamPlayer keycardSFX;
 	private AudioStreamPlayer appleSFX;
@@ -310,6 +311,10 @@ public partial class Main : Control
 
 		hallwayAmbient = GetNode<AudioStreamPlayer>(
 			"HallwayAmbient"
+		);
+
+		greenhouseAmbient = GetNode<AudioStreamPlayer>(
+			"GreenhouseAmbient"
 		);
 
 		doorSFX = GetNode<AudioStreamPlayer>(
@@ -1056,11 +1061,20 @@ public partial class Main : Control
 				);
 			}
 
+			backgroundHum.Stop();
+			hallwayAmbient.Stop();
+			greenhouseAmbient.Stop();
+
 			currentLocation = targetLocation;
 
 			if (currentLocation == "hallway")
 			{
 				hallwayAmbient.Play();
+			}
+
+			if (currentLocation == "greenhouse")
+			{
+				greenhouseAmbient.Play();
 			}
 
 			if (currentLocation == "surface")

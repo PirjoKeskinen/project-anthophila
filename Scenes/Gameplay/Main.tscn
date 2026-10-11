@@ -19,6 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://dr0l4yc0v5frn" path="res://Assets/Audio/SFX/cabin-door.mp3" id="17_5t3o7"]
 [ext_resource type="AudioStream" uid="uid://dlou0xh57kan2" path="res://Assets/Audio/SFX/getupbed.mp3" id="18_eoy3m"]
 [ext_resource type="AudioStream" uid="uid://ddkcem84w1uas" path="res://Assets/Audio/SFX/hallway.mp3" id="19_rpnmv"]
+[ext_resource type="AudioStream" uid="uid://bkgrnxl572kje" path="res://Assets/Audio/SFX/botanical.mp3" id="20_2awi5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3er6"]
 
@@ -413,7 +414,7 @@ volume_db = -22.0
 
 [node name="BackgroundHum" type="AudioStreamPlayer" parent="." unique_id=1142196231]
 stream = ExtResource("4_hdil2")
-volume_db = -16.0
+volume_db = -10.0
 autoplay = true
 parameters/looping = true
 
@@ -451,4 +452,8 @@ stream = ExtResource("18_eoy3m")
 [node name="HallwayAmbient" type="AudioStreamPlayer" parent="." unique_id=389020442]
 stream = ExtResource("19_rpnmv")
 volume_db = -0.897
-autoplay = true
+parameters/looping = true
+
+[node name="GreenhouseAmbient" type="AudioStreamPlayer" parent="." unique_id=504477953]
+stream = ExtResource("20_2awi5")
+parameters/looping = true
