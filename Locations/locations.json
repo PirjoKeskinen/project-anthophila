@@ -4,7 +4,7 @@
       "id": "bedroom",
       "name": "Scientists Quarters",
       "background": "bedroom.png",
-      "backgroundAfterPickup": "bedroom-nocard.png",
+      "backgroundAfterPickup": "bedroom-getup-nocard.png",
       "dialogue": "bedroom.json",
       "exits": ["hallway"],
       "inspectables": ["terminal", "keycard"]

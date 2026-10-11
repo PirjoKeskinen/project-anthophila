@@ -386,7 +386,17 @@ public partial class Main : Control
 		)
 		{
 			location.dialoguePlayed = true;
-			UpdateActionButtons();
+
+			if (currentLocation == "bedroom")
+			{
+				choiceButton1.Text = "Get Up";
+				choiceButton1.Visible = true;
+				choiceButton2.Visible = false;
+			}
+			else
+			{
+				UpdateActionButtons();
+			}
 		}
 	}
 
@@ -506,6 +516,8 @@ public partial class Main : Control
 				ResourceLoader.Load<Texture2D>(
 					"res://Assets/Backgrounds/bedroom-getup.png"
 				);
+
+			UpdateActionButtons();
 
 			return;
 		}
@@ -937,11 +949,11 @@ public partial class Main : Control
 		}
 		else if (!alarmTriggered && hasKeycard)
 		{
-			background = "bedroom-nocard.png";
+			background = "bedroom-getup-nocard.png";
 		}
 		else
 		{
-			background = "bedroom.png";
+			background = "bedroom-getup.png";
 		}
 
 		backgroundImage.Texture =
