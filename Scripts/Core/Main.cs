@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks;
 
 public partial class Main : Control
 {
@@ -1035,6 +1036,45 @@ public partial class Main : Control
 		UpdateActionButtons();
 	}
 
+	private async Task FadeOutAudio(
+		AudioStreamPlayer player,
+		float duration = 0.5f
+	)
+	{
+		var tween = CreateTween();
+
+		tween.TweenProperty(
+			player,
+			"volume_db",
+			-40.0f,
+			duration
+		);
+
+		await ToSignal(tween, Tween.SignalName.Finished);
+		player.Stop();
+		player.VolumeDb = 0.0f;
+	}
+
+	private async Task FadeInAudio(
+		AudioStreamPlayer player,
+		float duration = 0.5f
+	)
+	{
+		player.VolumeDb = -40.0f;
+		player.Play();
+
+		var tween = CreateTween();
+
+		tween.TweenProperty(
+			player,
+			"volume_db",
+			0.0f,
+			duration
+		);
+
+		await ToSignal(tween, Tween.SignalName.Finished);
+	}
+
 	private async void OnAnimationFinished(StringName animationName)
 	{
 		if (animationName == "IntroFadeIn")
@@ -1061,20 +1101,20 @@ public partial class Main : Control
 				);
 			}
 
-			backgroundHum.Stop();
-			hallwayAmbient.Stop();
-			greenhouseAmbient.Stop();
+			await FadeOutAudio(backgroundHum);
+			await FadeOutAudio(hallwayAmbient);
+			await FadeOutAudio(greenhouseAmbient);
 
 			currentLocation = targetLocation;
 
 			if (currentLocation == "hallway")
 			{
-				hallwayAmbient.Play();
+				await FadeInAudio(hallwayAmbient);
 			}
 
 			if (currentLocation == "greenhouse")
 			{
-				greenhouseAmbient.Play();
+				await FadeInAudio(greenhouseAmbient);
 			}
 
 			if (currentLocation == "surface")
