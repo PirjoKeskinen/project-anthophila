@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://c0b8jrxjbrlsc"]
 
+[ext_resource type="FontFile" uid="uid://mttbbnn1qrrq" path="res://Assets/Fonts/Caveat-VariableFont_wght.ttf" id="1_00x2u"]
+[ext_resource type="Script" uid="uid://dgopdc3nmtyu2" path="res://Scripts/UI/Diary.cs" id="1_ilsrk"]
+
 [node name="Control" type="Control" unique_id=559489420]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +10,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ilsrk")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1085599179]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DiaryText" type="RichTextLabel" parent="." unique_id=794785457]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_fonts/normal_font = ExtResource("1_00x2u")
+theme_override_font_sizes/normal_font_size = 32
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1262367635]
