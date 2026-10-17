@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "text": "The smell of the forest after rain.\nThe cool breeze against my skin.\nThe sound of birdsong in the early morning.",
+      "image": "diary-forest.png"
+    },
+    {
+      "text": "A fresh apple, picked straight from the tree.\nIts sweetness...",
+      "image": "diary-apple.png"
+    },
+    {
+      "text": "A sky full of stars.\nThe northern lights dancing above the world.",
+      "image": "diary-sky.png"
+    },
+    {
+      "text": "The warmth of another human being.\nThe gentle touch of another hand.",
+      "image": "diary-touch.png"
+    },
+    {
+      "text": "The colors...\nThe life...\nThe world we once called home.",
+      "image": "diary-eye.png"
+    },
+    {
+      "text": "No...",
+      "image": ""
+    }
+  ]
+}
