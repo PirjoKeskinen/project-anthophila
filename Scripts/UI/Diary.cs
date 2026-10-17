@@ -7,6 +7,7 @@ public partial class Diary : Control
 	private RichTextLabel diaryText;
 	private AnimationPlayer animationPlayer;
 	private DiaryData diaryData;
+	private int currentEntry = 0;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -58,8 +59,36 @@ public partial class Diary : Control
 		}
 	}
 
+	public void OpenDiary()
+	{
+		currentEntry = 0;
+		ShowEntry(currentEntry);
+		Visible = true;
+	}
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (!Visible)
+			return;
+
+		if (@event.IsActionPressed("ui_accept"))
+		{
+			GetViewport().SetInputAsHandled();
+
+			if (currentEntry < diaryData.entries.Length - 1)
+			{
+				currentEntry++;
+				ShowEntry(currentEntry);
+			}
+			else
+			{
+				Visible = false;
+			}
+		}
 	}
 }

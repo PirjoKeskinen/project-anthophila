@@ -12,13 +12,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ilsrk")
 
-[node name="Background" type="TextureRect" parent="." unique_id=1085599179]
+[node name="Background" type="ColorRect" parent="." unique_id=1416995142]
+modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="DiaryImage" type="TextureRect" parent="." unique_id=286965242]
 layout_mode = 0

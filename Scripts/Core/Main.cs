@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 public partial class Main : Control
 {
 	private RichTextLabel dialogueLabel;
+	private Diary diary;
 	private DialogueLoader dialogueLoader = new();
 	private LocationLoader locationLoader = new();
 	private InspectableLoader inspectableLoader = new();
@@ -140,6 +141,8 @@ public partial class Main : Control
 		dialogueLabel = GetNode<RichTextLabel>(
 			"DialoguePanel/MarginContainer/VBoxContainer/MarginContainer/RichTextLabel"
 		);
+
+		diary = GetNode<Diary>("Diary");
 
 		locationLabel = GetNode<Label>(
 			"SidePanel/LocationLabel"
@@ -413,6 +416,9 @@ public partial class Main : Control
 
 	public override void _Input(InputEvent @event)
 	{
+		if (diary.Visible)
+			return;
+
 		if (@event.IsActionPressed("ui_accept"))
 		{
 			if (dialogueController.IsTyping())
@@ -469,6 +475,12 @@ public partial class Main : Control
 
 					UpdateActionButtons();
 				}
+				else if (
+					interactionController.GetCurrentInspectable() != null &&
+					interactionController.GetCurrentInspectable().id == "diary")
+				{
+					OpenDiary();
+				}
 			}
 		}
 	}
@@ -502,6 +514,16 @@ public partial class Main : Control
 	{
 		dialogueLabel.Text = "";
 		speakerLabel.Text = "";
+	}
+
+	private void OpenDiary()
+	{
+		diary.OpenDiary();
+	}
+
+	private void CloseDiary()
+	{
+		diary.Visible = false;
 	}
 
 	private void SetMenuTitle(string title)
